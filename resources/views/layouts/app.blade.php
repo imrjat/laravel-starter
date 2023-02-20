@@ -4,33 +4,67 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+        @stack('styles')
+        @stack('scripts')
+        <livewire:styles/>
+        <style>
+            [x-cloak] { display: none !important; }
+        </style>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+    <div x-data="{ sidebarOpen: false }" x-cloak>
+        <div class="flex min-h-screen">
+
+            @auth
+                <!-- regular sidebar -->
+                <div class="sidebar hidden flex-none w-full md:block md:w-60 px-4 bg-primary dark:bg-gray-700">
+                    @include('layouts.navigation')
+                </div>
+
+                <!--sidebar on mobile-->
+                <div x-show="sidebarOpen" class="sidebar min-w-full px-4 bg-primary dark:bg-gray-700 md:hidden">
+                    @include('layouts.navigation')
+                </div>
+            @endauth
+
+            <div id="main" class="w-full bg-gray-100 dark:bg-gray-600">
+
+                @auth
+                    <div class="flex justify-between mb-5 bg-white dark:bg-gray-700 px-2 py-1">
+
+                        <div class="flex">
+                            <button @click.stop="sidebarOpen = !sidebarOpen" class="md:hidden focus:outline-none pl-1 pr-2">
+                                <svg class="w-6 transition ease-in-out duration-150 text-gray-900 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
+                                </svg>
+                            </button>
+
+                        </div>
+
+                        <div class="flex">
+
+                            <p>Button</p>
+
+                        </div>
                     </div>
-                </header>
-            @endif
+                @endauth
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <div class="px-7 py-5">
+                    {{ $slot ?? '' }}
+                </div>
+            </div>
+
         </div>
+
+        <div class="bg-white dark:bg-gray-900 dark:text-gray-300 p-5 flex justify-between text-xs">
+            <div>{{ __('Copyright') }} &copy; {{ date('Y') }} {{ config('app.name') }}</div>
+        </div>
+
+    </div>
+
+    <livewire:scripts />
     </body>
 </html>

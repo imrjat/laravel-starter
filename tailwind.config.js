@@ -7,14 +7,17 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            colors: {
+                primary: '#5A67D8',
+            },
+            textColors: {
+                primary: '#5A67D8'
             },
         },
     },
+    darkMode: 'class',
 
     plugins: [require('@tailwindcss/forms')],
 };

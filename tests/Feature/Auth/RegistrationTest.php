@@ -1,21 +1,57 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 
-test('registration screen can be rendered', function () {
-    $response = $this->get('/register');
-
-    $response->assertStatus(200);
+test('can see register page', function () {
+    $this->get(route('register'))->assertOk();
 });
 
-test('new users can register', function () {
-    $response = $this->post('/register', [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+test('users cannot register with invalid password', function () {
+
+    $this->post(route('register'), [
+        'name'     => $this->faker->name(),
+        'email'    => $this->faker->email(),
+        'password' => '',
     ]);
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(RouteServiceProvider::HOME);
+    $this->assertGuest();
+});
+
+test('users cannot register with existing email', function () {
+    $user = User::factory()->create();
+    $password = 'ght73A3!$^DS';
+
+    $this->post(route('register'), [
+        'name'     => $this->faker->name(),
+        'email'    => $user->email,
+        'password' => $password,
+        'confirmPassword' => $password,
+    ])->assertInvalid();
+
+    $this->assertGuest();
+});
+
+test('users cannot register without matching password', function () {
+    $user = User::factory()->create();
+    $password = 'ght73A3!$^DS';
+
+    $this->post(route('register'), [
+        'name'     => $this->faker->name(),
+        'email'    => $user->email,
+        'password' => $password,
+        'confirmPassword' => 'other',
+    ])->assertInvalid();
+
+    $this->assertGuest();
+});
+
+test('users can register', function () {
+    $password = 'ght73A3!$^DS';
+
+    $this->post(route('register'), [
+        'name'     => $this->faker->name(),
+        'email'    => $this->faker->email,
+        'password' => $password,
+        'confirmPassword' => $password,
+    ])->assertValid();
 });

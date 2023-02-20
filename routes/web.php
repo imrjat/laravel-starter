@@ -19,7 +19,6 @@ Route::get('/', function () {
 });
 
 Route::prefix(config('fuse.prefix'))->group(function () {
-
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
@@ -31,5 +30,4 @@ Route::prefix(config('fuse.prefix'))->group(function () {
     });
 
     require __DIR__.'/auth.php';
-
 });

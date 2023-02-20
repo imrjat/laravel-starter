@@ -11,6 +11,6 @@ return [
     |
     */
 
-    'prefix' => 'admin'
+    'prefix' => 'admin',
 
 ];
