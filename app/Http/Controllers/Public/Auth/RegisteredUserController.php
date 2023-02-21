@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Public\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('public.auth.register');
     }
 
     /**
@@ -53,6 +53,13 @@ class RegisteredUserController extends Controller
         $user->assignRole('admin');
 
         event(new Registered($user));
+
+        if (config('fuse.validateEmailOnRegister')) {
+            $user->sendEmailVerificationNotification();
+            flash('Please check your email for a verification link.')->success();
+
+            return redirect()->back();
+        }
 
         Auth::login($user);
 
