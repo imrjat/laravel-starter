@@ -1,14 +1,14 @@
-@section('title', 'Edit')
+@section('title', __('Edit'))
 <div>
-    <div class="mb-5">
-       <a href="{{ route('admin.users.index') }}">Users</a>
-        <span class="dark:text-gray-200">- Edit User</span>
-   </div>
+    <p>
+        <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
+        <span class="dark:text-gray-200">- {{ __('Edit User') }}</span>
+   </p>
 
     <livewire:admin.users.edit.profile :user="$user"/>
     <livewire:admin.users.edit.change-password :user="$user"/>
     <livewire:admin.users.edit.two-factor-authentication :user="$user"/>
-    @role ('admin')
+    @role('admin')
         <livewire:admin.users.edit.admin-settings :user="$user"/>
         <livewire:admin.users.edit.roles :user="$user"/>
     @endrole
