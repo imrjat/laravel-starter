@@ -12,6 +12,6 @@ class SentEmailsDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        Permission::firstOrCreate(['name' => 'view_sent_emails', 'label' => 'View Sent Emails', 'module' => 'SentEmails']);
+
     }
 }

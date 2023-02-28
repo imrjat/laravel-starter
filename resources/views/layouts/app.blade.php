@@ -33,7 +33,7 @@
             <div id="main" class="w-full bg-gray-100 dark:bg-gray-600">
 
                 @auth
-                    <div class="flex justify-between mb-5 bg-white dark:bg-gray-700 px-2 py-1">
+                    <div class="flex justify-between mb-5 bg-white dark:bg-gray-700 border-b-4 border-primary px-2 py-2">
 
                         <div class="flex">
                             <button @click.stop="sidebarOpen = !sidebarOpen" class="md:hidden focus:outline-none pl-1 pr-2">
@@ -42,12 +42,13 @@
                                 </svg>
                             </button>
 
+                            <livewire:admin.search />
                         </div>
 
                         <div class="flex">
-
-                            <p>Button</p>
-
+                            <livewire:admin.notifications-menu />
+                            <livewire:admin.help-menu />
+                            <livewire:admin.user-menu />
                         </div>
                     </div>
                 @endauth

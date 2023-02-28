@@ -11,9 +11,10 @@ test('email verification screen can be rendered', function () {
         'email_verified_at' => null,
     ]);
 
-    $response = $this->actingAs($user)->get('/verify-email');
-
-    $response->assertStatus(200);
+    $this
+        ->actingAs($user)
+        ->get(route('verification.notice'))
+        ->assertStatus(200);
 });
 
 test('email can be verified', function () {
@@ -32,6 +33,7 @@ test('email can be verified', function () {
     $response = $this->actingAs($user)->get($verificationUrl);
 
     Event::assertDispatched(Verified::class);
+
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
     $response->assertRedirect(RouteServiceProvider::HOME.'?verified=1');
 });

@@ -17,7 +17,10 @@ module.exports = {
             },
         },
     },
-    darkMode: 'class',
-
-    plugins: [require('@tailwindcss/forms')],
+    extend: {
+        fontFamily: {
+            sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+        },
+    },
+    darkMode: 'class'
 };

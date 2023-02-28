@@ -14,23 +14,28 @@
     <x-nav.link route="dashboard" icon="fas fa-home">{{ __('Dashboard') }}</x-nav.link>
 @endcan
 
-{{--@can('view_audit_trails')--}}
-{{--    <x-nav.group label="Settings" route="admin.settings" icon="fas fa-cogs">--}}
-{{--        @can('view_audit_trails')--}}
-{{--            <x-nav.group-item route="admin.settings.audit-trails.index" icon="far fa-circle">Audit Trails</x-nav.group-item>--}}
-{{--        @endcan--}}
+<x-nav.link route="profile.edit" icon="fas fa-user">{{ __('Profile') }}</x-nav.link>
 
-{{--        @can('view_sent_emails')--}}
-{{--            <x-nav.group-item route="admin.settings.sent-emails" icon="far fa-circle">Sent Emails</x-nav.group-item>--}}
-{{--        @endcan--}}
+@if(can('view_system_settings') || can('view_roles') || can('view_audit_trails') || can('view_sent_emails'))
+    <x-nav.group label="Settings" route="admin.settings" icon="fas fa-cogs">
+        @can('view_audit_trails')
+            <x-nav.group-item route="admin.settings.audit-trails.index" icon="far fa-circle">Audit Trails</x-nav.group-item>
+        @endcan
 
-{{--        @role('admin')--}}
-{{--            <x-nav.group-item route="admin.settings" icon="far fa-circle">System Settings</x-nav.group-item>--}}
-{{--            <x-nav.group-item route="admin.settings.roles.index" icon="far fa-circle">Roles</x-nav.group-item>--}}
-{{--        @endrole--}}
-{{--    </x-nav.group>--}}
-{{--@endcan--}}
+        @can('view_roles')
+            <x-nav.group-item route="admin.settings.roles.index" icon="far fa-circle">Roles</x-nav.group-item>
+        @endcan
 
-{{--@can('view_users'))--}}
-{{--    <x-nav.link route="admin.users.index" icon="fas fa-users">Users</x-nav.link>--}}
-{{--@endcan--}}
+        @can('view_sent_emails')
+            <x-nav.group-item route="admin.settings.sent-emails" icon="far fa-circle">Sent Emails</x-nav.group-item>
+        @endcan
+
+        @can('view_system_settings')
+            <x-nav.group-item route="admin.settings" icon="far fa-circle">System Settings</x-nav.group-item>
+        @endcan
+    </x-nav.group>
+@endif
+
+@can('view_users')
+    <x-nav.link route="admin.users.index" icon="fas fa-users">Users</x-nav.link>
+@endcan
