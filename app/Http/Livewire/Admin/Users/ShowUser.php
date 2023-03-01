@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin\Users;
 
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-
 use Livewire\Component;
 
 class ShowUser extends Component

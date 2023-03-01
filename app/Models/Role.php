@@ -8,7 +8,9 @@ use Spatie\Permission\Models\Role as SpatieRole;
 class Role extends SpatieRole
 {
     use HasUuid;
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     /**
@@ -17,6 +19,6 @@ class Role extends SpatieRole
      * @var array
      */
     protected $casts = [
-        'id' => 'string'
+        'id' => 'string',
     ];
 }

@@ -29,8 +29,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'     => ['required', 'string', 'email'],
-            'password'  => ['required', 'string']
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -43,10 +43,10 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt([
-            'email'     => $this->input('email'),
-            'password'  => $this->input('password'),
-            'is_active' => 1
+        if (! Auth::attempt([
+            'email' => $this->input('email'),
+            'password' => $this->input('password'),
+            'is_active' => 1,
         ], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
@@ -56,11 +56,11 @@ class LoginRequest extends FormRequest
         }
 
         AuditTrail::create([
-            'user_id'      => $this->user()->id,
+            'user_id' => $this->user()->id,
             'reference_id' => $this->user()->id,
-            'title'        => "Logged in",
-            'section'      => 'Auth',
-            'type'         => 'Login'
+            'title' => 'Logged in',
+            'section' => 'Auth',
+            'type' => 'Login',
         ]);
 
         $this->user()->last_logged_in_at = now();
@@ -90,7 +90,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 

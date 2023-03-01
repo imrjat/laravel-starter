@@ -31,7 +31,7 @@ test('is redirected after role creation', function () {
         ->assertRedirect(route('admin.settings.roles.index'));
 });
 
- test('on cancel dispatch browser event', function () {
+test('on cancel dispatch browser event', function () {
     Livewire::test(Create::class)
         ->call('cancel')
         ->assertDispatchedBrowserEvent('close-modal');

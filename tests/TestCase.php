@@ -33,6 +33,7 @@ abstract class TestCase extends BaseTestCase
 
         $user = User::factory()->create();
         $user->assignRole($role);
+
         return $user;
     }
 

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Admin\Settings;
 
-use App\Http\Livewire\Base;
+use function add_user_log;
 use App\Models\Setting;
 use Exception;
+use function flash;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -14,23 +15,23 @@ use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-
-use function add_user_log;
-use function flash;
 use function view;
 
 class LoginLogo extends Component
 {
     use WithFileUploads;
 
-    public $loginLogo             = '';
-    public $existingLoginLogo     = '';
-    public $loginLogoDark         = '';
+    public $loginLogo = '';
+
+    public $existingLoginLogo = '';
+
+    public $loginLogoDark = '';
+
     public $existingLoginLogoDark = '';
 
     public function mount(): void
     {
-        $this->existingLoginLogo     = Setting::where('key', 'loginLogo')->value('value');
+        $this->existingLoginLogo = Setting::where('key', 'loginLogo')->value('value');
         $this->existingLoginLogoDark = Setting::where('key', 'loginLogoDark')->value('value');
     }
 
@@ -42,8 +43,8 @@ class LoginLogo extends Component
     protected function rules(): array
     {
         return [
-            'loginLogo'     => 'image|mimes:png,jpg,gif|max:5120',
-            'loginLogoDark' => 'image|mimes:png,jpg,gif|max:5120'
+            'loginLogo' => 'image|mimes:png,jpg,gif|max:5120',
+            'loginLogoDark' => 'image|mimes:png,jpg,gif|max:5120',
         ];
     }
 
@@ -71,8 +72,8 @@ class LoginLogo extends Component
             }
 
             $token = md5(random_int(1, 10).microtime());
-            $name  = $token.'.png';
-            $img   = Image::make($this->loginLogo)->encode('png')->resize(300, null, function ($constraint) {
+            $name = $token.'.png';
+            $img = Image::make($this->loginLogo)->encode('png')->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();
@@ -88,8 +89,8 @@ class LoginLogo extends Component
             }
 
             $token = md5(random_int(1, 10).microtime());
-            $name  = $token.'.png';
-            $img   = Image::make($this->loginLogoDark)->encode('png')->resize(300, null, function ($constraint) {
+            $name = $token.'.png';
+            $img = Image::make($this->loginLogoDark)->encode('png')->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();
@@ -99,11 +100,11 @@ class LoginLogo extends Component
         }
 
         add_user_log([
-            'title'        => 'updated login logo',
-            'link'         => route('admin.settings'),
+            'title' => 'updated login logo',
+            'link' => route('admin.settings'),
             'reference_id' => auth()->id(),
-            'section'      => 'Settings',
-            'type'         => 'Update'
+            'section' => 'Settings',
+            'type' => 'Update',
         ]);
 
         flash('Application Logo Updated!')->success();

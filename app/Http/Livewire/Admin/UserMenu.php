@@ -6,7 +6,6 @@ namespace App\Http\Livewire\Admin;
 
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
-
 use function view;
 
 class UserMenu extends Component

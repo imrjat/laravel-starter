@@ -6,9 +6,7 @@ namespace App\Http\Livewire\Admin\SentEmails;
 
 use App\Models\SentEmail;
 use Illuminate\Contracts\View\View;
-
 use Livewire\Component;
-
 use function view;
 
 class SentEmailsBody extends Component
@@ -17,7 +15,7 @@ class SentEmailsBody extends Component
 
     public function mount($id = null)
     {
-        $email      = SentEmail::findOrFail($id);
+        $email = SentEmail::findOrFail($id);
         $this->body = $email->body;
     }
 

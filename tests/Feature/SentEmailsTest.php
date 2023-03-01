@@ -2,7 +2,6 @@
 
 use App\Http\Livewire\Admin\SentEmails\SentEmails;
 use App\Models\SentEmail;
-
 use function Pest\Livewire\livewire;
 
 test('can see sent emails_page', function () {

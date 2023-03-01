@@ -2,11 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Settings;
 
-use App\Http\Livewire\Base;
 use Illuminate\Contracts\View\View;
-
 use Livewire\Component;
-
 use function view;
 
 class Settings extends Component

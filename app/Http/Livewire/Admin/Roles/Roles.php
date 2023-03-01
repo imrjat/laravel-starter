@@ -8,17 +8,19 @@ use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
-
 use function view;
 
 class Roles extends Component
 {
     use WithPagination;
 
-    public $paginate  = '';
-    public $query     = '';
+    public $paginate = '';
+
+    public $query = '';
+
     public $sortField = 'name';
-    public $sortAsc   = true;
+
+    public $sortAsc = true;
 
     public function render(): View
     {
@@ -35,7 +37,7 @@ class Roles extends Component
     public function sortBy(string $field): void
     {
         if ($this->sortField === $field) {
-            $this->sortAsc = !$this->sortAsc;
+            $this->sortAsc = ! $this->sortAsc;
         } else {
             $this->sortAsc = true;
         }

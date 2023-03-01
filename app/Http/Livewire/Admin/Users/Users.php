@@ -16,16 +16,25 @@ class Users extends Component
 {
     use WithPagination;
 
-    public    $paginate   = '';
-    public    $checked    = [];
-    public    $name       = '';
-    public    $email      = '';
-    public    $joined     = '';
-    public    $sortField  = 'name';
-    public    $sortAsc    = true;
-    public    $openFilter = false;
-    public    $sentEmail  = false;
-    protected $listeners  = ['refreshUsers' => '$refresh'];
+    public $paginate = '';
+
+    public $checked = [];
+
+    public $name = '';
+
+    public $email = '';
+
+    public $joined = '';
+
+    public $sortField = 'name';
+
+    public $sortAsc = true;
+
+    public $openFilter = false;
+
+    public $sentEmail = false;
+
+    protected $listeners = ['refreshUsers' => '$refresh'];
 
     public function render(): View
     {
@@ -42,7 +51,7 @@ class Users extends Component
     public function sortBy(string $field): void
     {
         if ($this->sortField === $field) {
-            $this->sortAsc = !$this->sortAsc;
+            $this->sortAsc = ! $this->sortAsc;
         } else {
             $this->sortAsc = true;
         }
@@ -65,10 +74,10 @@ class Users extends Component
 
         if ($this->joined) {
             $this->openFilter = true;
-            $parts            = explode(' to ', $this->joined);
+            $parts = explode(' to ', $this->joined);
             if (isset($parts[1])) {
                 $from = Carbon::parse($parts[0])->format('Y-m-d');
-                $to   = Carbon::parse($parts[1])->format('Y-m-d');
+                $to = Carbon::parse($parts[1])->format('Y-m-d');
                 $query->whereBetween('created_at', [$from, $to]);
             }
         }

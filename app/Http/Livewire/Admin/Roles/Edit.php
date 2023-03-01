@@ -4,35 +4,35 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Admin\Roles;
 
+use function add_user_log;
 use App\Models\Permission;
 use App\Models\Role;
+use function flash;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\ValidationException;
-
 use Livewire\Component;
-
-use function add_user_log;
-use function flash;
 use function redirect;
 use function view;
 
 class Edit extends Component
 {
-    public ?Role $role       = null;
-    public       $label      = '';
-    public       $permissions = [];
+    public ?Role $role = null;
+
+    public $label = '';
+
+    public $permissions = [];
 
     protected function rules(): array
     {
         return [
-            'label' => 'required|string|unique:roles,label,'.$this->role->id
+            'label' => 'required|string|unique:roles,label,'.$this->role->id,
         ];
     }
 
     protected array $messages = [
-        'label.required' => 'Role is required'
+        'label.required' => 'Role is required',
     ];
 
     /**
@@ -59,6 +59,7 @@ class Edit extends Component
         abort_if_cannot('edit_roles');
 
         $modules = Permission::select('module')->distinct()->orderBy('module')->pluck('module');
+
         return view('livewire.admin.roles.edit', compact('modules'));
     }
 
@@ -67,7 +68,7 @@ class Edit extends Component
         $this->validate();
 
         $this->role->label = $this->label;
-        $this->role->name  = strtolower(str_replace(' ', '_', $this->label));
+        $this->role->name = strtolower(str_replace(' ', '_', $this->label));
 
         //sync given permissions
         $permissions = $this->permissions;
@@ -79,11 +80,11 @@ class Edit extends Component
         $this->role->save();
 
         add_user_log([
-            'title'        => 'updated role '.$this->label,
-            'link'         => route('admin.settings.roles.edit', ['role' => $this->role->id]),
+            'title' => 'updated role '.$this->label,
+            'link' => route('admin.settings.roles.edit', ['role' => $this->role->id]),
             'reference_id' => $this->role->id,
-            'section'      => 'Roles',
-            'type'         => 'Update'
+            'section' => 'Roles',
+            'type' => 'Update',
         ]);
 
         flash('Role updated')->success();

@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-test('can see change password', function() {
+test('can see change password', function () {
     $this->authenticate();
 
     $user = User::factory()->create();
@@ -10,5 +10,3 @@ test('can see change password', function() {
         ->get(route('admin.users.edit', $user))
         ->assertOk();
 });
-
-

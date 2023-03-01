@@ -11,25 +11,26 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-
 use Livewire\Component;
 
 class Invite extends Component
 {
-    public $name          = '';
-    public $email         = '';
+    public $name = '';
+
+    public $email = '';
+
     public $rolesSelected = [];
 
     protected array $rules = [
-        'name'          => 'required|string',
-        'email'         => 'required|string|email|unique:users,email',
-        'rolesSelected' => 'required|min:1'
+        'name' => 'required|string',
+        'email' => 'required|string|email|unique:users,email',
+        'rolesSelected' => 'required|min:1',
     ];
 
     protected array $messages = [
-        'name.required'          => 'Name is required',
-        'email.required'         => 'Email is required',
-        'rolesSelected.required' => 'A role is required'
+        'name.required' => 'Name is required',
+        'email.required' => 'Email is required',
+        'rolesSelected.required' => 'A role is required',
     ];
 
     /**
@@ -52,20 +53,20 @@ class Invite extends Component
         $this->validate();
 
         $user = User::create([
-            'name'                 => $this->name,
-            'slug'                 => Str::slug($this->name),
-            'email'                => $this->email,
-            'is_active'            => 0,
+            'name' => $this->name,
+            'slug' => Str::slug($this->name),
+            'email' => $this->email,
+            'is_active' => 0,
             'is_office_login_only' => 0,
-            'invite_token'         => Str::random(32),
-            'invited_by'           => auth()->id(),
-            'invited_at'           => now(),
+            'invite_token' => Str::random(32),
+            'invited_by' => auth()->id(),
+            'invited_at' => now(),
         ]);
 
         //generate image
-        $name      = get_initials($user->name);
-        $id        = $user->id.'.png';
-        $path      = 'users/';
+        $name = get_initials($user->name);
+        $id = $user->id.'.png';
+        $path = 'users/';
         $imagePath = create_avatar($name, $id, $path);
 
         //save image
@@ -79,10 +80,10 @@ class Invite extends Component
         Mail::send(new SendInviteMail($user));
 
         add_user_log([
-            'title'        => "invited ".$user->name,
+            'title' => 'invited '.$user->name,
             'reference_id' => $user->id,
-            'section'      => 'Auth',
-            'type'         => 'Join'
+            'section' => 'Auth',
+            'type' => 'Join',
         ]);
 
         flash('User invited')->success();

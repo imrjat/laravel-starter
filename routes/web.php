@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Auth\TwoFaController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\Admin\AuditTrails;
 use App\Http\Livewire\Admin\Dashboard;
@@ -52,7 +51,6 @@ Route::prefix(config('fuse.prefix'))->middleware(['auth', 'verified', 'activeUse
         Route::get('{user}/edit', EditUser::class)->name('admin.users.edit');
         Route::get('{user}', ShowUser::class)->name('admin.users.show');
     });
-
 });
 
 require __DIR__.'/auth.php';

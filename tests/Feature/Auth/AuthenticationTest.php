@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 
 test('login screen can be rendered', function () {
     $this
@@ -14,9 +13,9 @@ test('users can authenticate using the login screen', function () {
 
     $this
         ->post(route('login'), [
-        'email' => $user->email,
-        'password' => 'password',
-    ])
+            'email' => $user->email,
+            'password' => 'password',
+        ])
     ->assertRedirect(route('dashboard'));
 
     $this->assertAuthenticated();

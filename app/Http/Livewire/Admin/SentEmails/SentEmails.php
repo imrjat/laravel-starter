@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Admin\SentEmails;
 
+use function abort_if_cannot;
 use App\Models\SentEmail;
 use DateTime;
 use Illuminate\Contracts\View\View;
@@ -11,30 +12,35 @@ use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Excel;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
-use function abort_if_cannot;
 use function now;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use function view;
 
 class SentEmails extends Component
 {
     use WithPagination;
 
-    public $paginate   = '';
-    public $to         = '';
-    public $cc         = '';
-    public $bcc        = '';
-    public $subject    = '';
+    public $paginate = '';
+
+    public $to = '';
+
+    public $cc = '';
+
+    public $bcc = '';
+
+    public $subject = '';
+
     public $created_at = '';
-    public $emailKeys  = null;
+
+    public $emailKeys = null;
+
     public $openFilter = false;
 
     public function mount(): void
     {
         parent::mount();
 
-        $email           = SentEmail::orderby('id', 'desc')->first();
+        $email = SentEmail::orderby('id', 'desc')->first();
         $this->emailKeys = $email;
     }
 
@@ -72,10 +78,10 @@ class SentEmails extends Component
 
         if ($this->created_at) {
             $this->openFilter = true;
-            $parts            = explode(' to ', $this->created_at);
+            $parts = explode(' to ', $this->created_at);
             if (isset($parts[1])) {
                 $from = Carbon::parse($parts[0])->format('Y-m-d');
-                $to   = Carbon::parse($parts[1])->format('Y-m-d');
+                $to = Carbon::parse($parts[1])->format('Y-m-d');
                 $query->whereBetween('created_at', [$from, $to]);
             }
         }
@@ -86,8 +92,8 @@ class SentEmails extends Component
     public function export($format, DateTime $timestamp = null): bool|BinaryFileResponse
     {
         $params = [
-            'to'         => $this->to,
-            'created_at' => $this->created_at
+            'to' => $this->to,
+            'created_at' => $this->created_at,
         ];
 
         if ($timestamp === null) {
@@ -95,16 +101,16 @@ class SentEmails extends Component
         }
 
         if ($format === 'xlsx') {
-            return (new SentEmailsExport($params))->download("sent-emails-".$timestamp->format('d-m-Y-h-i-s').".xlsx");
+            return (new SentEmailsExport($params))->download('sent-emails-'.$timestamp->format('d-m-Y-h-i-s').'.xlsx');
         }
 
         if ($format === 'csv') {
-            return (new SentEmailsExport($params))->download("sent-emails-".$timestamp->format('d-m-Y-h-i-s').".csv",
+            return (new SentEmailsExport($params))->download('sent-emails-'.$timestamp->format('d-m-Y-h-i-s').'.csv',
                 Excel::CSV);
         }
 
         if ($format === 'pdf') {
-            return (new SentEmailsExport($params))->download("sent-emails-".$timestamp->format('d-m-Y-h-i-s').".pdf",
+            return (new SentEmailsExport($params))->download('sent-emails-'.$timestamp->format('d-m-Y-h-i-s').'.pdf',
                 Excel::DOMPDF);
         }
 
@@ -113,7 +119,7 @@ class SentEmails extends Component
 
     public function view(int $id): void
     {
-        $email           = SentEmail::findOrFail($id);
+        $email = SentEmail::findOrFail($id);
         $this->emailKeys = $email;
     }
 }

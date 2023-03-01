@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Admin\Users\Edit;
 
-use App\Http\Livewire\Base;
+use function add_user_log;
 use App\Models\User;
+use function flash;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
-
 use Livewire\Component;
-
-use function add_user_log;
-use function flash;
 use function view;
 
 class ChangePassword extends Component
 {
     public User $user;
-    public      $newPassword     = '';
-    public      $confirmPassword = '';
+
+    public $newPassword = '';
+
+    public $confirmPassword = '';
 
     public function render(): View
     {
@@ -31,23 +30,23 @@ class ChangePassword extends Component
     protected function rules(): array
     {
         return [
-            'newPassword'     => [
+            'newPassword' => [
                 'required',
                 Password::min(8)
                     ->mixedCase()
                     ->letters()
                     ->numbers()
-                    ->uncompromised()
+                    ->uncompromised(),
             ],
             'confirmPassword' => 'required|same:newPassword',
         ];
     }
 
     protected array $messages = [
-        'newPassword.required'      => 'New password is required',
+        'newPassword.required' => 'New password is required',
         'newPassword.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
-        'confirmPassword.required'  => 'Confirm password is required',
-        'confirmPassword.same'      => 'Confirm password and new password must match',
+        'confirmPassword.required' => 'Confirm password is required',
+        'confirmPassword.same' => 'Confirm password and new password must match',
     ];
 
     /**
@@ -66,11 +65,11 @@ class ChangePassword extends Component
         $this->user->save();
 
         add_user_log([
-            'title'        => "updated ".$this->user->name."'s password",
+            'title' => 'updated '.$this->user->name."'s password",
             'reference_id' => $this->user->id,
-            'link'         => route('admin.users.edit', ['user' => $this->user->id]),
-            'section'      => 'Users',
-            'type'         => 'Update'
+            'link' => route('admin.users.edit', ['user' => $this->user->id]),
+            'section' => 'Users',
+            'type' => 'Update',
         ]);
 
         $this->reset(['newPassword', 'confirmPassword']);

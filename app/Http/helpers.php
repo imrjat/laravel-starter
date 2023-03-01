@@ -36,12 +36,12 @@ if (! function_exists('add_user_log')) {
     function add_user_log($data)
     {
         AuditTrail::create([
-            'user_id'      => auth()->id(),
-            'title'        => $data['title'] ?? '',
-            'link'         => $data['link'] ?? '',
+            'user_id' => auth()->id(),
+            'title' => $data['title'] ?? '',
+            'link' => $data['link'] ?? '',
             'reference_id' => $data['id'] ?? 0,
-            'section'      => $data['section'] ?? '',
-            'type'         => $data['type'] ?? '',
+            'section' => $data['section'] ?? '',
+            'type' => $data['type'] ?? '',
         ]);
     }
 }
@@ -49,7 +49,7 @@ if (! function_exists('add_user_log')) {
 if (! function_exists('get_initials')) {
     function get_initials(string $name): ?string
     {
-        $words    = explode(" ", $name);
+        $words = explode(' ', $name);
         $initials = null;
         foreach ($words as $w) {
             $initials .= $w[0] ?? '';
@@ -75,7 +75,8 @@ if (! function_exists('vat')) {
     function vat(float $price, int $vat): string
     {
         $total = $price * ($vat / 100) + $price;
-        return number_format($total/100, 2);
+
+        return number_format($total / 100, 2);
     }
 }
 
@@ -83,6 +84,7 @@ if (! function_exists('size_readable')) {
     function size_readable(int $bytes): string
     {
         $i = floor(log($bytes, 1024));
+
         return round($bytes / (1024 ** $i), [0, 0, 2, 2, 3][$i]).['B', 'kB', 'MB', 'GB', 'TB'][$i];
     }
 }

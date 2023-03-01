@@ -2,15 +2,10 @@
 
 namespace App\Http\Livewire\Admin\Users;
 
-use App\Http\Livewire\Base;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
-
-use Livewire\Component;
-
-use function abort;
 use function auth;
-use function cannot;
+use Illuminate\Contracts\View\View;
+use Livewire\Component;
 use function view;
 
 class EditUser extends Component

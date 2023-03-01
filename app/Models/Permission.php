@@ -8,7 +8,9 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
 class Permission extends SpatiePermission
 {
     use HasUuid;
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     /**
@@ -17,6 +19,6 @@ class Permission extends SpatiePermission
      * @var array
      */
     protected $casts = [
-        'id' => 'string'
+        'id' => 'string',
     ];
 }
