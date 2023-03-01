@@ -1,12 +1,12 @@
 @section('title', __('Edit Role'))
 <div>
-    <div class="mb-5">
+    <p class="mb-5">
         <a href="{{ route('admin.settings.roles.index') }}">{{ __('Roles') }}</a>
         <span class="dark:text-gray-200">- {{ __('Edit Role') }}</span>
-    </div>
+    </p>
 
 
-    <div class="float-right"><span class="text-red-600">*</span> <span class="dark:text-gray-200"> = {{ __('required') }}</span>
+    <div class="float-right"><span class="error">*</span> <span class="dark:text-gray-200"> = {{ __('required') }}</span>
     </div>
 
     <div class="clearfix"></div>

@@ -10,9 +10,9 @@
         <x-form.input name="password" :label="__('Password')" type="password" />
 
         <div class="flex justify-between">
-            <a href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a>
+            <p><a href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a></p>
             @if (Route::has('register'))
-                <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                <p><a href="{{ route('register') }}">{{ __('Register') }}</a></p>
             @endif
         </div>
 

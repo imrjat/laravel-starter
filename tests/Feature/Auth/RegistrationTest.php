@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 
 test('can see register page', function () {
@@ -46,6 +47,8 @@ test('users cannot register without matching password', function () {
 });
 
 test('users can register', function () {
+
+    Role::firstOrCreate(['name' => 'admin', 'label' => 'Admin']);
     $password = 'ght73A3!$^DS';
 
     $this->post(route('register'), [
@@ -53,5 +56,7 @@ test('users can register', function () {
         'email'    => $this->faker->email,
         'password' => $password,
         'confirmPassword' => $password,
-    ])->assertValid();
+    ])->assertValid()
+    ->assertRedirect();
+
 });

@@ -65,6 +65,6 @@ class JoinController extends Controller
 
         auth()->loginUsingId($user->id, true);
 
-        return redirect('dashboard');
+        return redirect(route('dashboard'));
     }
 }

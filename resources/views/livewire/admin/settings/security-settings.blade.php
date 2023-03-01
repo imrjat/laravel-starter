@@ -7,12 +7,11 @@
             {{ __("If you are not in the office you will not be able to login.") }}
         </div>
 
+        <p>{{ __('Your current IP address is') }} {{ request()->ip() }}</p>
+
         <x-form wire:submit.prevent="update" method="put">
 
         <table>
-            <tr>
-                <td colspan="3" class="text-sm">{{ __('Your current IP address is') }} {{ request()->ip() }}</td>
-            </tr>
             <tr>
                 <th>{{ __('IP Address') }}</th>
                 <th>{{ __('Comment') }}</th>
@@ -22,14 +21,14 @@
                 @error("ips.$index.ip")
                     <tr>
                         <td colspan="3">
-                            <span class="text-red-600">{{ $message }}</span>
+                            <span class="error">{{ $message }}</span>
                         </td>
                     </tr>
                 @enderror
                 <tr>
                     <td><x-form.input wire:model="ips.{{ $index }}.ip" label="none">{{ $row['ip'] }}</x-form.input></td>
                     <td><x-form.input wire:model="ips.{{ $index }}.comment" label="none">{{ $row['comment'] }}</x-form.input></td>
-                    <td class="flex justify-center pt-2"><button type="button" wire:click="remove({{ $index }})" class="text-red-600">X</button></td>
+                    <td class="flex justify-center pt-2"><button type="button" wire:click="remove({{ $index }})" class="error">X</button></td>
                 </tr>
             @endforeach
         </table>

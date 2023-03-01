@@ -1,5 +1,5 @@
 @foreach (session('flash_notification', collect())->toArray() as $message)
-    @if($message['level'] === 'danger')
+    @if($message['level'] === 'danger' || $message['level'] === 'info')
         <div class="alert alert-{{ $message['level'] }}" role="alert">
             {!! $message['message'] !!}
         </div>

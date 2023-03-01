@@ -52,17 +52,30 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('admin');
 
+        //generate image
+        $name      = get_initials($user->name);
+        $id        = $user->id.'.png';
+        $path      = 'users/';
+        $imagePath = create_avatar($name, $id, $path);
+
+        //save image
+        $user->image = $imagePath;
+        $user->save();
+
         event(new Registered($user));
 
-        if (config('fuse.validateEmailOnRegister')) {
-            $user->sendEmailVerificationNotification();
-            flash('Please check your email for a verification link.')->success();
+        add_user_log([
+            'title'        => "registered ".$user->name,
+            'reference_id' => $user->id,
+            'section'      => 'Auth',
+            'type'         => 'Register'
+        ]);
 
-            return redirect()->back();
-        }
 
-        Auth::login($user);
+        $user->sendEmailVerificationNotification();
+        flash('Please check your email for a verification link.')->info();
 
-        return redirect(route('dashboard'));
+        return redirect()->back();
+
     }
 }
