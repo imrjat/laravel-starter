@@ -83,7 +83,7 @@ class Users extends Component
 
     public function deleteUser($id): void
     {
-        abort_if_cannot('delete_user');
+        abort_if_cannot('delete_users');
 
         $this->builder()->findOrFail($id)->delete();
 

@@ -49,24 +49,26 @@
                         @endcan
 
                         @if ($role->name !== 'admin')
-                            <x-modal>
-                                <x-slot name="trigger">
-                                    <a href="#" @click="on = true">{{ __('Delete') }}</a>
-                                </x-slot>
+                            @can('delete_roles')
+                                <x-modal>
+                                    <x-slot name="trigger">
+                                        <a href="#" @click="on = true">{{ __('Delete') }}</a>
+                                    </x-slot>
 
-                                <x-slot name="title">{{ __('Confirm Delete') }}</x-slot>
+                                    <x-slot name="title">{{ __('Confirm Delete') }}</x-slot>
 
-                                <x-slot name="content">
-                                    <div class="text-center">
-                                        {{ __('Are you sure you want to role:') }} <b>{{ $role->name }}</b>
-                                    </div>
-                                </x-slot>
+                                    <x-slot name="content">
+                                        <div class="text-center">
+                                            {{ __('Are you sure you want to role:') }} <b>{{ $role->name }}</b>
+                                        </div>
+                                    </x-slot>
 
-                                <x-slot name="footer">
-                                    <button class="btn" @click="on = false">{{ __('Cancel') }}</button>
-                                    <button class="btn btn-red" wire:click="deleteRole('{{ $role->id }}')">{{ __('Delete Role') }}</button>
-                                </x-slot>
-                            </x-modal>
+                                    <x-slot name="footer">
+                                        <button class="btn" @click="on = false">{{ __('Cancel') }}</button>
+                                        <button class="btn btn-red" wire:click="deleteRole('{{ $role->id }}')">{{ __('Delete Role') }}</button>
+                                    </x-slot>
+                                </x-modal>
+                            @endcan
                         @endif
                     </div>
                 </td>

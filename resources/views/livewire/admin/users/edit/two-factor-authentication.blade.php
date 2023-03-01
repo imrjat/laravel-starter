@@ -41,7 +41,7 @@
 
                 @endif
 
-                @include('errors.success')
+                @include('errors.messages')
 
                 </x-form>
             </div>

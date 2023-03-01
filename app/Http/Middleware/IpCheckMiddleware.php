@@ -29,7 +29,7 @@ class IpCheckMiddleware
                     $approved[] = $row['ip'];
                 }
 
-                if (!in_array($request->ip(), $approved, true) && auth()->user()->is_office_login_only === 1) {
+                if (!in_array($request->ip(), $approved, true) && auth()->user()->is_office_login_only === true) {
                     flash('Sorry, the system cannot be accessed from your location.')->warning();
 
                     Auth::guard()->logout();

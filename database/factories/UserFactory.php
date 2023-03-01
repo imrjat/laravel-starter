@@ -21,6 +21,8 @@ class UserFactory extends Factory
             'is_active' => 1,
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
+            'image' => null,
+            'two_fa_active' => 0,
         ];
     }
 

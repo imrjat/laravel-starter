@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\TwoFaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\Admin\AuditTrails;
@@ -27,12 +28,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class);
 
-Route::prefix(config('fuse.prefix'))->middleware(['auth', 'verified'])->group(function () {
+Route::prefix(config('fuse.prefix'))->middleware(['auth', 'verified', 'activeUser', 'IpCheckMiddleware'])->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
-    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('2fa', [TwoFaController::class, 'index'])->name('2fa');
+    Route::post('2fa', [TwoFaController::class, 'update'])->name('2fa.update');
+    Route::get('2fa-setup', [TwoFaController::class, 'setup'])->name('2fa-setup');
+    Route::post('2fa-setup', [TwoFaController::class, 'setupUpdate'])->name('2fa-setup.update');
 
     Route::prefix('settings')->group(function () {
         Route::get('audit-trails', AuditTrails::class)->name('admin.settings.audit-trails.index');

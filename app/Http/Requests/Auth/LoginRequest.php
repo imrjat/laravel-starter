@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\AuditTrail;
+use App\Models\Setting;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +29,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email'     => ['required', 'string', 'email'],
+            'password'  => ['required', 'string']
         ];
     }
 
@@ -41,12 +43,41 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt([
+            'email'     => $this->input('email'),
+            'password'  => $this->input('password'),
+            'is_active' => 1
+        ], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
+        }
+
+        AuditTrail::create([
+            'user_id'      => $this->user()->id,
+            'reference_id' => $this->user()->id,
+            'title'        => "Logged in",
+            'section'      => 'Auth',
+            'type'         => 'Login'
+        ]);
+
+        $this->user()->last_logged_in_at = now();
+        $this->user()->save();
+
+        $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
+
+        if ($isForced2Fa) {
+            if ($this->user()->two_fa_active === 'Yes' && $this->user()->two_fa_secret_key !== '') {
+                session(['2fa-login' => true]);
+            } else {
+                session(['2fa-setup' => true]);
+            }
+        } else {
+            if ($this->user()->two_fa_active === 'Yes' && $this->user()->two_fa_secret_key !== '') {
+                session(['2fa-login' => true]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());
@@ -59,7 +90,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
