@@ -37,10 +37,6 @@ Route::prefix(config('fuse.prefix'))->middleware(['auth', 'verified', 'activeUse
 
     Route::prefix('settings')->group(function () {
         Route::get('audit-trails', AuditTrails::class)->name('admin.settings.audit-trails.index');
-
-        Route::get('sent-emails', SentEmails::class)->name('admin.settings.sent-emails');
-        Route::get('sent-emails-body/{id}', SentEmailsBody::class)->name('admin.settings.sent-emails.body');
-
         Route::get('system-settings', Settings::class)->name('admin.settings');
         Route::get('roles', Roles::class)->name('admin.settings.roles.index');
         Route::get('roles/{role}/edit', Edit::class)->name('admin.settings.roles.edit');

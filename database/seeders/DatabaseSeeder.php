@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AppDatabaseSeeder::class,
             RolesDatabaseSeeder::class,
-            SentEmailsDatabaseSeeder::class,
             SettingsDatabaseSeeder::class,
             UserDatabaseSeeder::class,
         ]);

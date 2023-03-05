@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-    @section('title', __('Register'))
+    <x-auth-card>
+        @section('title', __('Register'))
 
     @include('errors.messages')
 
@@ -14,5 +14,5 @@
             <x-form.submit>{{ __('Register') }}</x-form.submit>
         </div>
     </x-form>
-
+    </x-auth-card>
 </x-guest-layout>

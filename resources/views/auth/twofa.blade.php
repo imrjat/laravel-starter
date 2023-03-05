@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-	@section('title', __('2FA'))
+	<x-auth-card>
+		@section('title', __('2FA'))
 
 	<p>{{ __('Please open your authenticator mobile app and enter the code below') }}.</p>
 
@@ -13,7 +13,8 @@
 	</x-form>
 
 	<x-form action="{{ route('logout') }}">
-		<p><button type="submit" class="float-right">{{ __('Logout') }}</button></p>
+		<p><button type="submit" class="float-right">{{ __('Logout') }}</button>
+		</p>
 	</x-form>
-
+	</x-auth-card>
 </x-guest-layout>

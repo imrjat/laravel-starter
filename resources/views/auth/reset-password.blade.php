@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-    @section('title', __('Reset Password'))
+    <x-auth-card>
+        @section('title', __('Reset Password'))
 
     <x-form action="{{ route('password.store') }}">
 
@@ -13,5 +13,5 @@
         <x-form.submit>{{ __('Reset Password') }}</x-form.submit>
 
     </x-form>
-
+    </x-auth-card>
 </x-guest-layout>

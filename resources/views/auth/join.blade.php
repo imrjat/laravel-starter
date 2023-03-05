@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-    @section('title', __('Join'))
+    <x-auth-card>
+        @section('title', __('Join'))
 
     @include('errors.success')
 
@@ -16,5 +16,5 @@
         <x-button>{{ __('Save Password') }}</x-button>
 
     </x-form>
-
+    </x-auth-card>
 </x-guest-layout>

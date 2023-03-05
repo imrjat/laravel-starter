@@ -1,6 +1,6 @@
 <x-guest-layout>
-
-    @section('title', __('Login'))
+    <x-auth-card>
+        @section('title', __('Login'))
 
     <x-form action="{{ route('login') }}">
 
@@ -16,8 +16,11 @@
             @endif
         </div>
 
-        <p><x-form.submit class="justify-center w-full btn btn-primary">Login</x-form.submit></p>
+        <p>
+            <x-form.submit class="justify-center w-full btn btn-primary">Login</x-form.submit>
+        </p>
 
     </x-form>
+    </x-auth-card>
 
 </x-guest-layout>

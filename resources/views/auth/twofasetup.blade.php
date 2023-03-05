@@ -1,7 +1,7 @@
 <x-guest-layout>
 	@section('title', '2FA')
-
-	<p>{{ __('Please open your authenticator mobile app and enter the code below') }}.</p>
+	<x-auth-card>
+		<p>{{ __('Please open your authenticator mobile app and enter the code below') }}.</p>
 
 	<p>{{ __('Authenticator apps generate random codes that you can use to sign in. They do not have access to your password or account information') }}.</p>
 	<p>{{ __('We recommend using 1Password') }}.</p>
@@ -21,5 +21,5 @@
 		<p><a href="{{ route('logout') }}" class="float-right">{{ __('Logout') }}</a></p>
 
 	</x-form>
-
+	</x-auth-card>
 </x-guest-layout>
