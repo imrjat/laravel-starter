@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Admin\AuditTrails;
 use App\Models\AuditTrail;
+
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
