@@ -1,13 +1,15 @@
 @component('mail::message')
 
-    <h1>{{ __('New contact form submission:') }}</h1>
+    ## {{ __('New contact form submission:') }}
 
-    <p>{{ __('Name:') }} {{ $name }}<br>
-        {{ __('Email:') }} {{ $email }}<br>
-        {{ __('Message:') }}</p>
+    **{{ __('Name:') }}** {{ $name }}
 
-    <p>{{ $message }}</p>
+    **{{ __('Email:') }}** {{ $email }}
 
-    <p>{{ __('Thanks') }}, {{ config('app.name') }}</p>
+    **{{ __('Message:') }}**
+
+    {{ $message }}
+
+    {{ __('Thanks') }}, {{ config('app.name') }}
 
 @endcomponent

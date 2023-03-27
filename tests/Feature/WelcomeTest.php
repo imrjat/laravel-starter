@@ -40,13 +40,13 @@ test('cannot see login text on welcome page when not in live mode', function () 
         ->assertDontSeeText('Start free trial');
 });
 
-test('can see free trail text on welcome page when not in live mode', function () {
+test('can see free trail text on welcome page when in live mode', function () {
     $this->app['config']->set(['admintw.is_live' => true]);
 
     $this
         ->get('/')
-        ->assertDontSeeText('Start free '.config('admintw.trail_days').' days trial')
-        ->assertDontSeeText('Start your free '.config('admintw.trail_days').' days trial');
+        ->assertSeeText('free '.config('admintw.trail_days').' days trial')
+        ->assertSeeText('Start your free '.config('admintw.trail_days').' days trial');
 });
 
 test('cannot see free trail text on welcome page when not in live mode', function () {

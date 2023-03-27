@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <livewire:styles/>
 </head>
 <body class="dark:bg-gray-800 text-white">
 
@@ -48,8 +49,6 @@
                        class="ml-10 font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400">FAQs</a>
                     <a href="{{ url('/#contact') }}"
                        class="ml-10 font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400">Contact</a>
-                    <a href="{{ url('docs') }}"
-                       class="ml-10 font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-400">Docs</a>
                 </div>
 
                 @if (config('admintw.is_live'))
@@ -152,9 +151,6 @@
                         <a href="{{ url('/#contact') }}"
                            class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:text-gray-900 focus:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-500 dark:hover:text-gray-200 transition duration-150 ease-in-out"
                            role="menuitem">Contact</a>
-                        <a href="{{ url('docs') }}"
-                           class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:text-gray-900 focus:bg-gray-50 dark:text-gray-100 dark:hover:bg-gray-500 dark:hover:text-gray-200 transition duration-150 ease-in-out"
-                           role="menuitem">Docs</a>
                     </div>
 
                     @if (config('admintw.is_live'))
@@ -182,5 +178,6 @@
 
 {{ $slot }}
 
+<livewire:scripts/>
 </body>
 </html>
