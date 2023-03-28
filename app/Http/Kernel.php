@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\ActiveUser;
 use App\Http\Middleware\IpCheckMiddleware;
+use App\Http\Middleware\RedirectIfNotOwner;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'activeUser' => ActiveUser::class,
         'IpCheckMiddleware' => IpCheckMiddleware::class,
+        'tenantOwner' => RedirectIfNotOwner::class
     ];
 }

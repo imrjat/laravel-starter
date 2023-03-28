@@ -6,6 +6,7 @@ use App\Models\Traits\HasUuid;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -63,5 +64,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function invite(): HasOne
     {
         return $this->hasOne(__CLASS__, 'id', 'invited_by');
+    }
+
+    public function tenant(): belongsTo
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
+    }
+
+    public function isOwner(): bool
+    {
+        return Tenant::where('owner_id', auth()->user()->id)->first()->id ?? false;
     }
 }

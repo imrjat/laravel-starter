@@ -57,5 +57,3 @@ test('cannot see free trail text on welcome page when not in live mode', functio
         ->assertDontSeeText('Start free '.config('admintw.trail_days').' days trial')
         ->assertDontSeeText('Start your free '.config('admintw.trail_days').' days trial');
 });
-
-

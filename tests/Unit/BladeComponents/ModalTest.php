@@ -1,7 +1,7 @@
 <?php
 
 test('can render modal', function () {
-    test()->blade('<x-modal>
+    $this->blade('<x-modal>
         <x-slot name="trigger">
             <button @click="on = true">Open</button>
         </x-slot>

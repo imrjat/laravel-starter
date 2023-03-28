@@ -58,7 +58,7 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <span class="inline-flex rounded-md shadow">
-                                    <a href="{{ url('dashboard') }}"
+                                    <a href="{{ route('dashboard') }}"
                                        class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-blue-700 transition duration-150 ease-in-out">
                                         {{ __('Dashboard') }}
                                     </a>

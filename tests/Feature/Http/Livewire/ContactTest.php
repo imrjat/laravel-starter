@@ -22,9 +22,9 @@ test('can send email', function () {
     Mail::fake();
 
     livewire(ContactForm::class)
-        ->set('name', $this->faker->name())
-        ->set('email', $this->faker->email())
-        ->set('message', $this->faker->paragraph())
+        ->set('name', fake()->name())
+        ->set('email', fake()->email())
+        ->set('message', fake()->paragraph())
         ->call('submitForm')
         ->assertValid();
 

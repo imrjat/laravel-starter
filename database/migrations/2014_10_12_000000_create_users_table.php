@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('tenant_id')->nullable();
             $table->string('name');
             $table->string('slug');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_office_login_only')->default(true);
@@ -34,10 +34,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        if (config('app.env') !== 'testing') {
-            DB::statement('ALTER TABLE users ADD FULLTEXT (name, email)');
-        }
     }
 
     /**

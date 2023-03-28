@@ -6,8 +6,6 @@ use App\Http\Livewire\Admin\AuditTrails;
 use App\Http\Livewire\Admin\Dashboard;
 use App\Http\Livewire\Admin\Roles\Edit;
 use App\Http\Livewire\Admin\Roles\Roles;
-use App\Http\Livewire\Admin\SentEmails\SentEmails;
-use App\Http\Livewire\Admin\SentEmails\SentEmailsBody;
 use App\Http\Livewire\Admin\Settings\Settings;
 use App\Http\Livewire\Admin\Users\EditUser;
 use App\Http\Livewire\Admin\Users\ShowUser;
@@ -29,7 +27,7 @@ Route::get('/', WelcomeController::class);
 
 if (config('admintw.is_live')) {
     Route::prefix(config('admintw.prefix'))->middleware([
-        'auth', 'verified', 'activeUser', 'IpCheckMiddleware'
+        'auth', 'verified', 'activeUser', 'IpCheckMiddleware',
     ])->group(function () {
         Route::get('/', Dashboard::class)->name('dashboard');
 

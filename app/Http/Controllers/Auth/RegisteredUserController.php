@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenant;
+use App\Models\TenantUser;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -41,38 +43,51 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
-            'slug' => Str::slug($validated['name']),
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-            'is_active' => 1,
+            'name'                 => $validated['name'],
+            'slug'                 => Str::slug($validated['name']),
+            'email'                => $validated['email'],
+            'password'             => bcrypt($validated['password']),
+            'is_active'            => 1,
             'is_office_login_only' => 0,
         ]);
 
-        $user->assignRole('admin');
+        $tenant = Tenant::create([
+            'owner_id'      => $user->id,
+            'trial_ends_at' => now()->addDays(config('admintw.trail_days')),
+        ]);
 
-        //generate image
-        $name = get_initials($user->name);
-        $id = $user->id.'.png';
-        $path = 'users/';
-        $imagePath = create_avatar($name, $id, $path);
+        TenantUser::create([
+            'tenant_id' => $tenant->id,
+            'user_id'   => $user->id,
+        ]);
 
-        //save image
-        $user->image = $imagePath;
+        $user->tenant_id = $tenant->id;
+        $user->image     = $this->generateImage($user);
         $user->save();
+
+        $user->assignRole('admin');
 
         event(new Registered($user));
 
         add_user_log([
-            'title' => 'registered '.$user->name,
+            'title'        => 'registered '.$user->name,
             'reference_id' => $user->id,
-            'section' => 'Auth',
-            'type' => 'Register',
+            'section'      => 'Auth',
+            'type'         => 'Register',
         ]);
 
         $user->sendEmailVerificationNotification();
         flash('Please check your email for a verification link.')->info();
 
         return redirect()->back();
+    }
+
+    public function generateImage($user): string
+    {
+        $name = get_initials($user->name);
+        $id   = $user->id.'.png';
+        $path = 'users/';
+
+        return create_avatar($name, $id, $path);
     }
 }
