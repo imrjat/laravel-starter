@@ -61,6 +61,7 @@ test('can look inside multi-array', function () {
         ]
     ];
     expect(in_array_r(3, $items))->toBeTrue();
+    expect(in_array_r('hey', $items))->toBeFalse();
 });
 
 test('storage_exists returns false for none existing file', function () {
