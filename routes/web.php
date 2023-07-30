@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\TwoFaController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\AuditTrails;
+use App\Livewire\Admin\Billing\Subscription;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Roles\Edit;
 use App\Livewire\Admin\Roles\Roles;
@@ -53,6 +54,10 @@ if (config('admintw.is_live')) {
             Route::get('/', Users::class)->name('admin.users.index');
             Route::get('{user}/edit', EditUser::class)->name('admin.users.edit');
             Route::get('{user}', ShowUser::class)->name('admin.users.show');
+        });
+
+        Route::middleware(['tenantOwner'])->prefix('billing')->group(function () {
+            Route::get('/', Subscription::class)->name('admin.billing.subscription');
         });
     });
 }

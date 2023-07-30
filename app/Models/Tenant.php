@@ -7,11 +7,13 @@ use Database\Factories\TenantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use LemonSqueezy\Laravel\Billable;
 
 class Tenant extends Model
 {
     use HasUuid;
     use HasFactory;
+    use Billable;
 
     protected $fillable = [
         'name',
