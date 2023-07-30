@@ -10,7 +10,6 @@ class Role extends SpatieRole
     use HasUuid;
 
     protected $primaryKey = 'id';
-
     public $incrementing = false;
 
     /**

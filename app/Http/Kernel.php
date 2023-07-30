@@ -4,7 +4,10 @@ namespace App\Http;
 
 use App\Http\Middleware\ActiveUser;
 use App\Http\Middleware\IpCheckMiddleware;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RedirectIfNotOwner;
+use App\Http\Middleware\RolePermissions;
+use App\Http\Middleware\TenantPermissions;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -38,6 +41,10 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+
+        'for_livewire' => [
+              RolePermissions::class
         ],
 
         'api' => [

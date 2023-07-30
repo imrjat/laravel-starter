@@ -27,6 +27,10 @@ class ActiveUser
             return redirect('admin/2fa-setup');
         }
 
+        if (auth()->check()) {
+            setPermissionsTeamId(auth()->user()->tenant_id);
+        }
+
         return $next($request);
     }
 }

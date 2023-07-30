@@ -15,7 +15,5 @@ class AppDatabaseSeeder extends Seeder
 
         Permission::firstOrCreate(['name' => 'view_dashboard', 'label' => 'View Dashboard', 'module' => 'App']);
         Permission::firstOrCreate(['name' => 'view_search', 'label' => 'View Search', 'module' => 'App']);
-
-        Setting::firstOrCreate(['key' => 'app_name', 'value' => 'Laravel Starter']);
     }
 }

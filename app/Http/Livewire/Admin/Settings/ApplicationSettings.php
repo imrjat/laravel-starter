@@ -19,7 +19,6 @@ class ApplicationSettings extends Component
     use WithFileUploads;
 
     public $siteName = '';
-
     public $isForced2Fa = '';
 
     public function mount(): void

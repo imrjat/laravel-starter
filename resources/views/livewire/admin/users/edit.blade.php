@@ -1,9 +1,11 @@
 @section('title', __('Edit'))
 <div>
+    @can('view_users')
     <p>
-        <a href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
+        <x-a href="{{ route('admin.users.index') }}">{{ __('Users') }}</x-a>
         <span class="dark:text-gray-200">- {{ __('Edit User') }}</span>
-   </p>
+    </p>
+    @endcan
 
     <livewire:admin.users.edit.profile :user="$user"/>
     <livewire:admin.users.edit.change-password :user="$user"/>

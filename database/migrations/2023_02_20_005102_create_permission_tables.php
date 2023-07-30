@@ -27,6 +27,7 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained();
             $table->string('name');
             $table->string('label');
             $table->string('guard_name')->default('web');
@@ -35,7 +36,7 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->uuid('permission_id');
-
+            $table->foreignUuid('tenant_id')->constrained();
             $table->string('model_type');
             $table->uuid($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type']);
@@ -53,7 +54,7 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames) {
             $table->uuid('role_id');
-
+            $table->foreignUuid('tenant_id')->constrained();
             $table->string('model_type');
             $table->uuid($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type']);

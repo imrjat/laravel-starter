@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\AuditTrail;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -48,6 +48,7 @@ class JoinController extends Controller
         $user->invite_token = null;
         $user->last_logged_in_at = now();
         $user->joined_at = now();
+        $user->email_verified_at = now();
         $user->save();
 
         $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
@@ -55,13 +56,13 @@ class JoinController extends Controller
             session(['2fasetup' => true]);
         }
 
-        AuditTrail::create([
-            'user_id' => $user->id,
-            'reference_id' => $user->id,
-            'title' => 'Joined completed',
-            'section' => 'Auth',
-            'type' => 'join',
-        ]);
+//        AuditTrail::create([
+//            'user_id' => $user->id,
+//            'reference_id' => $user->id,
+//            'title' => 'Joined completed',
+//            'section' => 'Auth',
+//            'type' => 'join',
+//        ]);
 
         auth()->loginUsingId($user->id, true);
 

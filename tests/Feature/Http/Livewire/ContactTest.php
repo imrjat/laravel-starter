@@ -4,7 +4,7 @@ use App\Http\Livewire\ContactForm;
 use App\Mail\Frontend\SendContactMail;
 use Illuminate\Support\Facades\Mail;
 
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 
 test('can see contact component', function () {
     $this
@@ -13,7 +13,7 @@ test('can see contact component', function () {
 });
 
 test('does validate fields', function () {
-    livewire(ContactForm::class)
+    Livewire::test(ContactForm::class)
         ->call('submitForm')
         ->assertHasErrors(['name', 'email', 'message']);
 });
@@ -21,7 +21,7 @@ test('does validate fields', function () {
 test('can send email', function () {
     Mail::fake();
 
-    livewire(ContactForm::class)
+    Livewire::test(ContactForm::class)
         ->set('name', fake()->name())
         ->set('email', fake()->email())
         ->set('message', fake()->paragraph())

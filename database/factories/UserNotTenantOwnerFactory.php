@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class UserNotTenantOwnerFactory extends Factory
 {
     protected $model = User::class;
 
@@ -30,9 +30,8 @@ class UserFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (User $user) {
-            $user->tenant_id = Tenant::create([
-                'owner_id' => $user->id
-            ])->id;
+            $adminUser = User::factory()->create();
+            $user->tenant_id = $adminUser->tenant_id;
         });
     }
 }

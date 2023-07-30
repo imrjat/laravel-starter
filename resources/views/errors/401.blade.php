@@ -6,5 +6,5 @@
 @include('errors.messages')
 
 <h4>{{ $message ?? '' }}</h4>
-    
+
 </x-app-layout>

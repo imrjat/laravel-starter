@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Admin\Roles;
 
+use Illuminate\Validation\Rule;
 use function add_user_log;
 use App\Models\Permission;
 use App\Models\Role;
@@ -18,7 +19,7 @@ use function view;
 
 class Edit extends Component
 {
-    public ?Role $role = null;
+    public $role = null;
 
     public $label = '';
 
@@ -27,7 +28,13 @@ class Edit extends Component
     protected function rules(): array
     {
         return [
-            'label' => 'required|string|unique:roles,label,'.$this->role->id,
+            'label' => [
+                'required',
+                'string',
+                Rule::unique('roles')
+                    ->where('tenant_id', $this->role->tenant_id) // Consider the current tenant
+                    ->ignore($this->role->id), // Ignore the current role when updating
+            ],
         ];
     }
 
@@ -43,8 +50,10 @@ class Edit extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function mount(): void
+    public function mount($role): void
     {
+        $this->role = Role::where('tenant_id', auth()->user()->tenant_id)->where('id', $role)->firstOrFail();
+
         $this->label = $this->role->label ?? '';
 
         if (isset($this->role->permissions)) {
@@ -70,11 +79,8 @@ class Edit extends Component
         $this->role->label = $this->label;
         $this->role->name = strtolower(str_replace(' ', '_', $this->label));
 
-        //sync given permissions
-        $permissions = $this->permissions;
-
-        if ($permissions !== null) {
-            $this->role->syncPermissions($permissions);
+        if ($this->permissions) {
+            $this->role->syncPermissions($this->permissions);
         }
 
         $this->role->save();

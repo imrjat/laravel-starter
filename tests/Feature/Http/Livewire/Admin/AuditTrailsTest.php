@@ -3,10 +3,10 @@
 use App\Http\Livewire\Admin\AuditTrails;
 use App\Models\AuditTrail;
 
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 
 beforeEach(function () {
-    $this->authenticate();
+    $this->user = $this->authenticate();
 });
 
 test('can see user logs page', function () {
@@ -16,22 +16,25 @@ test('can see user logs page', function () {
 });
 
 test('can search user logs', function () {
-    AuditTrail::factory()->create(['title' => 'created job']);
+    AuditTrail::factory()->create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'title' => 'created job'
+    ]);
 
-    livewire(AuditTrails::class)
+    Livewire::test(AuditTrails::class)
         ->set('title', 'created job')
         ->assertSet('title', 'created job')
         ->assertSee('created job');
 });
 
 test('can set property', function () {
-    livewire(AuditTrails::class)
+    Livewire::test(AuditTrails::class)
         ->set('sortField', 'title')
         ->assertSet('sortField', 'title');
 });
 
 test('can sort user logs', function () {
-    livewire(AuditTrails::class)
+    Livewire::test(AuditTrails::class)
         ->call('sortBy', 'title')
         ->assertSet('sortField', 'title')
         ->call('userLogs')
@@ -39,7 +42,7 @@ test('can sort user logs', function () {
 });
 
 test('can sort user logs by user', function () {
-    livewire(AuditTrails::class)
+    Livewire::test(AuditTrails::class)
         ->call('sortBy', 'user_id')
         ->assertSet('sortField', 'user_id')
         ->call('render')

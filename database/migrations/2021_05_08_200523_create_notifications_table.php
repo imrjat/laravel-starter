@@ -10,9 +10,10 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained();
             $table->string('title');
-            $table->uuid('assigned_to_user_id');
-            $table->uuid('assigned_from_user_id')->default(0);
+            $table->foreignUuid('assigned_to_user_id')->constrained('users');
+            $table->foreignUuid('assigned_from_user_id')->constrained('users');
             $table->string('link')->nullable();
             $table->boolean('viewed')->nullable();
             $table->timestamp('viewed_at')->nullable();

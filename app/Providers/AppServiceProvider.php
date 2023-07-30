@@ -37,8 +37,10 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised();
         });
 
-        Model::shouldBeStrict(!app()->isProduction());
+        Model::shouldBeStrict();
+//        Model::shouldBeStrict(!app()->isProduction());
 
+        /*
         //if key exists
         if (Cache::has('setting_keys')) {
             //decode keys to array
@@ -75,6 +77,6 @@ class AppServiceProvider extends ServiceProvider
                     Cache::forever('setting_keys', $keys);
                 }
             }
-        }
+        }*/
     }
 }

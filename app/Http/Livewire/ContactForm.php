@@ -3,36 +3,38 @@
 namespace App\Http\Livewire;
 
 use App\Mail\Frontend\SendContactMail;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class ContactForm extends Component
 {
-    public $name;
+    public string $name           = '';
+    public string $email          = '';
+    public string $message        = '';
+    public string $successMessage = '';
 
-    public $email;
-
-    public $message;
-
-    public $successMessage;
-
-    protected $rules = [
+    protected array $rules = [
         'name'    => 'required|string',
         'email'   => 'required|string|email',
         'message' => 'required|string',
     ];
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.contact-form');
     }
 
-    public function updated($name)
+    /**
+     * @throws ValidationException
+     */
+    public function updated($name): void
     {
         $this->validateOnly($name);
     }
 
-    public function submitForm()
+    public function submitForm(): void
     {
         $contact = $this->validate();
 

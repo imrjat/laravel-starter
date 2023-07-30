@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use App\Models\Traits\HasUuid;
 use Database\Factories\NotificationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,8 +13,17 @@ class Notification extends Model
 {
     use HasFactory;
     use HasUuid;
+    use HasTenant;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'tenant_id',
+        'title',
+        'assigned_to_user_id',
+        'assigned_from_user_id',
+        'link',
+        'viewed',
+        'viewed_at'
+    ];
 
     protected static function newFactory(): NotificationFactory
     {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use App\Models\Traits\HasUuid;
 use Database\Factories\AuditTrailsFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,8 +15,17 @@ class AuditTrail extends Model
     use SoftDeletes;
     use HasFactory;
     use HasUuid;
+    use HasTenant;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'tenant_id',
+        'user_id',
+        'title',
+        'link',
+        'reference_id',
+        'section',
+        'type'
+    ];
 
     protected static function newFactory(): AuditTrailsFactory
     {

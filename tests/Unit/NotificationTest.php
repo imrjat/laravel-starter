@@ -3,6 +3,10 @@
 use App\Models\Notification;
 use App\Models\User;
 
+beforeEach(function () {
+    $this->authenticate();
+});
+
 test('a notification belongs to a user with assigned to', function () {
     $user = User::factory()->create();
     $notification = Notification::factory()->create([

@@ -31,7 +31,7 @@ class Roles extends Component
 
     public function builder()
     {
-        return Role::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+        return Role::where('tenant_id', auth()->user()->tenant_id)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
     }
 
     public function sortBy(string $field): void

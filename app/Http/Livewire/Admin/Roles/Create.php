@@ -8,6 +8,7 @@ use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -15,9 +16,18 @@ class Create extends Component
 {
     public $role = '';
 
-    protected array $rules = [
-        'role' => 'required|string|unique:roles,label',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'role' => [
+                'required',
+                'string',
+                Rule::unique('roles', 'label')->where(function ($query) {
+                    return $query->where('tenant_id', auth()->user()->tenant_id);
+                }),
+            ],
+        ];
+    }
 
     protected array $messages = [
         'role.required' => 'Role is required',

@@ -13,7 +13,6 @@ class SettingsDatabaseSeeder extends Seeder
         Model::unguard();
 
         Permission::firstOrCreate(['name' => 'view_audit_trails', 'label' => 'View Audit Trails', 'module' => 'Settings']);
-        Permission::firstOrCreate(['name' => 'view_sent_emails', 'label' => 'View Sent Emails', 'module' => 'Settings']);
         Permission::firstOrCreate(['name' => 'view_system_settings', 'label' => 'View System Settings', 'module' => 'Settings']);
     }
 }

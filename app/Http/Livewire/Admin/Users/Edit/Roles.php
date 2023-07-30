@@ -22,7 +22,7 @@ class Roles extends Component
 
     public function render(): View
     {
-        $roles = Role::orderby('name')->get();
+        $roles = Role::where('tenant_id', auth()->user()->tenant_id)->orderby('name')->get();
 
         return view('livewire.admin.users.edit.roles', compact('roles'))->layout('layouts.app');
     }
@@ -30,10 +30,10 @@ class Roles extends Component
     public function update(): bool
     {
         if (hasRole('admin')) {
-            $role = Role::where('name', 'admin')->firstOrFail();
+            $role = Role::where('tenant_id', auth()->user()->tenant_id)->where('name', 'admin')->firstOrFail();
 
             //if admin role is not in array
-            if (! in_array(needle: $role->id, haystack: $this->roleSelections, strict: true)) {
+            if (!in_array(needle: $role->id, haystack: $this->roleSelections, strict: true)) {
                 $adminRolesCount = User::role('admin')->count();
 
                 //when there is only 1 admin role alert user and stop
@@ -58,7 +58,16 @@ class Roles extends Component
 
     protected function syncRoles($role): void
     {
-        $this->user->roles()->sync($this->roleSelections);
+        $rolesWithTenant = collect($this->roleSelections)->map(function ($roleId) {
+            return [
+                'role_id' => $roleId,
+                'tenant_id' => auth()->user()->tenant_id,
+                'model_type' => 'App\Models\User',
+                'model_id' => $this->user->id,
+            ];
+        })->toArray();
+
+        $this->user->roles()->sync($rolesWithTenant);
 
         add_user_log([
             'title' => 'updated '.$this->user->name."'s roles",

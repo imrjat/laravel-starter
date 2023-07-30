@@ -29,14 +29,16 @@ abstract class TestCase extends BaseTestCase
 
     protected function prepareUser($role): User
     {
-        $this->prepareRole($role);
-
         $user = User::factory()->create();
 
         $tenant = Tenant::create([
             'owner_id'      => $user->id,
             'trial_ends_at' => now()->addDays(config('admintw.trail_days')),
         ]);
+
+        setPermissionsTeamId($tenant->id);
+
+        $this->prepareRole($role, $tenant);
 
         TenantUser::create([
             'tenant_id' => $tenant->id,
@@ -50,9 +52,13 @@ abstract class TestCase extends BaseTestCase
         return $user;
     }
 
-    protected function prepareRole($role): Role
+    protected function prepareRole($role, $tenant): Role
     {
-        return Role::firstOrCreate(['name' => $role, 'label' => ucwords($role)]);
+        return Role::firstOrCreate([
+            'tenant_id' => $tenant->id,
+            'name' => $role,
+            'label' => ucwords($role)
+        ]);
     }
 
     protected function preparePermission($permission): Role

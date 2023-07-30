@@ -6,6 +6,7 @@ namespace App\Http\Livewire\Admin\Users;
 
 use App\Mail\Users\SendInviteMail;
 use App\Models\Role;
+use App\Models\TenantUser;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
@@ -16,9 +17,7 @@ use Livewire\Component;
 class Invite extends Component
 {
     public $name = '';
-
     public $email = '';
-
     public $rolesSelected = [];
 
     protected array $rules = [
@@ -43,7 +42,7 @@ class Invite extends Component
 
     public function render(): View
     {
-        $roles = Role::orderby('name')->get();
+        $roles = Role::where('tenant_id', auth()->user()->tenant_id)->orderby('name')->get();
 
         return view('livewire.admin.users.invite', compact('roles'));
     }
@@ -52,7 +51,10 @@ class Invite extends Component
     {
         $this->validate();
 
+        $tenantId = auth()->user()->tenant_id;
+
         $user = User::create([
+            'tenant_id' => $tenantId,
             'name' => $this->name,
             'slug' => Str::slug($this->name),
             'email' => $this->email,
@@ -60,7 +62,7 @@ class Invite extends Component
             'is_office_login_only' => 0,
             'invite_token' => Str::random(32),
             'invited_by' => auth()->id(),
-            'invited_at' => now(),
+            'invited_at' => now()
         ]);
 
         //generate image
@@ -72,6 +74,13 @@ class Invite extends Component
         //save image
         $user->image = $imagePath;
         $user->save();
+
+        TenantUser::create([
+            'tenant_id' => $tenantId,
+            'user_id' => $user->id,
+        ]);
+
+        setPermissionsTeamId($tenantId);
 
         foreach ($this->rolesSelected as $role) {
             $user->assignRole($role);

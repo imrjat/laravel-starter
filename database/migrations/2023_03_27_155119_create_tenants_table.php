@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('owner_id');
+            $table->foreignUuid('owner_id')->constrained('users');
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('canceled_at')->nullable();

@@ -10,6 +10,7 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('tenant_id')->constrained();
             $table->string('key');
             $table->string('value')->nullable();
             $table->timestamps();

@@ -1,8 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
+use App\Models\Role;
+use App\Models\Setting;
 use App\Models\Tenant;
 use App\Models\TenantUser;
 use App\Models\User;
@@ -23,58 +28,36 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', Rules\Password::defaults()],
-            'confirmPassword' => 'required|same:password',
-        ], [
-            'password.required' => 'Password is required',
-            'password.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
-            'confirmPassword.required' => 'Confirm password is required',
-            'confirmPassword.same' => 'Confirm password and new password must match',
-        ]);
+        $validated = $request->validated();
 
         $user = User::create([
-            'name'                 => $validated['name'],
-            'slug'                 => Str::slug($validated['name']),
-            'email'                => $validated['email'],
-            'password'             => bcrypt($validated['password']),
-            'is_active'            => 1,
+            'name' => $validated['name'],
+            'slug' => Str::slug($validated['name']),
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'is_active' => 1,
             'is_office_login_only' => 0,
         ]);
 
-        $tenant = Tenant::create([
-            'owner_id'      => $user->id,
-            'trial_ends_at' => now()->addDays(config('admintw.trail_days')),
-        ]);
-
-        TenantUser::create([
-            'tenant_id' => $tenant->id,
-            'user_id'   => $user->id,
-        ]);
+        $tenant = $this->createTenant($user);
 
         $user->tenant_id = $tenant->id;
-        $user->image     = $this->generateImage($user);
+        $user->image = $this->generateImage($user);
         $user->save();
 
         $user->assignRole('admin');
 
         event(new Registered($user));
 
-        add_user_log([
-            'title'        => 'registered '.$user->name,
-            'reference_id' => $user->id,
-            'section'      => 'Auth',
-            'type'         => 'Register',
-        ]);
+//        add_user_log([
+//            'tenant_id' => $tenant->id,
+//            'title' => 'registered '.$user->name,
+//            'reference_id' => $user->id,
+//            'section' => 'Auth',
+//            'type' => 'Register',
+//        ]);
 
         $user->sendEmailVerificationNotification();
         flash('Please check your email for a verification link.')->info();
@@ -85,9 +68,44 @@ class RegisteredUserController extends Controller
     public function generateImage($user): string
     {
         $name = get_initials($user->name);
-        $id   = $user->id.'.png';
+        $id = $user->id.'.png';
         $path = 'users/';
 
         return create_avatar($name, $id, $path);
+    }
+
+    public function createTenant($user)
+    {
+        $tenant = Tenant::create([
+            'owner_id' => $user->id,
+            'trial_ends_at' => now()->addDays(config('admintw.trail_days')),
+        ]);
+
+        TenantUser::create([
+            'tenant_id' => $tenant->id,
+            'user_id' => $user->id,
+        ]);
+
+        setPermissionsTeamId($tenant->id);
+
+        Role::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'admin',
+            'label' => 'Admin'
+        ]);
+
+        Role::create([
+            'tenant_id' => $tenant->id,
+            'name' => 'user',
+            'label' => 'User'
+        ]);
+
+        Setting::create([
+            'tenant_id' => $tenant->id,
+            'key' => 'app.name',
+            'value' => config('app.name')
+        ]);
+
+        return $tenant;
     }
 }

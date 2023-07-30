@@ -93,13 +93,13 @@
                     <div class="flex space-x-2">
 
                             @can('view_users_profiles')
-                                <a href="{{ route('admin.users.show', $user) }}">{{ __('Profile') }}</a>
+                                <x-a href="{{ route('admin.users.show', $user) }}">{{ __('Profile') }}</x-a>
                             @endcan
 
                             @if(can('edit_users'))
-                                <a href="{{ route('admin.users.edit', $user) }}">{{ __('Edit') }}</a>
+                                <x-a href="{{ route('admin.users.edit', $user) }}">{{ __('Edit') }}</x-a>
                             @elseif(auth()->id() === $user->id && can('edit_own_account'))
-                                <a href="{{ route('admin.users.edit', $user) }}">{{ __('Edit') }}</a>
+                                <x-a href="{{ route('admin.users.edit', $user) }}">{{ __('Edit') }}</x-a>
                             @endif
 
                             @if(can('add_users') && !empty($user->invite_token))

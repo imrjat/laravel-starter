@@ -9,15 +9,17 @@ class Permission extends SpatiePermission
 {
     use HasUuid;
 
+    protected $fillable = [
+        'name',
+        'label',
+        'module',
+        'guard_name'
+    ];
+
     protected $primaryKey = 'id';
 
     public $incrementing = false;
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'string',
     ];

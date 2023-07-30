@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasTenant;
 use App\Models\Traits\HasUuid;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -22,22 +23,40 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasRoles;
     use SoftDeletes;
     use HasUuid;
+    use HasTenant;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'tenant_id',
+        'name',
+        'slug',
+        'email',
+        'password',
+        'image',
+        'is_office_login_only',
+        'is_active',
+        'email_verified_at',
+        'last_logged_in_at',
+        'two_fa_active',
+        'two_fa_secret_key',
+        'invited_by',
+        'invited_at',
+        'joined_at',
+        'invite_token',
+        'last_activity',
+    ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 
     public string $label = 'name';
-
     public string $section = 'Users';
+    public array  $searchable = [
+        'name',
+        'email'
+    ];
 
-    public array  $searchable = ['name', 'email'];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_logged_in_at' => 'datetime',
@@ -46,14 +65,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_activity' => 'datetime',
     ];
 
-    public function route($id): string
-    {
-        return route('admin.users.show', ['user' => $id]);
-    }
-
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    public function route($id): string
+    {
+        return route('admin.users.show', ['user' => $id]);
     }
 
     public function scopeIsActive($query)
@@ -73,6 +92,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isOwner(): bool
     {
-        return Tenant::where('owner_id', auth()->user()->id)->first()->id ?? false;
+        return Tenant::where('owner_id', $this->id)->first() !== null;
     }
 }

@@ -13,9 +13,6 @@ class RolesDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        Role::firstOrCreate(['name' => 'admin', 'label' => 'Admin']);
-        Role::firstOrCreate(['name' => 'user', 'label' => 'User']);
-
         Permission::firstOrCreate(['name' => 'view_roles', 'label' => 'View Roles', 'module' => 'Roles']);
         Permission::firstOrCreate(['name' => 'add_roles', 'label' => 'Add Roles', 'module' => 'Roles']);
         Permission::firstOrCreate(['name' => 'edit_roles', 'label' => 'Edit Roles', 'module' => 'Roles']);

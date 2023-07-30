@@ -47,7 +47,7 @@ test('users cannot register without matching password', function () {
 });
 
 test('users can register', function () {
-    Role::firstOrCreate(['name' => 'admin', 'label' => 'Admin']);
+    //Role::firstOrCreate(['name' => 'admin', 'label' => 'Admin']);
     $password = 'ght73A3!$^DS';
     $email    = fake()->email();
 
@@ -60,7 +60,7 @@ test('users can register', function () {
         ->assertRedirect();
 
     $user   = User::where('email', $email)->first();
-    $tenant = Tenant::where('owner_id', $user->id)->first();
+    $tenant = Tenant::find($user->tenant_id);
 
     $this->assertDatabaseHas('tenants', ['owner_id' => $user->id]);
     $this->assertDatabaseHas('tenant_users', [

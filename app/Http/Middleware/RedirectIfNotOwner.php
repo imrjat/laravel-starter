@@ -16,6 +16,9 @@ class RedirectIfNotOwner
     public function handle($request, Closure $next)
     {
         if (auth()->check()) {
+
+            setPermissionsTeamId(auth()->user()->tenant_id);
+
             if (!auth()->user()->isOwner()) {
                 return redirect(route('dashboard'));
             }
