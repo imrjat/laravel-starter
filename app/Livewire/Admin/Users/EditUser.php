@@ -3,8 +3,8 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
-use Livewire\Attributes\Title;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Title('Edit User')]

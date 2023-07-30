@@ -18,13 +18,21 @@ class Activity extends Component
     use WithPagination;
 
     public User $user;
+
     public $paginate = 10;
+
     public $title = '';
+
     public $section = '';
+
     public $type = '';
+
     public $created_at = '';
+
     public $sortField = 'id';
+
     public $sortAsc = false;
+
     public $openFilter = false;
 
     public function render(): View

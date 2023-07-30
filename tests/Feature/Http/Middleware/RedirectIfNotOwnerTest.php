@@ -20,14 +20,14 @@ test('redirects when logged in user is not the owner', function () {
     $user = User::factory()->create();
 
     $tenant = Tenant::create([
-        'owner_id' => $user->id
+        'owner_id' => $user->id,
     ]);
 
     $secondUser = User::create([
         'tenant_id' => $tenant->id,
         'name' => 'Test User',
         'slug' => 'test-user',
-        'email' => 'user@domain.com'
+        'email' => 'user@domain.com',
     ]);
 
     $this->actingAs($secondUser);

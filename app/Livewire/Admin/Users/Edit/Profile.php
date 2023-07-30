@@ -21,8 +21,11 @@ class Profile extends Component
     use WithFileUploads;
 
     public User $user;
+
     public $name = '';
+
     public $email = '';
+
     public $image = '';
 
     protected $listeners = ['refreshProfile' => 'mount'];

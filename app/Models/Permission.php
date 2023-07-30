@@ -13,7 +13,7 @@ class Permission extends SpatiePermission
         'name',
         'label',
         'module',
-        'guard_name'
+        'guard_name',
     ];
 
     protected $primaryKey = 'id';

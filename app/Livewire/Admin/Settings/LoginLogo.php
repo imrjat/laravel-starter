@@ -19,8 +19,11 @@ class LoginLogo extends Component
     use WithFileUploads;
 
     public $loginLogo = '';
+
     public $existingLoginLogo = '';
+
     public $loginLogoDark = '';
+
     public $existingLoginLogoDark = '';
 
     public function mount(): void
@@ -62,7 +65,7 @@ class LoginLogo extends Component
         if ($this->loginLogo !== '') {
             $loginLogo = Setting::where('key', 'loginLogo')->value('value');
             if ($loginLogo !== '') {
-//                Storage::disk('public')->delete($loginLogo);
+                //                Storage::disk('public')->delete($loginLogo);
             }
 
             $token = md5(random_int(1, 10).microtime());
@@ -79,7 +82,7 @@ class LoginLogo extends Component
         if ($this->loginLogoDark !== '') {
             $loginLogoDark = Setting::where('key', 'loginLogoDark')->value('value');
             if ($loginLogoDark !== '') {
-//                Storage::disk('public')->delete($loginLogoDark);
+                //                Storage::disk('public')->delete($loginLogoDark);
             }
 
             $token = md5(random_int(1, 10).microtime());

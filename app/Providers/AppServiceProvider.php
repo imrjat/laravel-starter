@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::shouldBeStrict();
-//        Model::shouldBeStrict(!app()->isProduction());
+        //        Model::shouldBeStrict(!app()->isProduction());
 
         /*
         //if key exists

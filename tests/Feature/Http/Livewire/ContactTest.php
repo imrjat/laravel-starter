@@ -3,7 +3,6 @@
 use App\Livewire\ContactForm;
 use App\Mail\Frontend\SendContactMail;
 use Illuminate\Support\Facades\Mail;
-
 use Livewire\Livewire;
 
 test('can see contact component', function () {

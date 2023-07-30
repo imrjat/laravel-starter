@@ -3,8 +3,6 @@
 namespace App\Models\Traits;
 
 use App\Models\Role;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 trait HasTenantRole
 {
@@ -17,7 +15,7 @@ trait HasTenantRole
                 $model->tenant_id = $tenantId;
             });
 
-            static::addGlobalScope('tenant', function (Role $model) use ($tenantId) {
+            static::addGlobalScope('tenant', function (Role $model) {
                 $model->where('tenant_id', 2);
             });
         }

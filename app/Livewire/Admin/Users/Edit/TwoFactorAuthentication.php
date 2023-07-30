@@ -20,7 +20,9 @@ class TwoFactorAuthentication extends Component
     public User $user;
 
     public $secretKey = '';
+
     public $inlineUrl = '';
+
     public $code = '';
 
     /**

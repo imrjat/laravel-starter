@@ -22,7 +22,7 @@ class Notification extends Model
         'assigned_from_user_id',
         'link',
         'viewed',
-        'viewed_at'
+        'viewed_at',
     ];
 
     protected static function newFactory(): NotificationFactory

@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 class MakeDatabaseCommand extends Command
 {
     protected $signature = 'db:build';
+
     protected $description = 'Build and seed all table from fresh.';
 
     public function handle()

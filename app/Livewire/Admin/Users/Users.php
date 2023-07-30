@@ -7,12 +7,12 @@ namespace App\Livewire\Admin\Users;
 use App\Mail\Users\SendInviteMail;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 #[Title('Users')]
 class Users extends Component
@@ -21,14 +21,23 @@ class Users extends Component
     use AuthorizesRequests;
 
     public $paginate = '';
+
     public $checked = [];
+
     public $name = '';
+
     public $email = '';
+
     public $joined = '';
+
     public $sortField = 'name';
+
     public $sortAsc = true;
+
     public $openFilter = false;
+
     public $sentEmail = false;
+
     protected $listeners = ['refreshUsers' => '$refresh'];
 
     public function render(): View

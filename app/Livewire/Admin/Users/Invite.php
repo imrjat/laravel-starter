@@ -20,7 +20,9 @@ class Invite extends Component
     use withPagination;
 
     public $name = '';
+
     public $email = '';
+
     public $rolesSelected = [];
 
     protected array $rules = [
@@ -65,7 +67,7 @@ class Invite extends Component
             'is_office_login_only' => 0,
             'invite_token' => Str::random(32),
             'invited_by' => auth()->id(),
-            'invited_at' => now()
+            'invited_at' => now(),
         ]);
 
         //generate image

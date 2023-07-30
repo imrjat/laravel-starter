@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin;
 
-use Livewire\Attributes\Title;
 use App\Models\AuditTrail;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,14 +18,23 @@ class AuditTrails extends Component
     use WithPagination;
 
     public $paginate = '';
+
     public $checked = [];
+
     public $user_id = 0;
+
     public $title = '';
+
     public $section = '';
+
     public $type = '';
+
     public $created_at = '';
+
     public $sortField = 'created_at';
+
     public $sortAsc = false;
+
     public $openFilter = false;
 
     public function render(): View

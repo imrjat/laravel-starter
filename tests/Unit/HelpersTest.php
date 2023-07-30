@@ -33,7 +33,7 @@ test('abort_if_cannot runs exception', function () {
 test('add_user_log adds data', function () {
     $this->authenticate();
     add_user_log([
-        'title' => 'some action'
+        'title' => 'some action',
     ]);
 
     $this->assertDatabaseHas('audit_trails', ['title' => 'some action']);
@@ -55,10 +55,10 @@ test('can look inside multi-array', function () {
     $items = [
         [
             'first' => 1,
-            'two'   => [
-                'third' => 3
-            ]
-        ]
+            'two' => [
+                'third' => 3,
+            ],
+        ],
     ];
     expect(in_array_r(3, $items))->toBeTrue();
     expect(in_array_r('hey', $items))->toBeFalse();

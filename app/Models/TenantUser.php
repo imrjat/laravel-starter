@@ -10,6 +10,6 @@ class TenantUser extends Model
 
     protected $fillable = [
         'tenant_id',
-        'user_id'
+        'user_id',
     ];
 }

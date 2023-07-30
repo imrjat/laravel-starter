@@ -13,9 +13,7 @@ use App\Models\TenantUser;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -51,13 +49,13 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-//        add_user_log([
-//            'tenant_id' => $tenant->id,
-//            'title' => 'registered '.$user->name,
-//            'reference_id' => $user->id,
-//            'section' => 'Auth',
-//            'type' => 'Register',
-//        ]);
+        //        add_user_log([
+        //            'tenant_id' => $tenant->id,
+        //            'title' => 'registered '.$user->name,
+        //            'reference_id' => $user->id,
+        //            'section' => 'Auth',
+        //            'type' => 'Register',
+        //        ]);
 
         $user->sendEmailVerificationNotification();
         flash('Please check your email for a verification link.')->info();
@@ -91,19 +89,19 @@ class RegisteredUserController extends Controller
         Role::create([
             'tenant_id' => $tenant->id,
             'name' => 'admin',
-            'label' => 'Admin'
+            'label' => 'Admin',
         ]);
 
         Role::create([
             'tenant_id' => $tenant->id,
             'name' => 'user',
-            'label' => 'User'
+            'label' => 'User',
         ]);
 
         Setting::create([
             'tenant_id' => $tenant->id,
             'key' => 'app.name',
-            'value' => config('app.name')
+            'value' => config('app.name'),
         ]);
 
         return $tenant;

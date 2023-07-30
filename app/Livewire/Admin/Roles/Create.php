@@ -14,6 +14,7 @@ use Livewire\WithPagination;
 class Create extends Component
 {
     use withPagination;
+
     public $role = '';
 
     protected function rules(): array

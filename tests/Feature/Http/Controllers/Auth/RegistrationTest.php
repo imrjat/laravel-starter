@@ -10,8 +10,8 @@ test('can see register page', function () {
 
 test('users cannot register with invalid password', function () {
     $this->post(route('register'), [
-        'name'     => fake()->name(),
-        'email'    => fake()->email(),
+        'name' => fake()->name(),
+        'email' => fake()->email(),
         'password' => '',
     ]);
 
@@ -23,9 +23,9 @@ test('users cannot register with existing email', function () {
     $password = 'ght73A3!$^DS';
 
     $this->post(route('register'), [
-        'name'            => fake()->name(),
-        'email'           => $user->email,
-        'password'        => $password,
+        'name' => fake()->name(),
+        'email' => $user->email,
+        'password' => $password,
         'confirmPassword' => $password,
     ])->assertInvalid();
 
@@ -37,9 +37,9 @@ test('users cannot register without matching password', function () {
     $password = 'ght73A3!$^DS';
 
     $this->post(route('register'), [
-        'name'            => fake()->name(),
-        'email'           => $user->email,
-        'password'        => $password,
+        'name' => fake()->name(),
+        'email' => $user->email,
+        'password' => $password,
         'confirmPassword' => 'other',
     ])->assertInvalid();
 
@@ -49,23 +49,23 @@ test('users cannot register without matching password', function () {
 test('users can register', function () {
     //Role::firstOrCreate(['name' => 'admin', 'label' => 'Admin']);
     $password = 'ght73A3!$^DS';
-    $email    = fake()->email();
+    $email = fake()->email();
 
     $this->post(route('register'), [
-        'name'            => fake()->name(),
-        'email'           => $email,
-        'password'        => $password,
+        'name' => fake()->name(),
+        'email' => $email,
+        'password' => $password,
         'confirmPassword' => $password,
     ])->assertValid()
         ->assertRedirect();
 
-    $user   = User::where('email', $email)->first();
+    $user = User::where('email', $email)->first();
     $tenant = Tenant::find($user->tenant_id);
 
     $this->assertDatabaseHas('tenants', ['owner_id' => $user->id]);
     $this->assertDatabaseHas('tenant_users', [
         'tenant_id' => $tenant->id,
-        'user_id'   => $user->id,
+        'user_id' => $user->id,
     ]);
     $this->assertDatabaseHas('users', ['tenant_id' => $tenant->id]);
 

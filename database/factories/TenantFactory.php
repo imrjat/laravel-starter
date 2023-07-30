@@ -15,7 +15,7 @@ class TenantFactory extends Factory
         $user = User::factory()->make();
 
         return [
-            'owner_id' => $user->id
+            'owner_id' => $user->id,
         ];
     }
 }

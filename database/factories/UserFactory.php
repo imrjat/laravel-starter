@@ -15,15 +15,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => $this->faker->name(),
-            'slug'              => Str::slug($this->faker->name()),
-            'email'             => $this->faker->email(),
-            'password'          => Hash::make('password'),
-            'is_active'         => 1,
-            'remember_token'    => Str::random(10),
+            'name' => $this->faker->name(),
+            'slug' => Str::slug($this->faker->name()),
+            'email' => $this->faker->email(),
+            'password' => Hash::make('password'),
+            'is_active' => 1,
+            'remember_token' => Str::random(10),
             'email_verified_at' => now(),
-            'image'             => null,
-            'two_fa_active'     => 0,
+            'image' => null,
+            'two_fa_active' => 0,
         ];
     }
 
@@ -31,7 +31,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->tenant_id = Tenant::create([
-                'owner_id' => $user->id
+                'owner_id' => $user->id,
             ])->id;
         });
     }

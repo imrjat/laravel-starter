@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Roles;
 
-use Illuminate\Validation\Rule;
-use Livewire\Attributes\Title;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Title('Edit Role')]
 class Edit extends Component
 {
     public $role = null;
+
     public $label = '';
+
     public $permissions = [];
 
     protected function rules(): array

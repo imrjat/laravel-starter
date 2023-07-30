@@ -32,7 +32,7 @@ abstract class TestCase extends BaseTestCase
         $user = User::factory()->create();
 
         $tenant = Tenant::create([
-            'owner_id'      => $user->id,
+            'owner_id' => $user->id,
             'trial_ends_at' => now()->addDays(config('admintw.trail_days')),
         ]);
 
@@ -42,7 +42,7 @@ abstract class TestCase extends BaseTestCase
 
         TenantUser::create([
             'tenant_id' => $tenant->id,
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $user->tenant_id = $tenant->id;
@@ -57,7 +57,7 @@ abstract class TestCase extends BaseTestCase
         return Role::firstOrCreate([
             'tenant_id' => $tenant->id,
             'name' => $role,
-            'label' => ucwords($role)
+            'label' => ucwords($role),
         ]);
     }
 

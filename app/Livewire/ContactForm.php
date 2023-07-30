@@ -10,14 +10,17 @@ use Livewire\Component;
 
 class ContactForm extends Component
 {
-    public string $name           = '';
-    public string $email          = '';
-    public string $message        = '';
+    public string $name = '';
+
+    public string $email = '';
+
+    public string $message = '';
+
     public string $successMessage = '';
 
     protected array $rules = [
-        'name'    => 'required|string',
-        'email'   => 'required|string|email',
+        'name' => 'required|string',
+        'email' => 'required|string|email',
         'message' => 'required|string',
     ];
 

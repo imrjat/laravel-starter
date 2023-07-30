@@ -19,8 +19,11 @@ class ApplicationLogo extends Component
     use WithFileUploads;
 
     public $applicationLogo = '';
+
     public $existingApplicationLogo = '';
+
     public $applicationLogoDark = '';
+
     public $existingApplicationLogoDark = '';
 
     public function mount(): void

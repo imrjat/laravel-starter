@@ -56,13 +56,13 @@ class JoinController extends Controller
             session(['2fasetup' => true]);
         }
 
-//        AuditTrail::create([
-//            'user_id' => $user->id,
-//            'reference_id' => $user->id,
-//            'title' => 'Joined completed',
-//            'section' => 'Auth',
-//            'type' => 'join',
-//        ]);
+        //        AuditTrail::create([
+        //            'user_id' => $user->id,
+        //            'reference_id' => $user->id,
+        //            'title' => 'Joined completed',
+        //            'section' => 'Auth',
+        //            'type' => 'join',
+        //        ]);
 
         auth()->loginUsingId($user->id, true);
 

@@ -16,9 +16,13 @@ class Roles extends Component
     use WithPagination;
 
     public $paginate = '';
+
     public $query = '';
+
     public $sortField = 'name';
+
     public $sortAsc = true;
+
     protected $listeners = ['refreshRoles' => '$refresh'];
 
     public function render(): View

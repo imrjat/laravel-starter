@@ -17,5 +17,3 @@ test('controllers')
     ->toBeClasses()
     ->classes->not->toBeFinal()
     ->classes->toExtend(Controller::class);
-
-

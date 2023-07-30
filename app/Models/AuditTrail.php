@@ -24,7 +24,7 @@ class AuditTrail extends Model
         'link',
         'reference_id',
         'section',
-        'type'
+        'type',
     ];
 
     protected static function newFactory(): AuditTrailsFactory

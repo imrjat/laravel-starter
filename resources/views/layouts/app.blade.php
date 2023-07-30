@@ -15,6 +15,34 @@
             @auth
                 <!-- regular sidebar -->
                 <div class="sidebar hidden flex-none w-full md:block md:w-60 px-4 bg-primary dark:bg-gray-700">
+
+                    @if(auth()->user()->tenant->isOnTrial())
+                        @php
+                        $text = __("Trial ends in ").auth()->user()->tenant->trial_ends_at->diffInDays().__(" days");
+                        @endphp
+
+                        <div class='inline-flex items-center px-4 py-2 m-4 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm hover:bg-blue-500'>
+                            @if (auth()->user()->isOwner())
+                                <x-a href="{{ url('app/subscription') }}">{{ $text }}</x-a>
+                            @else
+                                {{ $text }}
+                            @endif
+                        </div>
+                    @endif
+
+                    @if(auth()->user()->tenant->isOnGracePeriod())
+                        @php
+                        $text = __("Subscription will end in ").auth()->user()->tenant->ends_at->diffInDays().__(" days");
+                        @endphp
+                        <div class='inline-flex items-center px-4 py-2 m-4 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm hover:bg-blue-500'>
+                            @if (auth()->user()->isOwner())
+                                <x-a href="{{ url('app/subscription') }}">{{ $text }}</x-a>
+                            @else
+                                {{ $text }}
+                            @endif
+                        </div>
+                    @endif
+
                     @include('layouts.navigation')
                 </div>
 

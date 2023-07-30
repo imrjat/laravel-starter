@@ -2,8 +2,6 @@
 
 use App\Models\Tenant;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 test('can get route', function () {
     $user = User::factory()->create();
@@ -23,7 +21,7 @@ test('isOwner returns false for tenant owner', function () {
 
     $user = User::factory()->create();
     $tenant = Tenant::create([
-        'owner_id' => $user->id
+        'owner_id' => $user->id,
     ]);
     expect($user->isOwner())->toEqual(true);
 
@@ -31,7 +29,7 @@ test('isOwner returns false for tenant owner', function () {
         'tenant_id' => $tenant->id,
         'name' => 'Test User',
         'slug' => 'test-user',
-        'email' => 'user@domain.com'
+        'email' => 'user@domain.com',
     ]);
 
     expect($secondUser->isOwner())->toEqual(false);

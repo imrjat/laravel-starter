@@ -18,8 +18,8 @@ class SendContactMail extends Mailable
 
     public function __construct($contact)
     {
-        $this->name    = $contact['name'];
-        $this->email   = $contact['email'];
+        $this->name = $contact['name'];
+        $this->email = $contact['email'];
         $this->message = $contact['message'];
     }
 

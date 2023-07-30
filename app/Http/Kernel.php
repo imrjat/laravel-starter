@@ -4,10 +4,8 @@ namespace App\Http;
 
 use App\Http\Middleware\ActiveUser;
 use App\Http\Middleware\IpCheckMiddleware;
-use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RedirectIfNotOwner;
 use App\Http\Middleware\RolePermissions;
-use App\Http\Middleware\TenantPermissions;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -44,7 +42,7 @@ class Kernel extends HttpKernel
         ],
 
         'for_livewire' => [
-              RolePermissions::class
+            RolePermissions::class,
         ],
 
         'api' => [
@@ -77,6 +75,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'activeUser' => ActiveUser::class,
         'IpCheckMiddleware' => IpCheckMiddleware::class,
-        'tenantOwner' => RedirectIfNotOwner::class
+        'tenantOwner' => RedirectIfNotOwner::class,
     ];
 }

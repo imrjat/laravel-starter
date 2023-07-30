@@ -5,31 +5,32 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+
 class RegisterRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name'            => [
+            'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
-            'email'           => [
+            'email' => [
                 'required',
                 'string',
                 'email',
-                'unique:'.User::class
+                'unique:'.User::class,
             ],
-            'password'        => [
+            'password' => [
                 'required',
                 'string',
-                Password::defaults()
+                Password::defaults(),
             ],
             'confirmPassword' => [
                 'required',
                 'string',
-                'same:password'
+                'same:password',
             ],
         ];
     }
@@ -37,10 +38,10 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'password.required'        => 'Password is required',
-            'password.uncompromised'   => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
+            'password.required' => 'Password is required',
+            'password.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
             'confirmPassword.required' => 'Confirm password is required',
-            'confirmPassword.same'     => 'Confirm password and new password must match',
+            'confirmPassword.same' => 'Confirm password and new password must match',
         ];
     }
 }

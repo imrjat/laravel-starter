@@ -47,14 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     public string $label = 'name';
+
     public string $section = 'Users';
-    public array  $searchable = [
+
+    public array $searchable = [
         'name',
-        'email'
+        'email',
     ];
 
     protected $casts = [

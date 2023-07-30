@@ -11,11 +11,11 @@ class Search extends Component
 {
     public string $query = '';
 
-    public array  $models = [
+    public array $models = [
         User::class,
     ];
 
-    public array  $searchResults = [];
+    public array $searchResults = [];
 
     public function render()
     {

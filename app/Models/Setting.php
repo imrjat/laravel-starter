@@ -14,6 +14,6 @@ class Setting extends Model
     protected $fillable = [
         'tenant_id',
         'key',
-        'value'
+        'value',
     ];
 }

@@ -2,7 +2,6 @@
 
 use App\Livewire\Admin\AuditTrails;
 use App\Models\AuditTrail;
-
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -18,7 +17,7 @@ test('can see user logs page', function () {
 test('can search user logs', function () {
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
-        'title' => 'created job'
+        'title' => 'created job',
     ]);
 
     Livewire::test(AuditTrails::class)
