@@ -5,7 +5,7 @@
 
         @include('errors.messages')
 
-        <x-form wire:submit.prevent="update" method="put">
+        <x-form wire:submit="update" method="put">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -19,7 +19,7 @@
                             <div class="flex text-sm text-center text-gray-600">
                                 <label for="applicationLogo" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                     <span>{{ __('Upload a file') }}</span>
-                                    <input wire:model="applicationLogo" id="applicationLogo" name="applicationLogo" type="file" class="sr-only">
+                                    <input wire:model.live="applicationLogo" id="applicationLogo" name="applicationLogo" type="file" class="sr-only">
                                 </label>
                             </div>
                             <p class="text-xs text-gray-500">{{ __('PNG, JPG, GIF') }}</p>
@@ -48,7 +48,7 @@
                             <div class="flex text-sm text-center text-gray-600">
                                 <label for="applicationLogoDark" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                     <span>{{ __('Upload a file') }}</span>
-                                    <input wire:model="applicationLogoDark" id="applicationLogoDark" name="applicationLogoDark" type="file" class="sr-only">
+                                    <input wire:model.live="applicationLogoDark" id="applicationLogoDark" name="applicationLogoDark" type="file" class="sr-only">
                                 </label>
                             </div>
                             <p class="text-xs text-gray-500">{{ __('PNG, JPG, GIF') }}</p>

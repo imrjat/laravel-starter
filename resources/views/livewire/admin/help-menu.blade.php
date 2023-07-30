@@ -1,4 +1,3 @@
-
 <div x-data="{ isOpen: false }">
     <div>
         <button @click="isOpen = !isOpen" class="px-2 pt-3 focus:outline-none">

@@ -7,10 +7,10 @@
         <x-slot name="right">
 
             <div class="card">
-                <x-form wire:submit.prevent="update" method="put">
+                <x-form wire:submit="update" method="put">
 
                     @foreach($roles as $role)
-                        <p><input type="checkbox" wire:model="roleSelections" value="{{ $role->id }}"> {{ $role->label }}</p>
+                        <p><input type="checkbox" wire:model.live="roleSelections" value="{{ $role->id }}"> {{ $role->label }}</p>
                     @endforeach
 
                     <x-button class="mt-5">{{ __('Update Roles') }}</x-button>

@@ -8,7 +8,7 @@
         <x-slot name="right">
 
             <div class="card">
-                <x-form wire:submit.prevent="update" method="put">
+                <x-form wire:submit="update" method="put">
 
                     <div class="alert alert-primary">
                         <p class="text-white">{{ __('New password must be at least 8 characters in length') }}<br>
@@ -17,8 +17,8 @@
                         {{ __('at least one digit') }}</p>
                     </div>
 
-                    <x-form.input wire:model="newPassword" type="password" :label="__('New Password')" name='newPassword' />
-                    <x-form.input wire:model="confirmPassword" type="password" :label="__('Confirm Password')" name='confirmPassword' />
+                    <x-form.input wire:model.live="newPassword" type="password" :label="__('New Password')" name='newPassword' />
+                    <x-form.input wire:model.live="confirmPassword" type="password" :label="__('Confirm Password')" name='confirmPassword' />
 
                     <x-button>{{ __('Change Password') }}</x-button>
 

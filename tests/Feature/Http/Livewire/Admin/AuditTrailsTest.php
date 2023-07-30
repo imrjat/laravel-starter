@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Livewire\Admin\AuditTrails;
+use App\Livewire\Admin\AuditTrails;
 use App\Models\AuditTrail;
 
 use Livewire\Livewire;
@@ -45,6 +45,6 @@ test('can sort user logs by user', function () {
     Livewire::test(AuditTrails::class)
         ->call('sortBy', 'user_id')
         ->assertSet('sortField', 'user_id')
-        ->call('render')
+        ->call('userLogs')
         ->assertStatus(200);
 });

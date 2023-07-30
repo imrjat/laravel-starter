@@ -33,9 +33,9 @@
 
                     <p>{{ __('Scan bar code in your authenticator app or manually enter this key') }} {{ $secretKey }}</p>
 
-                    <x-form.input wire:model="code" :label="__('Code')" name='code' />
+                    <x-form.input wire:model.live="code" :label="__('Code')" name='code' />
 
-                    <x-form wire:submit.prevent="update" method="put">
+                    <x-form wire:submit="update" method="put">
 
                     <x-button>{{ __('Turn on 2FA') }}</x-button>
 

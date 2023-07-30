@@ -9,7 +9,7 @@
 
         <p>{{ __('Your current IP address is') }} {{ request()->ip() }}</p>
 
-        <x-form wire:submit.prevent="update" method="put">
+        <x-form wire:submit="update" method="put">
 
         <table>
             <tr>
@@ -26,8 +26,8 @@
                     </tr>
                 @enderror
                 <tr>
-                    <td><x-form.input wire:model="ips.{{ $index }}.ip" label="none">{{ $row['ip'] }}</x-form.input></td>
-                    <td><x-form.input wire:model="ips.{{ $index }}.comment" label="none">{{ $row['comment'] }}</x-form.input></td>
+                    <td><x-form.input wire:model.live="ips.{{ $index }}.ip" label="none">{{ $row['ip'] }}</x-form.input></td>
+                    <td><x-form.input wire:model.live="ips.{{ $index }}.comment" label="none">{{ $row['comment'] }}</x-form.input></td>
                     <td class="flex justify-center pt-2"><button type="button" wire:click="remove({{ $index }})" class="error">X</button></td>
                 </tr>
             @endforeach

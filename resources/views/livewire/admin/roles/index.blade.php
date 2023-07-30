@@ -1,4 +1,3 @@
-@section('title', __('Roles'))
 <div>
     <div class="flex justify-between">
 
@@ -21,7 +20,7 @@
     <div class="grid sm:grid-cols-1 md:grid-cols-4 gap-4">
 
         <div class="col-span-2">
-            <x-form.input type="search" id="roles" name="query" wire:model="query" label="none" :placeholder="__('Search Roles')" />
+            <x-form.input type="search" id="roles" name="query" wire:model.live="query" label="none" :placeholder="__('Search Roles')" />
         </div>
 
     </div>

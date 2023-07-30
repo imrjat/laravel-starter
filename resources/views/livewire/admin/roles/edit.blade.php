@@ -11,15 +11,15 @@
 
     <div class="clearfix"></div>
 
-    <x-form wire:submit.prevent="update" method="put">
+    <x-form wire:submit="update" method="put">
 
         <div class="row">
 
             <div class="md:w-1/2">
                 @if ($role->name === 'admin')
-                    <x-form.input wire:model="label" :label="__('Role')" name='label' disabled />
+                    <x-form.input wire:model.live="label" :label="__('Role')" name='label' disabled />
                 @else
-                    <x-form.input wire:model="label" :label="__('Role')" name='label' required />
+                    <x-form.input wire:model.live="label" :label="__('Role')" name='label' required />
                 @endif
             </div>
 
@@ -41,7 +41,7 @@
                             @foreach (\App\Models\Permission::where('module', $module)->orderby('name')->get() as $perm)
                                 <tr>
                                     <td>{{ $perm->label }}</td>
-                                    <td><input type="checkbox" wire:model="permissions" value="{{ $perm->name }}"></td>
+                                    <td><input type="checkbox" wire:model.live="permissions" value="{{ $perm->name }}"></td>
                                 </tr>
                             @endforeach
                             </tbody>

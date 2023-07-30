@@ -1,4 +1,3 @@
-@section('title', __('Users'))
 <div>
     <div class="flex justify-between">
 
@@ -15,7 +14,7 @@
     <div class="mt-5 mb-5 grid sm:grid-cols-1 md:grid-cols-3 gap-4">
 
         <div class="col-span-2">
-            <x-form.input type="search" name="name" wire:model="name" label="none" :placeholder="__('Search Users')" />
+            <x-form.input type="search" name="name" wire:model.live="name" label="none" :placeholder="__('Search Users')" />
         </div>
 
     </div>
@@ -47,8 +46,8 @@
                 class="bg-gray-200 dark:bg-gray-700 rounded-b-md p-5"
                 wire:ignore.self>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <x-form.input type="email" id="email" name="email" :label="__('Email')" wire:model="email" />
-                <x-form.daterange id="joined" name="joined" :label="__('Joined Date Range')" wire:model.lazy="joined" />
+                <x-form.input type="email" id="email" name="email" :label="__('Email')" wire:model.live="email" />
+                <x-form.daterange id="joined" name="joined" :label="__('Joined Date Range')" wire:model.blur="joined" />
             </div>
         </div>
 
@@ -58,8 +57,8 @@
         <table>
         <thead>
         <tr>
-            <th><a href="#" wire:click.prevent="sortBy('first_name')">{{ __('Name') }}</a></th>
-            <th><a href="#" wire:click.prevent="sortBy('email')">{{ __('Email') }}</a></th>
+            <th><a href="#" wire:click="sortBy('first_name')">{{ __('Name') }}</a></th>
+            <th><a href="#" wire:click="sortBy('email')">{{ __('Email') }}</a></th>
             <th>{{ __('Joined') }}</th>
             <th>{{ __('Roles') }}</th>
             <th>{{ __('Action') }}</th>

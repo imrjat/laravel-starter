@@ -1,6 +1,6 @@
 @component('mail::message')
 
-#{{ __('Hello') }} {{ $user->name }}
+# {{ __('Hello') }} {{ $user->name }}
 
 **{{ $user->invite->name }}** {{ __('has invited you to join') }} {{ config('config.name') }}
 

@@ -3,7 +3,7 @@
 
         <h3>{{ __('Login Logo') }}</h3>
 
-        <x-form wire:submit.prevent="update" method="put">
+        <x-form wire:submit="update" method="put">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -18,7 +18,7 @@
                             <div class="flex text-sm text-center text-gray-600">
                                 <label for="loginLogo" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                     <span>{{ __('Upload a file') }}</span>
-                                    <input wire:model="loginLogo" id="loginLogo" name="loginLogo" type="file" class="sr-only">
+                                    <input wire:model.live="loginLogo" id="loginLogo" name="loginLogo" type="file" class="sr-only">
                                 </label>
                             </div>
                             <p class="text-xs text-gray-500">{{ __('PNG, JPG, GIF') }}</p>
@@ -47,7 +47,7 @@
                             <div class="flex text-sm text-center text-gray-600">
                                 <label for="loginLogoDark" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                     <span>{{ __('Upload a file') }}</span>
-                                    <input wire:model="loginLogoDark" id="loginLogoDark" name="loginLogoDark" type="file" class="sr-only">
+                                    <input wire:model.live="loginLogoDark" id="loginLogoDark" name="loginLogoDark" type="file" class="sr-only">
                                 </label>
                             </div>
                             <p class="text-xs text-gray-500">{{ __('PNG, JPG, GIF') }}</p>

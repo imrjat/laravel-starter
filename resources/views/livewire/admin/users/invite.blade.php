@@ -10,8 +10,8 @@
 
             @include('errors.success')
 
-            <x-form.input tabindex="1" wire:model="name" :label="__('Name')" name="name" required />
-            <x-form.input tabindex="3" wire:model="email" :label="__('Email')" name="email" required />
+            <x-form.input tabindex="1" wire:model.live="name" :label="__('Name')" name="name" required />
+            <x-form.input tabindex="3" wire:model.live="email" :label="__('Email')" name="email" required />
 
             <h4>{{ __('Roles') }}</h4>
 
@@ -20,7 +20,7 @@
             @enderror
 
             @foreach($roles as $role)
-                <p><x-form.checkbox wire:model="rolesSelected" :label="$role->label" :wire:key="$role->name" value="{{ $role->name }}" />
+                <p><x-form.checkbox wire:model.live="rolesSelected" :label="$role->label" :wire:key="$role->name" value="{{ $role->name }}" />
             @endforeach
 
         </x-slot>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Livewire\ContactForm;
+use App\Livewire\ContactForm;
 use App\Mail\Frontend\SendContactMail;
 use Illuminate\Support\Facades\Mail;
 

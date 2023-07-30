@@ -6,12 +6,12 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="submitForm" class="grid grid-cols-1 row-gap-6 sm:grid-cols-2 sm:col-gap-8">
+    <form wire:submit="submitForm" class="grid grid-cols-1 row-gap-6 sm:grid-cols-2 sm:col-gap-8">
 
         <div class="sm:col-span-2 mt-5">
             <label for="name" class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-300">Name</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <input id="name" name="name" wire:model="name" type="text" value="{{ old('name') }}"
+                <input id="name" name="name" wire:model.live="name" type="text" value="{{ old('name') }}"
                        class="border @error('name') border-red-500 @enderror text-gray-900 py-3 px-4 block w-full transition ease-in-out duration-150"/>
             </div>
             @error('name')
@@ -23,7 +23,7 @@
             <label for="email"
                    class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-300">Email</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <input id="email" name="email" wire:model="email" type="email" value="{{ old('email') }}"
+                <input id="email" name="email" wire:model.live="email" type="email" value="{{ old('email') }}"
                        class="border @error('name') border-red-500 @enderror text-gray-900 py-3 px-4 block w-full transition ease-in-out duration-150"/>
             </div>
             @error('email')
@@ -35,7 +35,7 @@
             <label for="message"
                    class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-300">Message</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <textarea id="message" wire:model="message" name="message" rows="4"
+                <textarea id="message" wire:model.live="message" name="message" rows="4"
                           class="border @error('name') border-red-500 @enderror text-gray-900 py-3 px-4 block w-full transition ease-in-out duration-150">{{ old('message') }}</textarea>
             </div>
             @error('message')
