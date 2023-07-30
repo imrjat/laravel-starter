@@ -143,6 +143,4 @@ return [
     */
 
     'pagination_theme' => 'tailwind',
-
-    'middleware_group' => ['web', 'for_livewire'],
 ];

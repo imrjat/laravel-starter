@@ -100,8 +100,8 @@ class Invite extends Component
 
         flash('User invited')->success();
 
-        //$this->reset();
         $this->dispatch('refreshUsers');
+        $this->dispatch('close-modal');
     }
 
     public function cancel(): void

@@ -5,7 +5,7 @@ test('can render modal', function () {
         <x-slot name="trigger">
             <button @click="on = true">Open</button>
         </x-slot>
-        <x-slot name="title">Modal Title</x-slot>
+        <x-slot name="modalTitle">Modal Title</x-slot>
         <x-slot name="content">
             <p>The content</p>
         </x-slot>

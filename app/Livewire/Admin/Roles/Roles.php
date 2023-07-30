@@ -19,6 +19,7 @@ class Roles extends Component
     public $query = '';
     public $sortField = 'name';
     public $sortAsc = true;
+    protected $listeners = ['refreshRoles' => '$refresh'];
 
     public function render(): View
     {

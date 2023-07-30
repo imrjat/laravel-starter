@@ -1,5 +1,5 @@
 @props([
-    'title' => '',
+    'modalTitle' => '',
     'content' => '',
     'footer' => '',
     'height' => 'lg:w-1/2'
@@ -37,7 +37,7 @@
             <div class="flex flex-col p-4">
 
                 <header class="flex flex-col text-center mb-2">
-                    <h2>{{ $title ?? '' }}</h2>
+                    <h2>{{ $modalTitle ?? '' }}</h2>
                 </header>
 
                 <main class="mb-4">

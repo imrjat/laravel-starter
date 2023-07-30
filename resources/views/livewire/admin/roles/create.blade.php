@@ -4,7 +4,7 @@
             <button class="btn btn-primary" @click="on = true">{{ __('Add Role') }}</button>
         </x-slot>
 
-        <x-slot name="title">{{ __('Add Role') }}</x-slot>
+        <x-slot name="modalTitle">{{ __('Add Role') }}</x-slot>
 
         <x-slot name="content">
             <x-form.input wire:model.live="role" :label="__('Role')" name="role" required />

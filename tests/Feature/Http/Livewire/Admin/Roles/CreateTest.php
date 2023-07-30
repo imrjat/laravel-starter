@@ -24,11 +24,12 @@ test('cannot create role without role', function () {
         ->assertHasErrors(['role' => 'required']);
 });
 
-test('is redirected after role creation', function () {
+test('Can dispatch after role creation', function () {
     Livewire::test(Create::class)
         ->set('role', 'Editor')
         ->call('store')
-        ->assertRedirect(route('admin.settings.roles.index'));
+        ->assertDispatched('refreshRoles')
+        ->assertDispatched('close-modal');
 });
 
 test('on cancel dispatch browser event', function () {

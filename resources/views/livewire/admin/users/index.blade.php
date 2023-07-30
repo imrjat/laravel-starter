@@ -108,14 +108,14 @@
                                         </x-slot>
 
                                         @if($sentEmail === false)
-                                            <x-slot name="title">Send {{ $user->name }} {{ __('another invite email') }}.</x-slot>
+                                            <x-slot name="modalTitle">Send {{ $user->name }} {{ __('another invite email') }}.</x-slot>
                                             <x-slot name="content"></x-slot>
                                             <x-slot name="footer">
                                                 <button @click="on = false">{{ __('Cancel') }}</button>
                                                 <button class="btn btn-primary" wire:click="resendInvite('{{ $user->id }}')">{{ __('Yes, Send Email') }}</button>
                                             </x-slot>
                                         @else
-                                            <x-slot name="title">{{ __('Invite email sent') }}</x-slot>
+                                            <x-slot name="modalTitle">{{ __('Invite email sent') }}</x-slot>
                                             <x-slot name="content"></x-slot>
                                             <x-slot name="footer">
                                                 <button @click="on = false">{{ __('Close') }}</button>
@@ -130,7 +130,7 @@
                                         <a href="#" @click="on = true">{{ __('Delete') }}</a>
                                     </x-slot>
 
-                                    <x-slot name="title">{{ __('Confirm Delete') }}</x-slot>
+                                    <x-slot name="modalTitle">{{ __('Confirm Delete') }}</x-slot>
 
                                     <x-slot name="content">
                                         <div class="text-center">

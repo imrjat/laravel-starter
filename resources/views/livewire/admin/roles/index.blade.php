@@ -54,7 +54,7 @@
                                         <a href="#" @click="on = true">{{ __('Delete') }}</a>
                                     </x-slot>
 
-                                    <x-slot name="title">{{ __('Confirm Delete') }}</x-slot>
+                                    <x-slot name="modalTitle">{{ __('Confirm Delete') }}</x-slot>
 
                                     <x-slot name="content">
                                         <div class="text-center">

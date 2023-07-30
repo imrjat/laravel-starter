@@ -6,8 +6,6 @@ namespace App\Livewire\Admin\Roles;
 
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -50,7 +48,7 @@ class Create extends Component
         return view('livewire.admin.roles.create');
     }
 
-    public function store(): Redirector|RedirectResponse
+    public function store(): void
     {
         $this->validate();
 
@@ -69,7 +67,8 @@ class Create extends Component
             'type' => 'created',
         ]);
 
-        return redirect()->route('admin.settings.roles.index');
+        $this->dispatch('refreshRoles');
+        $this->dispatch('close-modal');
     }
 
     public function cancel(): void
