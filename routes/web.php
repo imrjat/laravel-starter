@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Auth\TwoFaController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\AuditTrails;
@@ -58,6 +59,7 @@ if (config('admintw.is_live')) {
 
         Route::middleware(['tenantOwner'])->prefix('billing')->group(function () {
             Route::get('/', Subscription::class)->name('admin.billing.subscription');
+            Route::get('subscribe/{type}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
         });
     });
 }

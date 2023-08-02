@@ -189,11 +189,11 @@
                     </li>
                 </ul>
                 <div class="rounded-md shadow">
-                    <a href="{{ url('app/subscription/subscribe/monthly') }}"
-                       class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                       aria-describedby="tier-standard">
+
+                    <a href="{{ route('subscribe', 'monthly') }}" type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                         Subscribe
                     </a>
+
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
                 <div>
                     <h3 class="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-blue-100 text-blue-600"
                         id="tier-standard">
-                        Annual
+                        Annually
                     </h3>
                 </div>
                 <div class="mt-4 flex items-baseline text-6xl text-blue-600 font-extrabold">
@@ -286,9 +286,7 @@
                     </li>
                 </ul>
                 <div class="rounded-md shadow">
-                    <a href="{{ url('app/subscription/subscribe/annually') }}"
-                       class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                       aria-describedby="tier-standard">
+                    <a href="{{ route('subscribe', 'annually') }}" type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                         Subscribe
                     </a>
                 </div>

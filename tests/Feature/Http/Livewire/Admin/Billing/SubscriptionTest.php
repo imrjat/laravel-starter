@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Tenant;
-use App\Models\User;
-
 test('can see subscription page when tenant owner', function () {
     $this->authenticate();
     $this->get(route('admin.billing.subscription'))
@@ -10,24 +7,30 @@ test('can see subscription page when tenant owner', function () {
 });
 
 test('cannot see subscription page when not tenant owner', function () {
-    $this->authenticate();
-
-    $user = User::factory()->create();
-    $tenant = Tenant::create([
-        'owner_id' => $user->id,
-    ]);
-
-    $secondUser = User::create([
-        'tenant_id' => $tenant->id,
-        'name' => 'Test User',
-        'slug' => 'test-user',
-        'email' => 'user@domain.com',
-        'email_verified_at' => now(),
-        'is_active' => 1
-    ]);
-
-    $this->actingAs($secondUser);
+    $this->noneTenantOwner();
 
     $this->get(route('admin.billing.subscription'))
+        ->assertRedirect(route('dashboard'));
+});
+
+test('redirects back to billing when hitting a none existent plan', function () {
+    $this->authenticate();
+    $this->get(route('subscribe', 'wrong'))
+        ->assertRedirect(route('admin.billing.subscription'));
+});
+
+test('with valid plan redirect to LS', function (string $plan) {
+    $this->authenticate();
+    $this->get(route('subscribe', $plan))
+        ->assertRedirectContains('lemonsqueezy.com/checkout');
+})->with([
+    'monthly',
+    'annually'
+]);
+
+test('only tenant owner can attempt subscription', function () {
+    $this->noneTenantOwner();
+
+    $this->get(route('subscribe', 'monthly'))
         ->assertRedirect(route('dashboard'));
 });

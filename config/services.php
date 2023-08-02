@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'ls' => [
+        'store' => env('LEMON_SQUEEZY_STORE'),
+        'secret' => env('LEMON_SQUEEZY_SIGNING_SECRET'),
+        'monthly' => env('LEMON_SQUEEZY_MONTHLY'),
+        'annually' => env('LEMON_SQUEEZY_ANNUALLY'),
+    ]
+
 ];
