@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Mail\Users\SendInviteMail;
 use App\Models\User;
+use App\Services\StripeService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Carbon;
@@ -99,6 +100,8 @@ class Users extends Component
         abort_if_cannot('delete_users');
 
         $this->builder()->findOrFail($id)->delete();
+
+        (new StripeService())->setSubscriptionQty();
 
         $this->dispatch('close-modal');
     }

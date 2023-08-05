@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $title ?? null }} - {{ config('app.name', 'Laravel') }}</title>
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-        @lemonJS
     </head>
     <body class="font-sans antialiased">
 
@@ -24,7 +23,7 @@
 
                         <div class='inline-flex items-center px-4 py-2 m-4 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm hover:bg-blue-500'>
                             @if (auth()->user()->isOwner())
-                                <x-a href="{{ url('app/subscription') }}">{{ $text }}</x-a>
+                                <x-a href="{{ route('admin.billing') }}">{{ $text }}</x-a>
                             @else
                                 {{ $text }}
                             @endif
@@ -37,7 +36,7 @@
                         @endphp
                         <div class='inline-flex items-center px-4 py-2 m-4 text-sm font-medium rounded-md text-white bg-blue-600 shadow-sm hover:bg-blue-500'>
                             @if (auth()->user()->isOwner())
-                                <x-a href="{{ url('app/subscription') }}">{{ $text }}</x-a>
+                                <x-a href="{{ route('admin.billing') }}">{{ $text }}</x-a>
                             @else
                                 {{ $text }}
                             @endif

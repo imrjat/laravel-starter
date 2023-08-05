@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AuditTrail;
 use App\Models\Setting;
 use App\Models\User;
+use App\Services\StripeService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,13 +57,16 @@ class JoinController extends Controller
             session(['2fasetup' => true]);
         }
 
-        //        AuditTrail::create([
-        //            'user_id' => $user->id,
-        //            'reference_id' => $user->id,
-        //            'title' => 'Joined completed',
-        //            'section' => 'Auth',
-        //            'type' => 'join',
-        //        ]);
+        AuditTrail::create([
+            'tenant_id' => $user->tenant_id,
+            'user_id' => $user->id,
+            'reference_id' => $user->id,
+            'title' => 'Joined completed',
+            'section' => 'Auth',
+            'type' => 'join',
+        ]);
+
+        (new StripeService())->setSubscriptionQty();
 
         auth()->loginUsingId($user->id, true);
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Auth\TwoFaController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\AuditTrails;
 use App\Livewire\Admin\Billing\Subscription;
@@ -32,6 +33,7 @@ Livewire::setUpdateRoute(function ($handle) {
 });
 
 Route::get('/', WelcomeController::class);
+Route::post('stripe/webhooks', StripeWebhookController::class);
 
 if (config('admintw.is_live')) {
     Route::prefix(config('admintw.prefix'))->middleware([
@@ -58,8 +60,9 @@ if (config('admintw.is_live')) {
         });
 
         Route::middleware(['tenantOwner'])->prefix('billing')->group(function () {
-            Route::get('/', Subscription::class)->name('admin.billing.subscription');
-            Route::get('subscribe/{type}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+            Route::get('/', Subscription::class)->name('admin.billing');
+            Route::get('billing-portal', [SubscriptionController::class, 'billingPortal'])->name('billing-portal');
+            Route::post('subscribe', [SubscriptionController::class, 'subscribe'])->name('admin.billing.subscribe');
         });
     });
 }

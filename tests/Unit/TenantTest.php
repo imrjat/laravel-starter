@@ -19,7 +19,7 @@ test('is on grace period', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'cancelled';
+    $user->tenant->stripe_status = 'cancelled';
     $user->tenant->ends_at = now()->addDay();
     $user->tenant->save();
 
@@ -30,7 +30,7 @@ test('is not on grace period', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'cancelled';
+    $user->tenant->stripe_status = 'cancelled';
     $user->tenant->ends_at = now()->subDay();
     $user->tenant->save();
 
@@ -41,7 +41,7 @@ test('is on lifetime', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'lifetime';
+    $user->tenant->stripe_status = 'lifetime';
     $user->tenant->save();
 
     expect($user->tenant->isOnLifetime())->toBeTrue();
@@ -51,7 +51,7 @@ test('is not on lifetime', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'cancelled';
+    $user->tenant->stripe_status = 'cancelled';
     $user->tenant->save();
 
     expect($user->tenant->isOnLifetime())->toBeFalse();
@@ -61,7 +61,7 @@ test('is active', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'active';
+    $user->tenant->stripe_status = 'active';
     $user->tenant->save();
 
     expect($user->tenant->isActive())->toBeTrue();
@@ -71,7 +71,7 @@ test('is active when on lifetime', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'lifetime';
+    $user->tenant->stripe_status = 'lifetime';
     $user->tenant->save();
 
     expect($user->tenant->isActive())->toBeTrue();
@@ -81,7 +81,7 @@ test('is active when on grace period', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'cancelled';
+    $user->tenant->stripe_status = 'cancelled';
     $user->tenant->ends_at = now()->addDay();
     $user->tenant->save();
 
@@ -92,7 +92,7 @@ test('is not active when cancelled', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'cancelled';
+    $user->tenant->stripe_status = 'cancelled';
     $user->tenant->ends_at = now()->subDay();
     $user->tenant->save();
 
@@ -103,7 +103,7 @@ test('trail is expiring in 3 days', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->status = 'trial';
+    $user->tenant->stripe_status = 'trial';
     $user->tenant->trial_ends_at = now()->addDays(3);
     $user->tenant->save();
 
@@ -160,5 +160,5 @@ test('can set trail ended status', function () {
 
     $user->tenant->setTrialEndedStatus();
 
-    expect($user->tenant->status)->toBe('Trial Ended');
+    expect($user->tenant->stripe_status)->toBe('Trial Ended');
 });

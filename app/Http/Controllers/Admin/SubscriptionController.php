@@ -5,22 +5,62 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubscriptionRequest;
+use App\Models\Tenant;
+use App\Services\StripeService;
 use Illuminate\Http\Request;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 class SubscriptionController extends Controller
 {
-    public function subscribe(Request $request)
+    public function subscribe(SubscriptionRequest $request, StripeService $stripeService)
     {
-        $type = match ($request->type) {
-            'monthly' => config('services.ls.monthly'),
-            'annually' => config('services.ls.annually'),
+        $validated = $request->validated();
+        $user = $request->user();
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $priceId = match ($validated['type']) {
+            'monthly' => config('services.stripe.monthly'),
+            'annually' => config('services.stripe.annually'),
             default => null
         };
 
-        if ($type === null) {
-            return redirect(route('admin.billing.subscription'));
+        if ($priceId === null) {
+            return redirect(route('admin.billing'));
         }
 
-        return $request->user()->tenant->subscribe($type);
+        $totalUsers = $user->tenant->users()->count();
+        $tenantId = $user->tenant_id;
+
+        $tenant = Tenant::find($tenantId);
+        $tenant->quantity = $totalUsers;
+        $tenant->stripe_plan = $priceId;
+        $tenant->save();
+
+        $customerId = $stripeService->getCustomer()->id;
+
+        $session = Session::create([
+            'customer' => $customerId,
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price' => $priceId,
+                    'quantity' => $totalUsers,
+                ]
+            ],
+            'client_reference_id' => $tenantId,
+            'mode' => 'subscription',
+            'success_url' => url(route('admin.billing')),
+            'cancel_url' => url(route('admin.billing'))
+        ]);
+
+        return redirect()->away($session->url);
+    }
+
+    public function billingPortal(StripeService $stripeService)
+    {
+        return redirect()->away($stripeService->getBillingPortalUrl());
     }
 }

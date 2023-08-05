@@ -3,13 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use LemonSqueezy\Laravel\LemonSqueezy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        LemonSqueezy::ignoreMigrations();
+
     }
 
     /**

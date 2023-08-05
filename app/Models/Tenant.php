@@ -6,14 +6,13 @@ use App\Models\Traits\HasUuid;
 use Database\Factories\TenantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use LemonSqueezy\Laravel\Billable;
 
 class Tenant extends Model
 {
     use HasUuid;
     use HasFactory;
-    use Billable;
 
     protected $fillable = [
         'name',
@@ -45,6 +44,11 @@ class Tenant extends Model
         return $this->hasOne(User::class, 'id', 'owner_id');
     }
 
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'tenant_id', 'id');
+    }
+
     public function isOnTrial(): bool
     {
         return $this->trial_ends_at && $this->trial_ends_at->isFuture();
@@ -52,12 +56,12 @@ class Tenant extends Model
 
     public function isOnGracePeriod(): bool
     {
-        return $this->status === 'cancelled' && $this->ends_at->isFuture();
+        return $this->stripe_status === 'cancelled' && $this->ends_at->isFuture();
     }
 
     public function isOnLifetime(): bool
     {
-        return $this->status === 'lifetime';
+        return $this->stripe_status === 'lifetime';
     }
 
     public function isValid(): bool
@@ -67,7 +71,7 @@ class Tenant extends Model
 
     public function isActive(): bool
     {
-        return $this->status === 'active' || $this->isOnGracePeriod() || $this->isOnLifetime();
+        return $this->stripe_status === 'active' || $this->isOnGracePeriod() || $this->isOnLifetime();
     }
 
     public function trailEndsInDays($days = 3): bool
@@ -103,7 +107,19 @@ class Tenant extends Model
 
     public function setTrialEndedStatus(): void
     {
-        $this->status = 'Trial Ended';
+        $this->stripe_status = 'Trial Ended';
+        $this->save();
+    }
+
+    public function setStripeId($id): void
+    {
+        $this->stripe_id = $id;
+        $this->save();
+    }
+
+    public function removeStripeId(): void
+    {
+        $this->stripe_id = null;
         $this->save();
     }
 }

@@ -54,10 +54,5 @@
 @endcan
 
 @if(auth()->user()->isOwner())
-    <x-nav.group label="Billing" route="admin.billing" icon="fas fa-cogs">
-        <x-nav.group-item route="admin.billing.subscription" icon="far fa-circle">Subscription</x-nav.group-item>
-        <x-nav.group-item route="admin.settings.audit-trails.index" icon="far fa-circle">Invoices</x-nav.group-item>
-        <x-nav.group-item route="admin.settings.audit-trails.index" icon="far fa-circle">Swap Plan</x-nav.group-item>
-        <x-nav.group-item route="admin.settings.audit-trails.index" icon="far fa-circle">Update Card</x-nav.group-item>
-    </x-nav.group>
+    <x-nav.link :navEnabled="false" route="admin.billing" icon="fas fa-archive">Manage Subscription</x-nav.link>
 @endif
