@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
 class Tenant extends Model
 {
@@ -54,6 +55,12 @@ class Tenant extends Model
         return $this->trial_ends_at && $this->trial_ends_at->isFuture();
     }
 
+    //write scope is on trial
+    public function scopeOnTrial($query)
+    {
+        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>', now());
+    }
+
     public function isOnGracePeriod(): bool
     {
         return $this->stripe_status === 'cancelled' && $this->ends_at->isFuture();
@@ -76,17 +83,14 @@ class Tenant extends Model
 
     public function trailEndsInDays($days = 3): bool
     {
-        if ($this->isActive()) {
-            return false;
-        }
-
         if (! $this->isOnTrial()) {
             return false;
         }
 
-        $date = now()->addDays($days)->format('Y-m-d');
+        $trialEndsAtDate = Carbon::parse($this->trial_ends_at)->toDateString();
+        $targetDate = Carbon::now()->addDays($days)->toDateString();
 
-        return $date === $this->trial_ends_at->format('Y-m-d');
+        return $trialEndsAtDate === $targetDate;
     }
 
     public function wasAlreadySentTrialEndingSoonMail(): bool

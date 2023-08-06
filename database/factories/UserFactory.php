@@ -32,6 +32,7 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $user->tenant_id = Tenant::create([
                 'owner_id' => $user->id,
+                'trial_ends_at' => now()->addDays(config('admintw.trail_days'))
             ])->id;
         });
     }

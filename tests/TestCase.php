@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use AllowDynamicProperties;
 use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\TenantUser;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 
+#[AllowDynamicProperties]
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;

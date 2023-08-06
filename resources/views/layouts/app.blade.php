@@ -77,6 +77,9 @@
                 @endauth
 
                 <div class="px-7 py-5">
+
+                    @include('layouts.upgrade')
+
                     {{ $slot ?? '' }}
                 </div>
             </div>
