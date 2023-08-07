@@ -17,7 +17,7 @@ class EmailTenantsWithExpiredTrialsCommand extends Command
 
     public function handle()
     {
-        Tenant::all()
+        Tenant::onTrial()->get()
             ->filter->onExpiredTrial()
             ->each(function (Tenant $tenant) {
                 $this->sendTrialExpiredMail($tenant);
@@ -26,6 +26,8 @@ class EmailTenantsWithExpiredTrialsCommand extends Command
         if ($this->mailFailures > 0) {
            $this->error("Failed to send {$this->mailFailures} trial expired mails!");
         }
+
+        $this->info("Sent {$this->mailsSent} trial expired emails!");
     }
 
     protected function sendTrialExpiredMail(Tenant $tenant)
