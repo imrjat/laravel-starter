@@ -52,13 +52,17 @@ class Tenant extends Model
 
     public function isOnTrial(): bool
     {
-        return $this->trial_ends_at && $this->trial_ends_at->isFuture();
+        return $this->trial_ends_at && ($this->trial_ends_at->isFuture() || $this->trial_ends_at->isToday());
     }
 
-    //write scope is on trial
     public function scopeOnTrial($query)
     {
-        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>', now());
+        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>=', now());
+    }
+
+    public function scopeTrialExpiredToday($query)
+    {
+        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', now());
     }
 
     public function isOnGracePeriod(): bool
@@ -98,7 +102,7 @@ class Tenant extends Model
         return ! ($this->trial_ending_mail_sent_at === null);
     }
 
-    public function wasAlreadySentTrialEndedMail(): bool
+    public function wasAlreadySentTrialExpiredMail(): bool
     {
         return ! ($this->trial_ended_mail_sent_at === null);
     }
@@ -106,6 +110,13 @@ class Tenant extends Model
     public function rememberHasBeenSentTrialEndingSoonMail(): void
     {
         $this->trial_ending_mail_sent_at = now();
+        $this->save();
+    }
+
+    public function rememberHasBeenSentTrialEndedMail(): void
+    {
+        $this->stripe_status = 'Trial Ended';
+        $this->trial_ended_mail_sent_at = now();
         $this->save();
     }
 

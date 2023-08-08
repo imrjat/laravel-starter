@@ -17,11 +17,10 @@ class EmailTenantsWithExpiredTrialsCommand extends Command
 
     public function handle()
     {
-        Tenant::onTrial()->get()
-            ->filter->onExpiredTrial()
-            ->each(function (Tenant $tenant) {
-                $this->sendTrialExpiredMail($tenant);
-            });
+        $tenants = Tenant::onTrial()->trialExpiredToday()->get();
+        foreach($tenants as $tenant){
+            $this->sendTrialExpiredMail($tenant);
+        }
 
         if ($this->mailFailures > 0) {
            $this->error("Failed to send {$this->mailFailures} trial expired mails!");
@@ -30,21 +29,19 @@ class EmailTenantsWithExpiredTrialsCommand extends Command
         $this->info("Sent {$this->mailsSent} trial expired emails!");
     }
 
-    protected function sendTrialExpiredMail(Tenant $tenant)
+    protected function sendTrialExpiredMail(Tenant $tenant): void
     {
         try {
-            if ($tenant->wasAlreadySentTrialEndedMail()) {
+            if ($tenant->wasAlreadySentTrialExpiredMail()) {
                 return;
             }
 
             $this->comment("Mailing {$tenant->owner->email} (tenant {$tenant->id})");
             Mail::to($tenant->owner->email)->send(new SendTrialExpiredMail($tenant));
 
-            $tenant->setTrialEndedStatus();
-
             $this->mailsSent++;
 
-            $tenant->rememberHasBeenSentTrialEndingSoonMail();
+            $tenant->rememberHasBeenSentTrialEndedMail();
         } catch (Exception $exception) {
             $this->error("exception when sending mail to tenant {$tenant->id}", $exception);
             report($exception);

@@ -132,17 +132,17 @@ test('trail ended emails already sent', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    $user->tenant->trial_ended_mail_sent_at = now()->subDay();
+    $user->tenant->trial_ending_mail_sent_at = now()->subDay();
     $user->tenant->save();
 
-    expect($user->tenant->wasAlreadySentTrialEndedMail())->toBeTrue();
+    expect($user->tenant->wasAlreadySentTrialEndingSoonMail())->toBeTrue();
 });
 
 test('trail ended emails is not be sent', function () {
     $this->authenticate();
     $user = auth()->user();
 
-    expect($user->tenant->wasAlreadySentTrialEndedMail())->toBeFalse();
+    expect($user->tenant->wasAlreadySentTrialEndingSoonMail())->toBeFalse();
 });
 
 test('can set trail ending soon sent mail', function () {

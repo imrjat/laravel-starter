@@ -10,15 +10,17 @@ use Exception;
 
 class EmailTenantsWithExpiringTrialsCommand extends Command
 {
-    protected $name         = 'subscription:email-tenants-with-expiring-trials';
+    protected $signature    = 'subscription:email-tenants-with-expiring-trials {days=3}';
     protected $description  = 'Email tenants with expiring trials.';
     protected $mailsSent    = 0;
     protected $mailFailures = 0;
 
-    public function handle(): void
+    public function handle()
     {
+        $days = $this->argument('days');
+
         Tenant::onTrial()->get()
-            ->filter->trailEndsInDays(days: 3)
+            ->filter->trailEndsInDays(days: $days)
             ->each(function (Tenant $tenant) {
                 $this->sendTrialEndingSoonMail($tenant);
             });
