@@ -6,7 +6,6 @@ use Exception;
 use Stripe\Customer;
 use Stripe\Stripe;
 use Stripe\StripeClient;
-use Stripe\Subscription;
 use Stripe\BillingPortal\Session as BillingSession;
 
 class StripeService

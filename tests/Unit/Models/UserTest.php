@@ -1,7 +1,9 @@
 <?php
 
-use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 test('can get route', function () {
     $user = User::factory()->create();
@@ -10,23 +12,35 @@ test('can get route', function () {
     expect($expected)->toEqual($user->route($user->id));
 });
 
+test('has isActive scope', function() {
+    $this->assertInstanceOf(Builder::class, User::isActive());
+});
+
 test('isOwner returns true for tenant owner', function () {
-    $this->authenticate();
-    $user = auth()->user();
+    $user = User::factory()->create();
 
     expect($user->isOwner())->toEqual(true);
+});
+
+test('has tenant', function() {
+    $user = User::factory()->create();
+
+    $this->assertInstanceOf(BelongsTo::class, $user->tenant());
+});
+
+test('has invite', function() {
+    $user = User::factory()->create();
+
+    $this->assertInstanceOf(HasOne::class, $user->invite());
 });
 
 test('isOwner returns false for tenant owner', function () {
 
     $user = User::factory()->create();
-    $tenant = Tenant::create([
-        'owner_id' => $user->id,
-    ]);
     expect($user->isOwner())->toEqual(true);
 
     $secondUser = User::create([
-        'tenant_id' => $tenant->id,
+        'tenant_id' => $user->tenant_id,
         'name' => 'Test User',
         'slug' => 'test-user',
         'email' => 'user@domain.com',
