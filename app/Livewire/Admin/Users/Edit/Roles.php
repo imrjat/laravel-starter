@@ -13,7 +13,7 @@ class Roles extends Component
 {
     public User $user;
 
-    public $roleSelections = [];
+    public array $roleSelections = [];
 
     public function mount(): void
     {
@@ -56,9 +56,9 @@ class Roles extends Component
         return false;
     }
 
-    protected function syncRoles($role): void
+    protected function syncRoles(): void
     {
-        $rolesWithTenant = collect($this->roleSelections)->map(function ($roleId) {
+        $rolesWithTenant = collect($this->roleSelections)->map(function (string $roleId) {
             return [
                 'role_id' => $roleId,
                 'tenant_id' => auth()->user()->tenant_id,

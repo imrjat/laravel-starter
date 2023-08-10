@@ -18,9 +18,9 @@ class ChangePassword extends Component
 {
     public User $user;
 
-    public $newPassword = '';
+    public string $newPassword = '';
 
-    public $confirmPassword = '';
+    public string $confirmPassword = '';
 
     public function render(): View
     {
@@ -52,7 +52,7 @@ class ChangePassword extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

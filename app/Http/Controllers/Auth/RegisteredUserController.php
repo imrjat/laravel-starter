@@ -63,7 +63,7 @@ class RegisteredUserController extends Controller
         return redirect()->back();
     }
 
-    public function generateImage($user): string
+    public function generateImage(User $user): string
     {
         $name = get_initials($user->name);
         $id = $user->id.'.png';
@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
         return create_avatar($name, $id, $path);
     }
 
-    public function createTenant($user)
+    public function createTenant(User $user): Tenant
     {
         $tenant = Tenant::create([
             'owner_id' => $user->id,

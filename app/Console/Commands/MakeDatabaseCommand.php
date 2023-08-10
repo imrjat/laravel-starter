@@ -10,7 +10,7 @@ class MakeDatabaseCommand extends Command
 
     protected $description = 'Build and seed all table from fresh.';
 
-    public function handle()
+    public function handle(): void
     {
         if (app()->environment(['local', 'staging'])) {
             if ($this->confirm('Do you wish to continue?')) {

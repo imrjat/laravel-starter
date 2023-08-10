@@ -15,7 +15,7 @@ class Create extends Component
 {
     use withPagination;
 
-    public $role = '';
+    public string $role = '';
 
     protected function rules(): array
     {
@@ -23,7 +23,7 @@ class Create extends Component
             'role' => [
                 'required',
                 'string',
-                Rule::unique('roles', 'label')->where(function ($query) {
+                Rule::unique('roles', 'label')->where(function (object $query) {
                     return $query->where('tenant_id', auth()->user()->tenant_id);
                 }),
             ],
@@ -37,7 +37,7 @@ class Create extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

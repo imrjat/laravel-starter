@@ -8,13 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Tenant;
 use App\Services\StripeService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
 class SubscriptionController extends Controller
 {
-    public function subscribe(SubscriptionRequest $request, StripeService $stripeService)
+    public function subscribe(SubscriptionRequest $request, StripeService $stripeService): RedirectResponse
     {
         $validated = $request->validated();
         $user = $request->user();
@@ -59,7 +60,7 @@ class SubscriptionController extends Controller
         return redirect()->away($session->url);
     }
 
-    public function billingPortal(StripeService $stripeService)
+    public function billingPortal(StripeService $stripeService): RedirectResponse
     {
         return redirect()->away($stripeService->getBillingPortalUrl());
     }

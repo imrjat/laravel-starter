@@ -2,28 +2,23 @@
 
 namespace App\Mail\Subscription;
 
+use App\Models\Tenant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Team;
 
 class SendPaymentFailedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $team;
+    public Tenant $tenant;
 
-    public function __construct(Team $team)
+    public function __construct(Tenant $tenant)
     {
-        $this->team = $team;
+        $this->tenant = $tenant;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function build(): SendPaymentFailedMail
     {
         return $this->subject("Your " . config('app.name') . " payment failed")
             ->markdown('mail.subscription.paymentFailed');

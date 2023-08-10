@@ -11,11 +11,8 @@ use Livewire\Component;
 class ContactForm extends Component
 {
     public string $name = '';
-
     public string $email = '';
-
     public string $message = '';
-
     public string $successMessage = '';
 
     protected array $rules = [
@@ -32,7 +29,7 @@ class ContactForm extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($name): void
+    public function updated(string $name): void
     {
         $this->validateOnly($name);
     }

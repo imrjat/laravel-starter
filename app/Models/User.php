@@ -72,12 +72,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return UserFactory::new();
     }
 
-    public function route($id): string
+    public function route(string $id): string
     {
         return route('admin.users.show', ['user' => $id]);
     }
 
-    public function scopeIsActive($query)
+    public function scopeIsActive(object $query): mixed
     {
         return $query->where('is_active', 1);
     }

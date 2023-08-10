@@ -12,7 +12,7 @@ class EditUser extends Component
 {
     public User $user;
 
-    public function mount()
+    public function mount(): void
     {
         if ($this->user->id !== auth()->id()) {
             abort_if_cannot('edit_users');

@@ -6,7 +6,9 @@ namespace App\Livewire\Admin;
 
 use App\Models\AuditTrail;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -17,25 +19,16 @@ class AuditTrails extends Component
 {
     use WithPagination;
 
-    public $paginate = '';
-
-    public $checked = [];
-
-    public $user_id = 0;
-
-    public $title = '';
-
-    public $section = '';
-
-    public $type = '';
-
-    public $created_at = '';
-
-    public $sortField = 'created_at';
-
-    public $sortAsc = false;
-
-    public $openFilter = false;
+    public string $paginate = '';
+    public array $checked = [];
+    public int $user_id = 0;
+    public string $title = '';
+    public string $section = '';
+    public string $type = '';
+    public string $created_at = '';
+    public string $sortField = 'created_at';
+    public bool $sortAsc = false;
+    public bool $openFilter = false;
 
     public function render(): View
     {
@@ -48,12 +41,12 @@ class AuditTrails extends Component
         return view('livewire.admin.audit-trails', compact('sections', 'types', 'users'));
     }
 
-    public function builder()
+    public function builder(): Builder
     {
         return AuditTrail::with('user')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
     }
 
-    public function sortBy($field): void
+    public function sortBy(string $field): void
     {
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
@@ -64,7 +57,7 @@ class AuditTrails extends Component
         $this->sortField = $field;
     }
 
-    public function userLogs()
+    public function userLogs(): LengthAwarePaginator
     {
         $query = $this->builder();
 

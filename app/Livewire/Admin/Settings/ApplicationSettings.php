@@ -15,14 +15,13 @@ class ApplicationSettings extends Component
 {
     use WithFileUploads;
 
-    public $siteName = '';
-
-    public $isForced2Fa = '';
+    public string $siteName = '';
+    public string $isForced2Fa = '';
 
     public function mount(): void
     {
-        $this->siteName = Setting::where('key', 'app.name')->value('value');
-        $this->isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
+        $this->siteName = Setting::where('key', 'app.name')->value('value') ?? '';
+        $this->isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value') ?? '';
     }
 
     public function render(): View
@@ -44,7 +43,7 @@ class ApplicationSettings extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

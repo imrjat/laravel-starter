@@ -2,30 +2,25 @@
 
 namespace App\Mail\Subscription;
 
+use App\Models\Tenant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Team;
 
 class SendPaymentReceivedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $team;
-    public $file;
+    public Tenant $tenant;
+    public string $file;
 
-    public function __construct(Team $team, $file)
+    public function __construct(Tenant $tenant, string $file)
     {
-        $this->team = $team;
+        $this->tenant = $tenant;
         $this->file = $file;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function build(): SendPaymentReceivedMail
     {
         return $this->subject(config('app.name') . " invoice")
             ->markdown('mail.subscription.paymentReceived')

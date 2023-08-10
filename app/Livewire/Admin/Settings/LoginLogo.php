@@ -18,18 +18,15 @@ class LoginLogo extends Component
 {
     use WithFileUploads;
 
-    public $loginLogo = '';
-
-    public $existingLoginLogo = '';
-
-    public $loginLogoDark = '';
-
-    public $existingLoginLogoDark = '';
+    public string $loginLogo = '';
+    public string $existingLoginLogo = '';
+    public string $loginLogoDark = '';
+    public string $existingLoginLogoDark = '';
 
     public function mount(): void
     {
-        $this->existingLoginLogo = Setting::where('key', 'loginLogo')->value('value');
-        $this->existingLoginLogoDark = Setting::where('key', 'loginLogoDark')->value('value');
+        $this->existingLoginLogo = Setting::where('key', 'loginLogo')->value('value') ?? '';
+        $this->existingLoginLogoDark = Setting::where('key', 'loginLogoDark')->value('value') ?? '';
     }
 
     public function render(): View
@@ -48,7 +45,7 @@ class LoginLogo extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }
@@ -70,7 +67,7 @@ class LoginLogo extends Component
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
-            $img = Image::make($this->loginLogo)->encode('png')->resize(300, null, function ($constraint) {
+            $img = Image::make($this->loginLogo)->encode('png')->resize(300, null, function (object $constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();
@@ -87,7 +84,7 @@ class LoginLogo extends Component
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
-            $img = Image::make($this->loginLogoDark)->encode('png')->resize(300, null, function ($constraint) {
+            $img = Image::make($this->loginLogoDark)->encode('png')->resize(300, null, function (object $constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();

@@ -55,12 +55,12 @@ class Tenant extends Model
         return $this->trial_ends_at && ($this->trial_ends_at->isFuture() || $this->trial_ends_at->isToday());
     }
 
-    public function scopeOnTrial($query)
+    public function scopeOnTrial(object $query): mixed
     {
         return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>=', now());
     }
 
-    public function scopeTrialExpiredToday($query)
+    public function scopeTrialExpiredToday(object $query): mixed
     {
         return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', now());
     }
@@ -85,7 +85,7 @@ class Tenant extends Model
         return $this->stripe_status === 'active' || $this->isOnGracePeriod() || $this->isOnLifetime();
     }
 
-    public function trailEndsInDays($days = 3): bool
+    public function trailEndsInDays(int $days = 3): bool
     {
         if (! $this->isOnTrial()) {
             return false;
@@ -126,7 +126,7 @@ class Tenant extends Model
         $this->save();
     }
 
-    public function setStripeId($id): void
+    public function setStripeId(string $id): void
     {
         $this->stripe_id = $id;
         $this->save();

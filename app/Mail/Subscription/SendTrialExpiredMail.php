@@ -18,7 +18,7 @@ class SendTrialExpiredMail extends Mailable
         $this->tenant = $tenant;
     }
 
-    public function build()
+    public function build(): SendTrialExpiredMail
     {
         return $this->subject("Your ".config('app.name')." trial has ended")
             ->markdown('mail.subscription.trialExpired');

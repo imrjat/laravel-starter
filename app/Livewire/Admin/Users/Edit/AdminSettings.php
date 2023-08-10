@@ -16,11 +16,9 @@ class AdminSettings extends Component
 {
     public User $user;
 
-    public $isOfficeLoginOnly;
-
-    public $isActive;
-
-    public $roleSelections = [];
+    public bool $isOfficeLoginOnly;
+    public bool $isActive;
+    public array $roleSelections = [];
 
     protected $listeners = ['refreshAdminSettings' => 'mount'];
 
@@ -48,7 +46,7 @@ class AdminSettings extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

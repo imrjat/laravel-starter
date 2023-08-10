@@ -78,7 +78,7 @@
 
                 <div class="px-7 py-5">
 
-                    @include('layouts.upgrade')
+{{--                    @include('layouts.upgrade')--}}
 
                     {{ $slot ?? '' }}
                 </div>

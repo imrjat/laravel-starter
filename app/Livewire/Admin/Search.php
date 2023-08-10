@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Search extends Component
@@ -17,7 +18,7 @@ class Search extends Component
 
     public array $searchResults = [];
 
-    public function render()
+    public function render(): View
     {
         $this->searchResults = [];
 

@@ -10,7 +10,7 @@ class ClearLog extends Command
 
     protected $description = 'empty error log';
 
-    public function handle()
+    public function handle(): void
     {
         $f = fopen(storage_path('logs/laravel.log'), 'r+');
         if ($f !== false) {

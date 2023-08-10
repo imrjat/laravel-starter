@@ -56,11 +56,11 @@ class TwoFaController extends Controller
         return view('auth.twofasetup', compact('secretKey', 'inlineUrl'));
     }
 
-    public function setupUpdate(Request $request): Redirector|RedirectResponse
+    public function setupUpdate(Request $request): RedirectResponse
     {
         $request->validate([
             'code' => [
-                'required', 'min:6', function ($attribute, $value, $fail) use ($request) {
+                'required', 'min:6', function (string $attribute, string $value, callable $fail) use ($request) {
                     $tfa = new TwoFactorAuth();
                     $valid = $tfa->verifyCode($request->input('secretKey'), $request->input('code'));
 

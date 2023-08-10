@@ -7,7 +7,9 @@ namespace App\Livewire\Admin\Users;
 use App\Mail\Users\SendInviteMail;
 use App\Models\User;
 use App\Services\StripeService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -21,23 +23,15 @@ class Users extends Component
     use WithPagination;
     use AuthorizesRequests;
 
-    public $paginate = '';
-
-    public $checked = [];
-
-    public $name = '';
-
-    public $email = '';
-
-    public $joined = '';
-
-    public $sortField = 'name';
-
-    public $sortAsc = true;
-
-    public $openFilter = false;
-
-    public $sentEmail = false;
+    public string $paginate = '';
+    public array $checked = [];
+    public string $name = '';
+    public string $email = '';
+    public string $joined = '';
+    public string $sortField = 'name';
+    public bool $sortAsc = true;
+    public bool $openFilter = false;
+    public bool $sentEmail = false;
 
     protected $listeners = ['refreshUsers' => '$refresh'];
 
@@ -48,7 +42,7 @@ class Users extends Component
         return view('livewire.admin.users.index');
     }
 
-    public function builder()
+    public function builder(): Builder
     {
         return User::with('roles')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
     }
@@ -64,7 +58,7 @@ class Users extends Component
         $this->sortField = $field;
     }
 
-    public function users()
+    public function users(): LengthAwarePaginator
     {
         $query = $this->builder();
 
@@ -95,7 +89,7 @@ class Users extends Component
         $this->reset();
     }
 
-    public function deleteUser($id): void
+    public function deleteUser(string $id): void
     {
         abort_if_cannot('delete_users');
 
@@ -106,7 +100,7 @@ class Users extends Component
         $this->dispatch('close-modal');
     }
 
-    public function resendInvite($id): void
+    public function resendInvite(string $id): void
     {
         $user = $this->builder()->findOrFail($id);
         Mail::send(new SendInviteMail($user));

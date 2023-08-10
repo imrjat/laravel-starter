@@ -17,11 +17,9 @@ use Livewire\Component;
 #[Title('Edit Role')]
 class Edit extends Component
 {
-    public $role = null;
-
-    public $label = '';
-
-    public $permissions = [];
+    public Role|null $role = null;
+    public string $label = '';
+    public array $permissions = [];
 
     protected function rules(): array
     {
@@ -43,14 +41,14 @@ class Edit extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }
 
-    public function mount($role): void
+    public function mount(Role $role): void
     {
-        $this->role = Role::where('tenant_id', auth()->user()->tenant_id)->where('id', $role)->firstOrFail();
+        $this->role = Role::where('tenant_id', auth()->user()->tenant_id)->where('id', $role->id)->firstOrFail();
 
         $this->label = $this->role->label ?? '';
 

@@ -11,14 +11,14 @@ class SendWelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public User $user;
 
     public function __construct(User $user)
     {
         $this->user = $user;
     }
 
-    public function build()
+    public function build(): SendWelcomeMail
     {
         return $this->to($this->user->email)
             ->subject('Welcome to '.config('app.name'))

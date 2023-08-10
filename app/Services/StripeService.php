@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Tenant;
 use Exception;
 use Stripe\Customer;
 use Stripe\Stripe;
@@ -10,8 +11,8 @@ use Stripe\BillingPortal\Session as BillingSession;
 
 class StripeService
 {
-    protected $tenant;
-    protected $stripe;
+    protected Tenant $tenant;
+    protected StripeClient $stripe;
 
     public function __construct()
     {
@@ -23,7 +24,7 @@ class StripeService
     /**
      * @throws Exception
      */
-    public function getCustomer()
+    public function getCustomer(): ?Customer
     {
         $stripe_customer_id = $this->tenant->stripe_id;
 
@@ -59,7 +60,7 @@ class StripeService
         return '';
     }
 
-    public function getBillingPortalUrl()
+    public function getBillingPortalUrl(): string
     {
         $session = BillingSession::create([
           'customer' => $this->getCustomer()->id,
@@ -80,7 +81,7 @@ class StripeService
         ]);
     }
 
-    protected function createStripeCustomer()
+    protected function createStripeCustomer(): Customer
     {
         $customer = Customer::create([
             'email' => $this->tenant->owner->email,

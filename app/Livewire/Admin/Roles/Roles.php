@@ -6,6 +6,8 @@ namespace App\Livewire\Admin\Roles;
 
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,13 +17,10 @@ class Roles extends Component
 {
     use WithPagination;
 
-    public $paginate = '';
-
-    public $query = '';
-
-    public $sortField = 'name';
-
-    public $sortAsc = true;
+    public string $paginate = '';
+    public string $query = '';
+    public string $sortField = 'name';
+    public bool $sortAsc = true;
 
     protected $listeners = ['refreshRoles' => '$refresh'];
 
@@ -32,7 +31,7 @@ class Roles extends Component
         return view('livewire.admin.roles.index');
     }
 
-    public function builder()
+    public function builder(): Builder
     {
         return Role::where('tenant_id', auth()->user()->tenant_id)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
     }
@@ -48,7 +47,7 @@ class Roles extends Component
         $this->sortField = $field;
     }
 
-    public function roles(): object
+    public function roles(): LengthAwarePaginator
     {
         $query = $this->builder();
 
@@ -59,7 +58,7 @@ class Roles extends Component
         return $query->paginate($this->paginate);
     }
 
-    public function deleteRole($id): void
+    public function deleteRole(string $id): void
     {
         $this->builder()->findOrFail($id)->delete();
 

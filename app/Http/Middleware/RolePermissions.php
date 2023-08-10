@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class RolePermissions
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         if (auth()->check()) {
             setPermissionsTeamId(auth()->user()->tenant_id);

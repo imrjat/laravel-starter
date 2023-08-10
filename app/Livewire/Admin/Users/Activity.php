@@ -19,21 +19,14 @@ class Activity extends Component
 
     public User $user;
 
-    public $paginate = 10;
-
-    public $title = '';
-
-    public $section = '';
-
-    public $type = '';
-
-    public $created_at = '';
-
-    public $sortField = 'id';
-
-    public $sortAsc = false;
-
-    public $openFilter = false;
+    public int $paginate = 10;
+    public string $title = '';
+    public string $section = '';
+    public string $type = '';
+    public string $created_at = '';
+    public string $sortField = 'id';
+    public bool $sortAsc = false;
+    public bool $openFilter = false;
 
     public function render(): View
     {
@@ -45,13 +38,13 @@ class Activity extends Component
         return view('livewire.admin.users.activity', compact('sections', 'types'))->layout('layouts.app');
     }
 
-    public function builder()
+    public function builder(): mixed
     {
         return AuditTrail::where('user_id', $this->user?->id)->orderBy($this->sortField,
             $this->sortAsc ? 'asc' : 'desc');
     }
 
-    public function sortBy($field): void
+    public function sortBy(string $field): void
     {
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
@@ -62,7 +55,7 @@ class Activity extends Component
         $this->sortField = $field;
     }
 
-    public function userLogs()
+    public function userLogs(): mixed
     {
         $query = $this->builder();
 
@@ -93,9 +86,9 @@ class Activity extends Component
 
     public function resetFilters(): void
     {
-        $this->title = null;
-        $this->section = null;
-        $this->type = null;
-        $this->created_at = null;
+        $this->title = '';
+        $this->section = '';
+        $this->type = '';
+        $this->created_at = '';
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Admin\Billing;
 
+use App\Models\Tenant;
 use App\Services\StripeService;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -11,7 +12,7 @@ use Livewire\Component;
 class Subscription extends Component
 {
     public string $plan = '';
-    public $tenant;
+    public Tenant $tenant;
 
     public function mount(StripeService $stripeService): void
     {
@@ -19,7 +20,7 @@ class Subscription extends Component
         $this->plan = $stripeService->getPlan();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.admin.billing.subscription');
     }

@@ -18,14 +18,14 @@ use Illuminate\Validation\Rules\Password;
 
 class JoinController extends Controller
 {
-    public function index($token): View
+    public function index(string $token): View
     {
         $user = User::where('invite_token', $token)->firstOrFail();
 
         return view('auth.join', compact('user'));
     }
 
-    public function update(Request $request, $id): Redirector|RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
         $user = User::findOrFail($id);
 

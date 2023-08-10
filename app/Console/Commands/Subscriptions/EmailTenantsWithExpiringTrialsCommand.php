@@ -12,10 +12,10 @@ class EmailTenantsWithExpiringTrialsCommand extends Command
 {
     protected $signature    = 'subscription:email-tenants-with-expiring-trials {days=3}';
     protected $description  = 'Email tenants with expiring trials.';
-    protected $mailsSent    = 0;
-    protected $mailFailures = 0;
+    protected int $mailsSent    = 0;
+    protected int $mailFailures = 0;
 
-    public function handle()
+    public function handle(): void
     {
         $days = $this->argument('days');
 

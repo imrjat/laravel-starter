@@ -58,7 +58,7 @@ class StripeWebhookController extends Controller
         http_response_code(200);
     }
 
-    public function handle_subscription_updated($payload)
+    public function handle_subscription_updated(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->stripe_subscription = $payload['id'];
@@ -71,7 +71,7 @@ class StripeWebhookController extends Controller
         $tenant->save();
     }
 
-    public function handle_subscription_deleted($payload)
+    public function handle_subscription_deleted(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->card_brand = null;
@@ -96,7 +96,7 @@ class StripeWebhookController extends Controller
         }*/
     }
 
-    public function handle_payment_intent_succeeded($payload)
+    public function handle_payment_intent_succeeded(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->card_brand = $payload['charges']['data'][0]['payment_method_details']['card']['brand'];
@@ -104,7 +104,7 @@ class StripeWebhookController extends Controller
         $tenant->save();
     }
 
-    public function handle_invoice_payment_succeeded($payload)
+    public function handle_invoice_payment_succeeded(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         /*$invoiceEmails = InvoiceEmail::where('tenant_id', $tenant->id)->get();
@@ -124,7 +124,7 @@ class StripeWebhookController extends Controller
         unlink($filename);*/
     }
 
-    public function handle_invoice_payment_failed($payload)
+    public function handle_invoice_payment_failed(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         /*$invoiceEmails = InvoiceEmail::where('tenant_id', $tenant->id)->get();

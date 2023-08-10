@@ -18,18 +18,15 @@ class ApplicationLogo extends Component
 {
     use WithFileUploads;
 
-    public $applicationLogo = '';
-
-    public $existingApplicationLogo = '';
-
-    public $applicationLogoDark = '';
-
-    public $existingApplicationLogoDark = '';
+    public string $applicationLogo = '';
+    public string $existingApplicationLogo = '';
+    public string $applicationLogoDark = '';
+    public string $existingApplicationLogoDark = '';
 
     public function mount(): void
     {
-        $this->existingApplicationLogo = Setting::where('key', 'applicationLogo')->value('value');
-        $this->existingApplicationLogoDark = Setting::where('key', 'applicationLogoDark')->value('value');
+        $this->existingApplicationLogo = Setting::where('key', 'applicationLogo')->value('value') ?? '';
+        $this->existingApplicationLogoDark = Setting::where('key', 'applicationLogoDark')->value('value') ?? '';
     }
 
     public function render(): View
@@ -48,7 +45,7 @@ class ApplicationLogo extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }
@@ -70,7 +67,7 @@ class ApplicationLogo extends Component
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
-            $img = Image::make($this->applicationLogo)->encode('png')->resize(200, null, function ($constraint) {
+            $img = Image::make($this->applicationLogo)->encode('png')->resize(200, null, function (object $constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();
@@ -87,7 +84,7 @@ class ApplicationLogo extends Component
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
-            $img = Image::make($this->applicationLogoDark)->encode('png')->resize(200, null, function ($constraint) {
+            $img = Image::make($this->applicationLogoDark)->encode('png')->resize(200, null, function (object $constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();

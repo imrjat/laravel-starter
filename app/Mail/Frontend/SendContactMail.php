@@ -10,20 +10,18 @@ class SendContactMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $name;
+    public string $name;
+    public string $email;
+    public string $message;
 
-    public $email;
-
-    public $message;
-
-    public function __construct($contact)
+    public function __construct(array $contact)
     {
         $this->name = $contact['name'];
         $this->email = $contact['email'];
         $this->message = $contact['message'];
     }
 
-    public function build()
+    public function build(): SendContactMail
     {
         return $this->to(config('mail.from.address'))
             ->replyTo($this->email)

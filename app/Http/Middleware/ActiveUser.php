@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ActiveUser
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         //if user is not active log the user out
         if (! auth()->user()->is_active) {

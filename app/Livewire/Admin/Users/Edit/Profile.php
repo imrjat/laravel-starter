@@ -21,12 +21,9 @@ class Profile extends Component
     use WithFileUploads;
 
     public User $user;
-
-    public $name = '';
-
-    public $email = '';
-
-    public $image = '';
+    public string $name = '';
+    public string $email = '';
+    public string $image = '';
 
     protected $listeners = ['refreshProfile' => 'mount'];
 
@@ -57,7 +54,7 @@ class Profile extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }
@@ -71,7 +68,7 @@ class Profile extends Component
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.jpg';
-            $img = Image::make($this->image)->encode('jpg')->resize(100, null, function ($constraint) {
+            $img = Image::make($this->image)->encode('jpg')->resize(100, null, function (object $constraint) {
                 $constraint->aspectRatio();
             });
             $img->stream();

@@ -20,11 +20,9 @@ class Invite extends Component
 {
     use withPagination;
 
-    public $name = '';
-
-    public $email = '';
-
-    public $rolesSelected = [];
+    public string $name = '';
+    public string $email = '';
+    public array $rolesSelected = [];
 
     protected array $rules = [
         'name' => 'required|string',
@@ -41,7 +39,7 @@ class Invite extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

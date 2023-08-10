@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class SecuritySettings extends Component
 {
-    public $ips = [];
+    public array $ips = [];
 
     protected array $rules = [
         'ips.*.ip' => 'required|ip',
@@ -44,7 +44,7 @@ class SecuritySettings extends Component
         ];
     }
 
-    public function remove($index): void
+    public function remove(int $index): void
     {
         unset($this->ips[$index]);
     }
@@ -52,7 +52,7 @@ class SecuritySettings extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

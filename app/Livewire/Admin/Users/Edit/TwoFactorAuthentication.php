@@ -19,11 +19,11 @@ class TwoFactorAuthentication extends Component
 {
     public User $user;
 
-    public $secretKey = '';
+    public string $secretKey = '';
 
-    public $inlineUrl = '';
+    public string $inlineUrl = '';
 
-    public $code = '';
+    public string $code = '';
 
     /**
      * @throws TwoFactorAuthException
@@ -44,7 +44,7 @@ class TwoFactorAuthentication extends Component
     {
         return [
             'code' => [
-                'required', 'min:6', function ($attribute, $value, $fail) {
+                'required', 'min:6', function (string $attribute, string $value, callable $fail) {
                     $tfa = new TwoFactorAuth();
                     $valid = $tfa->verifyCode($this->secretKey, $this->code);
 
@@ -63,7 +63,7 @@ class TwoFactorAuthentication extends Component
     /**
      * @throws ValidationException
      */
-    public function updated($propertyName): void
+    public function updated(string $propertyName): void
     {
         $this->validateOnly($propertyName);
     }

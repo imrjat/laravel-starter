@@ -3,10 +3,12 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 
 class RedirectIfNotSubscribed
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check()) {
 
