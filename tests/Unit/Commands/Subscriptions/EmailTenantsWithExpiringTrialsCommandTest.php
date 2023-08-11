@@ -2,6 +2,8 @@
 
 use App\Mail\Subscription\SendTrialExpiringSoonMail;
 use App\Models\User;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Mail;
 
 beforeEach(function () {
@@ -48,5 +50,22 @@ test('does not send expiring emails x days before trial ends at date more than o
 
     $this->travelBack();
 })->with([3,2,1]);
+
+test('is scheduled', function() {
+
+    $schedule = app()->make(Schedule::class);
+
+    $events = collect($schedule->events())->filter(function (Event $event) {
+      return stripos($event->command, 'subscription:email-tenants-with-expiring-trials');
+    });
+
+    if ($events->count() == 0) {
+        $this->fail('No events found');
+    }
+
+    $events->each(function (Event $event) {
+        $this->assertEquals('0 5 * * *', $event->expression);
+    });
+});
 
 

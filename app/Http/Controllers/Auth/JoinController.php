@@ -52,10 +52,11 @@ class JoinController extends Controller
         $user->email_verified_at = now();
         $user->save();
 
-        $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
-        if ($isForced2Fa) {
-            session(['2fasetup' => true]);
-        }
+        //TODO: Remove this after 2fa is implemented
+//        $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
+//        if ($isForced2Fa) {
+//            session(['2fasetup' => true]);
+//        }
 
         AuditTrail::create([
             'tenant_id' => $user->tenant_id,
@@ -66,9 +67,9 @@ class JoinController extends Controller
             'type' => 'join',
         ]);
 
-        (new StripeService())->setSubscriptionQty();
-
         auth()->loginUsingId($user->id, true);
+
+        (new StripeService())->setSubscriptionQty();
 
         return redirect(route('dashboard'));
     }

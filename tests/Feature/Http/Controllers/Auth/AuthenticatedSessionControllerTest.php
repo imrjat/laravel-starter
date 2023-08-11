@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 test('login screen can be rendered', function () {
     $this
@@ -30,6 +31,16 @@ test('users can not authenticate with invalid password', function () {
             'password' => 'wrong-password',
         ])
         ->assertInvalid();
+
+    $this->assertGuest();
+});
+
+test('can logout', function () {
+    $this->authenticate();
+
+    $this
+        ->post(route('logout'))
+        ->assertRedirect('/');
 
     $this->assertGuest();
 });

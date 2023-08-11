@@ -1,16 +1,12 @@
 <?php
 
 use App\Services\StripeService;
-use Stripe\Customer;
-use Stripe\Stripe;
-use Stripe\StripeClient;
 
 beforeEach(function () {
     $this->authenticate();
 });
 
 test('getCustomer created a stripe customer when one does not exist', function () {
-
     $customer = (new StripeService)->getCustomer();
     expect($customer['object'])->toBe('customer');
 });

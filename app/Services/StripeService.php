@@ -72,6 +72,10 @@ class StripeService
 
     public function setSubscriptionQty(): void
     {
+        if ($this->tenant->stripe_subscription === null) {
+            return;
+        }
+
         $id = $this->tenant->stripe_subscription;
         $qty = $this->tenant->users()->count();
 
