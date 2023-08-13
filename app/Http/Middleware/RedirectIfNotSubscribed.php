@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 
 class RedirectIfNotSubscribed
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): mixed
     {
         if (auth()->check()) {
 
             setPermissionsTeamId(auth()->user()->tenant_id);
 
-            if (! auth()->user()->tenant->valid()) {
-                return redirect(route('upgrade'));
+            if (! auth()->user()->tenant->isValid()) {
+                return redirect(route('dashboard'));
             }
         }
 
