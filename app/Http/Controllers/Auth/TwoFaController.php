@@ -16,8 +16,12 @@ use RobThree\Auth\TwoFactorAuth;
 
 class TwoFaController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
+        if (session('2fa-login') !== true) {
+            return redirect(route('dashboard'));
+        }
+
         return view('auth.twofa');
     }
 
@@ -31,14 +35,6 @@ class TwoFaController extends Controller
         $valid = $tfa->verifyCode(auth()->user()->two_fa_secret_key, $request->input('code'));
 
         if ($valid === false) {
-            AuditTrail::create([
-                'user_id' => auth()->id(),
-                'reference_id' => auth()->id(),
-                'title' => 'failed 2FA check, code invalid',
-                'section' => 'Auth',
-                'type' => '2FA Check',
-            ]);
-
             return back()->withErrors('Code is invalid please try again.');
         }
 

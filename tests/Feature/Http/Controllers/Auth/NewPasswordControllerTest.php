@@ -28,12 +28,16 @@ test('can reset password', function() {
     $token = DB::table('password_reset_tokens')->first();
 
     $password = 'ght73A3!$^DS';
-
     $this->post(route('password.store'), [
          'token' => $token->token,
          'email' => $user->email,
          'password' => $password,
          'password_confirmation' => $password,
     ])->assertRedirect('/');
+
+    $user = User::find($user->id);
+
+    expect($user->remember_token)->not->toBeNull()
+        ->and($user->password)->not->toBeNull();
 
 });

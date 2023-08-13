@@ -10,7 +10,7 @@
 
 	<p>{{ __('Scan bar code in your authenticator app or manually enter this key') }} {{ $secretKey }}</p>
 
-	<x-form action="{{ route('2fa-setup.update') }}">
+	<x-form action="{{ route('admin.2fa-setup.update') }}">
 
 		<x-form.input name="secretKey" type="hidden">{{ $secretKey }}</x-form.input>
 

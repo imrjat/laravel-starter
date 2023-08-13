@@ -19,12 +19,12 @@ class ActiveUser
             return redirect(route('login'));
         }
 
-        if (session('2fa-login') === true && url()->current() !== url('admin/2fa')) {
-            return redirect('admin/2fa');
+        if (session('2fa-login') === true && url()->current() !== route('admin.2fa')) {
+            return redirect(route('admin.2fa'));
         }
 
-        if (session('2fa-setup') === true && url()->current() !== url('admin/2fa-setup')) {
-            return redirect('admin/2fa-setup');
+        if (session('2fa-setup') === true && url()->current() !== route('admin.2fa-setup')) {
+            return redirect(route('admin.2fa-setup'));
         }
 
         if (auth()->check()) {

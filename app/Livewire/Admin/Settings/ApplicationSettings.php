@@ -13,15 +13,13 @@ use Livewire\WithFileUploads;
 
 class ApplicationSettings extends Component
 {
-    use WithFileUploads;
-
     public string $siteName = '';
-    public string $isForced2Fa = '';
+    public bool $isForced2Fa = false;
 
     public function mount(): void
     {
         $this->siteName = Setting::where('key', 'app.name')->value('value') ?? '';
-        $this->isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value') ?? '';
+        $this->isForced2Fa = (bool) Setting::where('key', 'is_forced_2fa')->value('value') ?? false;
     }
 
     public function render(): View
@@ -52,7 +50,6 @@ class ApplicationSettings extends Component
     {
         $this->validate();
 
-        Cache::flush();
         Setting::updateOrCreate(['key' => 'app.name'], ['value' => $this->siteName]);
         Setting::updateOrCreate(['key' => 'is_forced_2fa'], ['value' => $this->isForced2Fa]);
 

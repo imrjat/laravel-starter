@@ -24,6 +24,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'image' => null,
             'two_fa_active' => 0,
+            'two_fa_secret_key' => null,
         ];
     }
 

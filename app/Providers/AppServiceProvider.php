@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\Setting;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(UrlGenerator $url): void
+    public function boot(Request $request, UrlGenerator $url): void
     {
         if (app()->environment() !== 'local') {
             $url->forceScheme('https');
@@ -41,43 +43,19 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         //        Model::shouldBeStrict(!app()->isProduction());
 
-        /*
-        //if key exists
-        if (Cache::has('setting_keys')) {
-            //decode keys to array
-            $keys = json_decode(Cache::get('setting_keys'), true);
-            //loop over keys
-            foreach ($keys as $key) {
-                //override config setting
-                config()->set([$key => Cache::get($key)]);
-            }
-        } else {
-            if (!Cache::has('setting_keys') && Schema::hasTable('settings')) { //if cache key does not exist
-                //get all rows
+        view()->composer('layouts.app', function ($view) {
+            if (auth()->check()) {
                 $settings = Setting::all();
-
                 $keys = [];
 
-                //loop over rows
                 foreach ($settings as $setting) {
-                    $key    = $setting->key;
-                    $value  = $setting->value;
-                    $keys[] = $key;
-
-                    //remember setting
-                    Cache::forever($key, $value);
+                    $key = $setting->key;
+                    $value = $setting->value;
 
                     //override config setting
                     config()->set([$key => $value]);
                 }
-
-                if (count($keys) > 0) {
-                    $keys = json_encode($keys);
-
-                    //create cache key remember forever
-                    Cache::forever('setting_keys', $keys);
-                }
             }
-        }*/
+        });
     }
 }

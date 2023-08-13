@@ -4,7 +4,7 @@
 
 	<p>{{ __('Please open your authenticator mobile app and enter the code below') }}.</p>
 
-	<x-form action="{{ route('2fa.update') }}">
+	<x-form action="{{ route('admin.2fa.update') }}">
 
 		<x-form.input name="code" :label="__('Code')">{{ old('code') }}</x-form.input>
 

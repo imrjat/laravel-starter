@@ -18,7 +18,6 @@
             </p>
 
             @if(config('admintw.is_live'))
-                {
 
                 <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                     <div class="rounded-md shadow">

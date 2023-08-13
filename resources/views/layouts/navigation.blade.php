@@ -8,14 +8,8 @@
 <div class="py-4">
     <a href="{{ route('dashboard') }}" class="text-gray-100 font-bold">
         @php
-            //cache the logo setting to reduce calling the database
-            $applicationLogo = Cache::rememberForever('applicationLogo', function () {
-                return \App\Models\Setting::where('key', 'applicationLogo')->value('value');
-            });
-
-            $applicationLogoDark = Cache::rememberForever('applicationLogoDark', function () {
-                return \App\Models\Setting::where('key', 'applicationLogoDark')->value('value');
-            });
+            $applicationLogo = \App\Models\Setting::where('key', 'applicationLogo')->value('value');
+            $applicationLogoDark = \App\Models\Setting::where('key', 'applicationLogoDark')->value('value');
         @endphp
 
         @if (storage_exists($applicationLogo))
