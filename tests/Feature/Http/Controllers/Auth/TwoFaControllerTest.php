@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Mockery\MockInterface;
 use RobThree\Auth\TwoFactorAuth;
 
 beforeEach(function () {
@@ -34,13 +35,15 @@ test('validates code validates code is a string', function () {
 test('can use 2fa code and redirects', function () {
     session(['2fa-login' => true]);
 
-    $tfa = new TwoFactorAuth();
-    $secret = $tfa->createSecret();
-    $code = $tfa->getCode($secret);
+    $this->mock(TwoFactorAuth::class, function (MockInterface $mock) {
+       $mock
+           ->shouldReceive('verifyCode')
+           ->andReturn(true);
+    });
 
-    auth()->user()->update(['two_fa_secret_key' => $secret]);
+    auth()->user()->update(['two_fa_secret_key' => 'VMR466AB62ZBOKHE']);
 
-    $this->post(route('admin.2fa'), ['code' => $code])
+    $this->post(route('admin.2fa'), ['code' => '123456'])
         ->assertRedirect(route('dashboard'));
 });
 
@@ -74,15 +77,15 @@ test('code has to be at least 6 chars for update', function () {
 
 test('can update', function () {
 
-    $tfa = new TwoFactorAuth();
-    $secret = $tfa->createSecret();
-    $code = $tfa->getCode($secret);
-
-    auth()->user()->update(['two_fa_secret_key' => $secret]);
+    $this->mock(TwoFactorAuth::class, function (MockInterface $mock) {
+       $mock
+           ->shouldReceive('verifyCode')
+           ->andReturn(true);
+    });
 
     $this->post(route('admin.2fa-setup.update'), [
-        'secretKey' => $secret,
-        'code' => $code
+        'secretKey' => '123789',
+        'code' => '123457'
     ])
         ->assertValid()
         ->assertRedirect(route('dashboard'));

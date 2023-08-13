@@ -33,11 +33,44 @@ test('can set property', function () {
 });
 
 test('can sort user logs', function () {
+
+    AuditTrail::factory()->create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'title' => 'created job',
+    ]);
+
+    AuditTrail::factory()->create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'title' => 'viewed job',
+    ]);
+
     Livewire::test(AuditTrails::class)
         ->call('sortBy', 'title')
         ->assertSet('sortField', 'title')
         ->call('userLogs')
-        ->assertStatus(200);
+        ->assertOk()
+        ->assertSeeInOrder(['created job', 'viewed job']);
+});
+
+test('can sort in desc', function () {
+
+    AuditTrail::factory()->create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'title' => 'created job',
+    ]);
+
+    AuditTrail::factory()->create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'title' => 'viewed job',
+    ]);
+
+    Livewire::test(AuditTrails::class)
+        ->set('sortField', 'title')
+        ->call('sortBy', 'title')
+        ->assertSet('sortField', 'title')
+        ->call('userLogs')
+        ->assertOk()
+        ->assertSeeInOrder(['viewed job', 'created job']);
 });
 
 test('can sort user logs by user', function () {
@@ -46,4 +79,65 @@ test('can sort user logs by user', function () {
         ->assertSet('sortField', 'user_id')
         ->call('userLogs')
         ->assertStatus(200);
+});
+
+test('can filter', function () {
+
+    AuditTrail::factory()->create([
+        'user_id' => 1,
+        'section' => 'jobs',
+        'type' => 'create',
+        'title' => 'created job',
+        'created_at' => '2023-01-03 10:00:00',
+    ]);
+
+    AuditTrail::factory()->create([
+        'user_id' => 2,
+        'section' => 'tickets',
+        'type' => 'view',
+        'title' => 'viewed job',
+        'created_at' => '2023-02-03 10:00:00',
+    ]);
+
+    Livewire::test(AuditTrails::class)
+        ->set('user_id', '1')
+        ->set('section', 'jobs')
+        ->set('type', 'create')
+        ->set('created_at', '2023-01-01 to 2023-01-31')
+        ->call('userLogs')
+        ->assertOk()
+        ->assertSet('openFilter', true)
+        ->assertSee('created job')
+        ->assertDontSee('viewed job');
+});
+
+test('can reset', function () {
+
+    AuditTrail::factory()->create([
+        'user_id' => 1,
+        'section' => 'jobs',
+        'type' => 'create',
+        'title' => 'created job',
+        'created_at' => '2023-01-03 10:00:00',
+    ]);
+
+    AuditTrail::factory()->create([
+        'user_id' => 2,
+        'section' => 'tickets',
+        'type' => 'view',
+        'title' => 'viewed job',
+        'created_at' => '2023-02-03 10:00:00',
+    ]);
+
+    Livewire::test(AuditTrails::class)
+        ->set('user_id', '1')
+        ->set('section', 'jobs')
+        ->set('type', 'create')
+        ->set('created_at', '2023-01-01 to 2023-01-31')
+        ->call('resetFilters')
+        ->assertOk()
+        ->assertSet('user_id', '0')
+        ->assertSet('section', '')
+        ->assertSet('type', '')
+        ->assertSet('openFilter', false);
 });

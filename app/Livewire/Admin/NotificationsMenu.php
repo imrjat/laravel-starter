@@ -27,9 +27,11 @@ class NotificationsMenu extends Component
 
     public function open(): void
     {
-        Notification::where('assigned_to_user_id', auth()->id())->where('viewed', 0)->update([
-            'viewed' => 1,
-            'viewed_at' => now(),
-        ]);
+        Notification::where('assigned_to_user_id', auth()->id())
+            ->where('viewed', 0)
+            ->update([
+                'viewed' => 1,
+                'viewed_at' => now(),
+            ]);
     }
 }

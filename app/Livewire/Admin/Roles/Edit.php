@@ -38,14 +38,6 @@ class Edit extends Component
         'label.required' => 'Role is required',
     ];
 
-    /**
-     * @throws ValidationException
-     */
-    public function updated(string $propertyName): void
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function mount(Role $role): void
     {
         $this->role = Role::where('tenant_id', auth()->user()->tenant_id)->where('id', $role->id)->firstOrFail();
@@ -66,6 +58,14 @@ class Edit extends Component
         $modules = Permission::select('module')->distinct()->orderBy('module')->pluck('module');
 
         return view('livewire.admin.roles.edit', compact('modules'));
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updated(string $propertyName): void
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function update(): Redirector|RedirectResponse
