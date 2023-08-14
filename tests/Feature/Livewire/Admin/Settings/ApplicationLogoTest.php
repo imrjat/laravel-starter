@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Settings\ApplicationLogo;
+use App\Models\Setting;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
@@ -13,17 +14,77 @@ test('throws Exception when a none image is selected', function () {
         ->call('update');
 })->throws(Exception::class);
 
-test('can set name', function () {
+test('can upload file', function () {
 
-    Storage::fake('avatars');
+    Storage::fake('public');
 
     $file = UploadedFile::fake()->image('avatar.png');
 
     Livewire::test(ApplicationLogo::class)
         ->set('applicationLogo', $file)
+        ->set('applicationLogoDark', $file)
         ->call('update')
         ->assertValid();
 
-    //Storage::disk('avatars')->assertExists('uploaded-avatar.png');
-    // expect(Setting::where('key', 'app.name')->value('value'))->toBe('Demo');
+    $path = Setting::where('key', 'applicationLogo')->value('value');
+    Storage::disk('public')->assertExists($path);
+
+    $path = Setting::where('key', 'applicationLogoDark')->value('value');
+    Storage::disk('public')->assertExists($path);
+});
+
+test('existing file is deleted', function () {
+
+    Storage::fake('public');
+
+    Setting::create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'key' => 'applicationLogo',
+        'value' => 'avatar.png',
+    ]);
+
+    $path = Setting::where('key', 'applicationLogo')->value('value');
+
+    Storage::disk('public')->delete($path);
+    Storage::disk('public')->assertMissing($path);
+
+    $file = UploadedFile::fake()->image('avatar.png');
+
+    Livewire::test(ApplicationLogo::class)
+        ->set('applicationLogo', $file)
+        ->set('applicationLogoDark', $file)
+        ->call('update')
+        ->assertValid();
+
+    $path = Setting::where('key', 'applicationLogo')->value('value');
+    Storage::disk('public')->assertExists($path);
+
+    $path = Setting::where('key', 'applicationLogoDark')->value('value');
+    Storage::disk('public')->assertExists($path);
+});
+
+test('existing file is deleted dark', function () {
+
+    Storage::fake('public');
+
+    Setting::create([
+        'tenant_id' => auth()->user()->tenant_id,
+        'key' => 'applicationLogoDark',
+        'value' => 'avatar.png',
+    ]);
+
+    $path = Setting::where('key', 'applicationLogoDark')->value('value');
+
+    Storage::disk('public')->delete($path);
+    Storage::disk('public')->assertMissing($path);
+
+    $file = UploadedFile::fake()->image('avatar.png');
+
+    Livewire::test(ApplicationLogo::class)
+        ->set('applicationLogoDark', $file)
+        ->call('update')
+        ->assertValid();
+    
+    $path = Setting::where('key', 'applicationLogoDark')->value('value');
+    Storage::disk('public')->assertExists($path);
 });
