@@ -64,8 +64,6 @@
                                 </svg>
                             </button>
 
-                            <livewire:admin.search />
-
                         </div>
 
                         <div class="flex">

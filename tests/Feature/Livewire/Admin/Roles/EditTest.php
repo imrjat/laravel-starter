@@ -31,12 +31,16 @@ test('can update role', function() {
         'module' => 'App'
     ]);
 
+    $permissions = Permission::get()->pluck('name')->toArray();
+
+    $role->syncPermissions($permissions);
+
     Livewire::test(Edit::class, ['role' => $role])
         ->set('label', 'Test')
         ->call('update')
         ->assertHasNoErrors()
+        ->assertSet('permissions', $permissions)
         ->assertRedirect(route('admin.settings.roles.index'));
 
-    $this->assertDatabaseHas('roles', ['name' => 'test', 'label' => 'Test']);
-
+    expect($role->fresh()->permissions)->toHaveCount(1);
 });

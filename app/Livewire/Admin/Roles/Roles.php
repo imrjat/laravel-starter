@@ -18,7 +18,7 @@ class Roles extends Component
     use WithPagination;
 
     public string $paginate = '';
-    public string $query = '';
+    public string $name = '';
     public string $sortField = 'name';
     public bool $sortAsc = true;
 
@@ -31,17 +31,17 @@ class Roles extends Component
         return view('livewire.admin.roles.index');
     }
 
-    public function builder(): Builder
+    public function builder(): mixed
     {
         return Role::where('tenant_id', auth()->user()->tenant_id)->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
     }
 
     public function sortBy(string $field): void
     {
+        $this->sortAsc = true;
+
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
-        } else {
-            $this->sortAsc = true;
         }
 
         $this->sortField = $field;
@@ -51,8 +51,8 @@ class Roles extends Component
     {
         $query = $this->builder();
 
-        if ($this->query) {
-            $query->where('name', 'like', '%'.$this->query.'%');
+        if ($this->name) {
+            $query->where('name', 'like', '%'.$this->name.'%');
         }
 
         return $query->paginate($this->paginate);
