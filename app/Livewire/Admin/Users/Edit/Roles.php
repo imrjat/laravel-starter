@@ -29,31 +29,28 @@ class Roles extends Component
 
     public function update(): bool
     {
-        if (hasRole('admin')) {
-            $role = Role::where('tenant_id', auth()->user()->tenant_id)->where('name', 'admin')->firstOrFail();
 
-            //if admin role is not in array
-            if (! in_array(needle: $role->id, haystack: $this->roleSelections, strict: true)) {
-                $adminRolesCount = User::role('admin')->count();
+        $role = Role::where('tenant_id', auth()->user()->tenant_id)->where('name', 'admin')->firstOrFail();
 
-                //when there is only 1 admin role alert user and stop
-                if ($adminRolesCount === 1 && $this->user->hasRole('admin')) {
-                    flash('there must be at least one admin user!')->error();
+        //if admin role is not in array
+        if (!in_array(needle: $role->id, haystack: $this->roleSelections, strict: true)) {
+            $adminRolesCount = User::role('admin')->count();
 
-                    return false;
-                }
-
-                $this->syncRoles($role);
+            //when there is only 1 admin role alert user and stop
+            if ($adminRolesCount === 1 && $this->user->hasRole('admin')) {
+                flash('there must be at least one admin user!')->error();
 
                 return false;
             }
 
             $this->syncRoles($role);
 
-            return true;
+            return false;
         }
 
-        return false;
+        $this->syncRoles($role);
+
+        return true;
     }
 
     protected function syncRoles(): void

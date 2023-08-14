@@ -20,9 +20,11 @@ test('does validate fields', function () {
 test('can send email', function () {
     Mail::fake();
 
+    $email = fake()->email();
+
     Livewire::test(ContactForm::class)
         ->set('name', fake()->name())
-        ->set('email', fake()->email())
+        ->set('email', $email)
         ->set('message', fake()->paragraph())
         ->call('submitForm')
         ->assertValid();

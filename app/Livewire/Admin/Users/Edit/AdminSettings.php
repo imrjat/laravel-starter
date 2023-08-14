@@ -16,8 +16,8 @@ class AdminSettings extends Component
 {
     public User $user;
 
-    public bool $isOfficeLoginOnly;
-    public bool $isActive;
+    public bool $isOfficeLoginOnly = false;
+    public bool $isActive = false;
     public array $roleSelections = [];
 
     protected $listeners = ['refreshAdminSettings' => 'mount'];
@@ -35,39 +35,19 @@ class AdminSettings extends Component
         return view('livewire.admin.users.edit.admin-settings', compact('users'));
     }
 
-    protected function rules(): array
-    {
-        return [
-            'isOfficeLoginOnly' => 'bool',
-            'isActive' => 'bool',
-        ];
-    }
-
-    /**
-     * @throws ValidationException
-     */
-    public function updated(string $propertyName): void
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function update(): void
     {
-        $this->validate();
+        $this->user->is_office_login_only = $this->isOfficeLoginOnly ? 1 : 0;
+        $this->user->is_active = $this->isActive ? 1 : 0;
+        $this->user->save();
 
-        if (hasRole('admin')) {
-            $this->user->is_office_login_only = $this->isOfficeLoginOnly ? 1 : 0;
-            $this->user->is_active = $this->isActive ? 1 : 0;
-            $this->user->save();
-
-            add_user_log([
-                'title' => 'updated '.$this->user->name."'s admin settings",
-                'reference_id' => $this->user->id,
-                'link' => route('admin.users.edit', ['user' => $this->user->id]),
-                'section' => 'Users',
-                'type' => 'Update',
-            ]);
-        }
+        add_user_log([
+            'title' => 'updated '.$this->user->name."'s admin settings",
+            'reference_id' => $this->user->id,
+            'link' => route('admin.users.edit', ['user' => $this->user->id]),
+            'section' => 'Users',
+            'type' => 'Update',
+        ]);
 
         flash('Settings Updated!')->success();
         $this->dispatch('refreshProfile');

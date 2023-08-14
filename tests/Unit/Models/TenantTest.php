@@ -1,10 +1,18 @@
 <?php
 
+use App\Models\Tenant;
+use Database\Factories\TenantFactory;
+
 test('is on trial', function () {
     $this->authenticate();
     $user = auth()->user();
 
     expect($user->tenant->isOnTrial())->toBeTrue();
+});
+
+test('has tenant factory', function () {
+    $tenantFactory = Tenant::factory();
+    expect($tenantFactory)->toBeInstanceOf(TenantFactory::class);
 });
 
 test('is not on trial', function () {
@@ -111,6 +119,17 @@ test('trail is expiring in 3 days', function () {
     expect($user->tenant->trailEndsInDays(4))->toBeFalse();
 });
 
+test('trailEndsInDays returns false when not on trial', function () {
+    $this->authenticate();
+    $user = auth()->user();
+
+    $user->tenant->stripe_status = 'active';
+    $user->tenant->trial_ends_at = now()->subDays(30);
+    $user->tenant->save();
+
+    expect($user->tenant->trailEndsInDays(4))->toBeFalse();
+});
+
 test('trail ending emails already sent', function () {
     $this->authenticate();
     $user = auth()->user();
@@ -161,4 +180,14 @@ test('can set trail ended status', function () {
     $user->tenant->setTrialEndedStatus();
 
     expect($user->tenant->stripe_status)->toBe('Trial Ended');
+});
+
+test('can remove stripe id', function () {
+    $this->authenticate();
+    $user = auth()->user();
+
+    $user->tenant->setStripeId('1234');
+    $user->tenant->removeStripeId();
+
+    expect($user->tenant->stripe_id)->toBeNull();
 });

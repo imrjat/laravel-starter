@@ -23,7 +23,7 @@ class Profile extends Component
     public User $user;
     public string $name = '';
     public string $email = '';
-    public string $image = '';
+    public $image;
 
     protected $listeners = ['refreshProfile' => 'mount'];
 

@@ -41,19 +41,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::shouldBeStrict();
-        //        Model::shouldBeStrict(!app()->isProduction());
 
-        view()->composer('layouts.app', function ($view) {
+        view()->composer('layouts.app', function () {
             if (auth()->check()) {
-                $settings = Setting::all();
-                $keys = [];
-
-                foreach ($settings as $setting) {
-                    $key = $setting->key;
-                    $value = $setting->value;
-
+                foreach (Setting::all() as $setting) {
                     //override config setting
-                    config()->set([$key => $value]);
+                    config()->set([$setting->key => $setting->value]);
                 }
             }
         });
