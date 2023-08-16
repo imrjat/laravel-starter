@@ -1,8 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Support\Facades\Event;
 
 test('can view forgotten password page', function() {
    $this->assertGuest();
@@ -15,7 +13,7 @@ test('cannot view forgotten password page when logged in', function() {
    $this->get(route('password.reset', 'token'))->assertRedirect(route('dashboard'));
 });
 
-test('can reset password', function() {
+test('resetting a password populates password_reset_tokens table', function() {
 
     $user = User::factory()->create([
         'email_verified_at' => null,
@@ -24,6 +22,20 @@ test('can reset password', function() {
     $this->post(route('password.email'), [
          'email' => $user->email,
     ])->assertRedirect('/');
+
+    $this->assertDatabaseHas('password_reset_tokens', [
+        'email' => $user->email,
+    ]);
+
+});
+
+test('can reset password and redirects', function() {
+
+    $user = User::factory()->create();
+
+    $this->post(route('password.email'), [
+         'email' => $user->email,
+    ]);
 
     $token = DB::table('password_reset_tokens')->first();
 
@@ -34,10 +46,28 @@ test('can reset password', function() {
          'password' => $password,
          'password_confirmation' => $password,
     ])->assertRedirect('/');
+});
+
+test('can reset password and updated user table', function() {
+
+    $user = User::factory()->create();
+
+    $this->post(route('password.email'), [
+         'email' => $user->email,
+    ]);
+
+    $token = DB::table('password_reset_tokens')->first();
+
+    $password = 'ght73A3!$^DS';
+    $this->post(route('password.store'), [
+         'token' => $token->token,
+         'email' => $user->email,
+         'password' => $password,
+         'password_confirmation' => $password,
+    ]);
 
     $user = User::find($user->id);
 
     expect($user->remember_token)->not->toBeNull()
         ->and($user->password)->not->toBeNull();
-
 });
