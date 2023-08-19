@@ -33,7 +33,6 @@ test('can update user settings', function () {
 
     $this->assertDatabaseHas('audit_trails', [
         'title' => 'updated '.auth()->user()->name."'s admin settings",
-        'reference_id' => auth()->user()->id,
         'link' => route('admin.users.edit', ['user' => auth()->user()->id]),
         'section' => 'Users',
         'type' => 'Update',

@@ -67,8 +67,10 @@ class Profile extends Component
     {
         $this->validate();
 
-        if ($this->image !== '') {
-            Storage::disk('public')->delete($this->user->image);
+        if ($this->image !== '' && $this->image !== null) {
+            if ($this->user->image !== null) {
+                Storage::disk('public')->delete($this->user->image);
+            }
 
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.jpg';
