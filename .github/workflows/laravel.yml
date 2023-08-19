@@ -49,7 +49,7 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: PHP CS Fixer
+      - name: PINT
         run: ./vendor/bin/pint --test
 
       - name: Execute tests (Unit and Feature tests) via Pest
