@@ -7,19 +7,19 @@ beforeEach(function () {
 });
 
 test('getCustomer created a stripe customer when one does not exist', function () {
-    $stripeService = Mockery::mock(StripeService::class)->makePartial();
+    $stripeService = new StripeService();
     $customer = $stripeService->getCustomer();
+
+    Http::fake([
+        'https://api.stripe.com/v1/customers' => Http::response([
+            'object' => 'customer',
+            'id' => 'cus_123',
+        ]),
+    ]);
 
     expect($customer['object'])->toBe('customer');
 });
 
-test('getCustomer returns existing customer', function () {
-    $stripeService = Mockery::mock(StripeService::class)->makePartial();
-
-    $customer = $stripeService->getCustomer();
-
-    expect($customer['object'])->toBe('customer');
-});
 
 test('has monthly plan', function () {
 
