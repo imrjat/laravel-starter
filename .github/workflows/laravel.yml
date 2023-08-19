@@ -39,10 +39,9 @@ jobs:
 
       - name: Generate key
         run: |
+          php artisan migrate --seed
           php artisan key:generate
           php artisan storage:link
-          php artisan migrate --seed
-          php artisan module:seed
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
