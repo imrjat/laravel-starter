@@ -17,6 +17,7 @@ class IpCheckMiddleware
         if (auth()->check()) {
             $approved = [];
             $ips = Setting::where('key', 'ips')->value('value');
+
             if ($ips !== null) {
                 $ips = json_decode($ips, true);
 
