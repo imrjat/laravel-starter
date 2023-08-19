@@ -3,7 +3,7 @@
 use App\Services\StripeService;
 
 beforeEach(function () {
-    authenticate();
+    $this->authenticate();
 });
 
 test('getCustomer created a stripe customer when one does not exist', function () {
