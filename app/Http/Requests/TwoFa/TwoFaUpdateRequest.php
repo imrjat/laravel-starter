@@ -17,8 +17,8 @@ class TwoFaUpdateRequest extends FormRequest
             'code' => [
                 'required',
                 'string',
-                'min:6'
-            ]
+                'min:6',
+            ],
         ];
     }
 }

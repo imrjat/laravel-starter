@@ -11,7 +11,9 @@ class SendContactMail extends Mailable
     use Queueable, SerializesModels;
 
     public string $name;
+
     public string $email;
+
     public string $message;
 
     public function __construct(array $contact)

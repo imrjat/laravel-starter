@@ -12,7 +12,7 @@ test('can get route', function () {
     expect($expected)->toEqual($user->route($user->id));
 });
 
-test('has isActive scope', function() {
+test('has isActive scope', function () {
     $this->assertInstanceOf(Builder::class, User::isActive());
 });
 
@@ -22,13 +22,13 @@ test('isOwner returns true for tenant owner', function () {
     expect($user->isOwner())->toEqual(true);
 });
 
-test('has tenant', function() {
+test('has tenant', function () {
     $user = User::factory()->create();
 
     $this->assertInstanceOf(BelongsTo::class, $user->tenant());
 });
 
-test('has invite', function() {
+test('has invite', function () {
     $user = User::factory()->create();
 
     $this->assertInstanceOf(HasOne::class, $user->invite());

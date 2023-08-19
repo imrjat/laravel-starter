@@ -11,9 +11,9 @@ beforeEach(function () {
     $this->user = User::factory()->create();
 });
 
-test('does send expiring emails X days before trial ends at date', function($days) {
+test('does send expiring emails X days before trial ends at date', function ($days) {
 
-    $trialEndsMinusDays = config('admintw.trail_days') -$days;
+    $trialEndsMinusDays = config('admintw.trail_days') - $days;
     $this->travel($trialEndsMinusDays)->days();
 
     $this->artisan('subscription:email-tenants-with-expiring-trials '.$days)
@@ -25,21 +25,20 @@ test('does send expiring emails X days before trial ends at date', function($day
     $this->travelBack();
 })->with([3, 2, 1]);
 
-
-test('does not send expiring emails 3 days before trial ends at date', function($days) {
+test('does not send expiring emails 3 days before trial ends at date', function ($days) {
 
     $this->artisan('subscription:email-tenants-with-expiring-trials '.$days)
         ->doesntExpectOutputToContain("Mailing {$this->user->tenant->owner->email} (tenant {$this->user->tenant->id})")
         ->expectsOutput('Sent 0 trial expiring emails!');
 
     Mail::assertNotSent(SendTrialExpiringSoonMail::class);
-})->with([3,2,1]);
+})->with([3, 2, 1]);
 
-test('does not send expiring emails x days before trial ends at date more than once', function($days) {
+test('does not send expiring emails x days before trial ends at date more than once', function ($days) {
 
     $this->user->tenant->rememberHasBeenSentTrialEndingSoonMail();
 
-    $trialEndsMinusDays = config('admintw.trail_days') -$days;
+    $trialEndsMinusDays = config('admintw.trail_days') - $days;
     $this->travel($trialEndsMinusDays)->days();
 
     $this->artisan('subscription:email-tenants-with-expiring-trials')
@@ -49,14 +48,14 @@ test('does not send expiring emails x days before trial ends at date more than o
     Mail::assertNotSent(SendTrialExpiringSoonMail::class);
 
     $this->travelBack();
-})->with([3,2,1]);
+})->with([3, 2, 1]);
 
-test('is scheduled', function() {
+test('is scheduled', function () {
 
     $schedule = app()->make(Schedule::class);
 
     $events = collect($schedule->events())->filter(function (Event $event) {
-      return stripos($event->command, 'subscription:email-tenants-with-expiring-trials');
+        return stripos($event->command, 'subscription:email-tenants-with-expiring-trials');
     });
 
     if ($events->count() == 0) {
@@ -67,5 +66,3 @@ test('is scheduled', function() {
         $this->assertEquals('0 5 * * *', $event->expression);
     });
 });
-
-

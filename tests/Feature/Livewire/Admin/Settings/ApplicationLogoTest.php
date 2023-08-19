@@ -84,7 +84,7 @@ test('existing file is deleted dark', function () {
         ->set('applicationLogoDark', $file)
         ->call('update')
         ->assertValid();
-    
+
     $path = Setting::where('key', 'applicationLogoDark')->value('value');
     Storage::disk('public')->assertExists($path);
 });

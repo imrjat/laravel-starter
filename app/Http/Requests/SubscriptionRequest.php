@@ -16,8 +16,8 @@ class SubscriptionRequest extends FormRequest
         return [
             'type' => [
                 'required',
-                'string'
-            ]
+                'string',
+            ],
         ];
     }
 }

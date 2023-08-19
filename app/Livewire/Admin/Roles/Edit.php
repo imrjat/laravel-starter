@@ -17,8 +17,10 @@ use Livewire\Component;
 #[Title('Edit Role')]
 class Edit extends Component
 {
-    public Role|null $role = null;
+    public ?Role $role = null;
+
     public string $label = '';
+
     public array $permissions = [];
 
     protected function rules(): array

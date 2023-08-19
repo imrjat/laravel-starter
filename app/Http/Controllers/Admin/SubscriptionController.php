@@ -9,7 +9,6 @@ use App\Http\Requests\SubscriptionRequest;
 use App\Models\Tenant;
 use App\Services\StripeService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
@@ -49,12 +48,12 @@ class SubscriptionController extends Controller
                 [
                     'price' => $priceId,
                     'quantity' => $totalUsers,
-                ]
+                ],
             ],
             'client_reference_id' => $tenantId,
             'mode' => 'subscription',
             'success_url' => url(route('admin.billing')),
-            'cancel_url' => url(route('admin.billing'))
+            'cancel_url' => url(route('admin.billing')),
         ]);
 
         return redirect()->away($session->url);

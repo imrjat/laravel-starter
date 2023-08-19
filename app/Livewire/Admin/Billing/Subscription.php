@@ -12,6 +12,7 @@ use Livewire\Component;
 class Subscription extends Component
 {
     public string $plan = '';
+
     public Tenant $tenant;
 
     public function mount(StripeService $stripeService): void

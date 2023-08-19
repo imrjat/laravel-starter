@@ -8,7 +8,6 @@ use App\Mail\Users\SendInviteMail;
 use App\Models\Role;
 use App\Models\TenantUser;
 use App\Models\User;
-use App\Services\StripeService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -21,7 +20,9 @@ class Invite extends Component
     use withPagination;
 
     public string $name = '';
+
     public string $email = '';
+
     public array $rolesSelected = [];
 
     protected array $rules = [

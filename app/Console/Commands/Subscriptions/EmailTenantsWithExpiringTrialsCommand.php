@@ -2,16 +2,17 @@
 
 namespace App\Console\Commands\Subscriptions;
 
+use App\Mail\Subscription\SendTrialExpiringSoonMail;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Subscription\SendTrialExpiringSoonMail;
-use Exception;
 
 class EmailTenantsWithExpiringTrialsCommand extends Command
 {
     protected $signature = 'subscription:email-tenants-with-expiring-trials {days=3}';
+
     protected $description = 'Email tenants with expiring trials.';
+
     protected int $mailsSent = 0;
 
     public function handle(): void

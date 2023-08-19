@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Requests\SubscriptionRequest;
 use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\User;

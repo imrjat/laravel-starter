@@ -20,7 +20,7 @@ class SendTrialExpiringSoonMail extends Mailable
 
     public function build(): SendTrialExpiringSoonMail
     {
-        return $this->subject("Your ".config('app.name')." trial will expire soon")
+        return $this->subject('Your '.config('app.name').' trial will expire soon')
             ->markdown('mail.subscription.trialExpiringSoon');
     }
 }

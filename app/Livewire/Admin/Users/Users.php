@@ -24,13 +24,21 @@ class Users extends Component
     use AuthorizesRequests;
 
     public string $paginate = '';
+
     public array $checked = [];
+
     public string $name = '';
+
     public string $email = '';
+
     public string $joined = '';
+
     public string $sortField = 'name';
+
     public bool $sortAsc = true;
+
     public bool $openFilter = false;
+
     public bool $sentEmail = false;
 
     protected $listeners = ['refreshUsers' => '$refresh'];

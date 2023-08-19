@@ -6,12 +6,13 @@ use App\Mail\Subscription\SendTrialExpiredMail;
 use App\Models\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use Exception;
 
 class EmailTenantsWithExpiredTrialsCommand extends Command
 {
     protected $name = 'subscription:email-tenants-with-expired-trials';
+
     protected $description = 'Email tenants with expired trials.';
+
     protected int $mailsSent = 0;
 
     public function handle(): void

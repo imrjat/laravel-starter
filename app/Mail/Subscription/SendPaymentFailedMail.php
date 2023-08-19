@@ -20,7 +20,7 @@ class SendPaymentFailedMail extends Mailable
 
     public function build(): SendPaymentFailedMail
     {
-        return $this->subject("Your " . config('app.name') . " payment failed")
+        return $this->subject('Your '.config('app.name').' payment failed')
             ->markdown('mail.subscription.paymentFailed');
     }
 }

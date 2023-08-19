@@ -4,7 +4,6 @@ namespace App\Mail\Users;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 

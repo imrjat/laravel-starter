@@ -36,9 +36,9 @@ test('can use 2fa code and redirects', function () {
     session(['2fa-login' => true]);
 
     $this->mock(TwoFactorAuth::class, function (MockInterface $mock) {
-       $mock
-           ->shouldReceive('verifyCode')
-           ->andReturn(true);
+        $mock
+            ->shouldReceive('verifyCode')
+            ->andReturn(true);
     });
 
     auth()->user()->update(['two_fa_secret_key' => 'VMR466AB62ZBOKHE']);
@@ -78,14 +78,14 @@ test('code has to be at least 6 chars for update', function () {
 test('can update', function () {
 
     $this->mock(TwoFactorAuth::class, function (MockInterface $mock) {
-       $mock
-           ->shouldReceive('verifyCode')
-           ->andReturn(true);
+        $mock
+            ->shouldReceive('verifyCode')
+            ->andReturn(true);
     });
 
     $this->post(route('admin.2fa-setup.update'), [
         'secretKey' => '123789',
-        'code' => '123457'
+        'code' => '123457',
     ])
         ->assertValid()
         ->assertRedirect(route('dashboard'));
@@ -108,7 +108,7 @@ test('cannot update', function () {
 
     $this->post(route('admin.2fa-setup.update'), [
         'secretKey' => 'VMR466AB62ZBOKHE',
-        'code' => '234'
+        'code' => '234',
     ])->assertInvalid();
 
     $user = User::find(auth()->user()->id);

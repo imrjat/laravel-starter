@@ -25,7 +25,7 @@ test('with valid plan redirect to Stripe', function (string $plan) {
         ->assertRedirectContains('checkout.stripe.com');
 })->with([
     'monthly',
-    'annually'
+    'annually',
 ]);
 
 test('only tenant owner can attempt subscription', function () {

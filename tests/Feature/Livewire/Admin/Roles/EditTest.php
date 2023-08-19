@@ -13,7 +13,7 @@ test('can see edit role page', function () {
     $this->get(route('admin.settings.roles.edit', $role))->assertOk();
 });
 
-test('cannot update role without label', function() {
+test('cannot update role without label', function () {
     $role = Role::where('name', 'admin')->first();
 
     Livewire::test(Edit::class, ['role' => $role])
@@ -22,13 +22,13 @@ test('cannot update role without label', function() {
         ->assertHasErrors('label');
 });
 
-test('can update role', function() {
+test('can update role', function () {
     $role = Role::where('name', 'admin')->first();
 
     Permission::create([
         'name' => 'view_dashboard',
         'label' => 'View Dashboard',
-        'module' => 'App'
+        'module' => 'App',
     ]);
 
     $permissions = Permission::get()->pluck('name')->toArray();

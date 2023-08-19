@@ -11,8 +11,8 @@ test('rules', function () {
         'code' => [
             'required',
             'string',
-            'min:6'
-        ]
+            'min:6',
+        ],
     ],
         $this->requestData->rules()
     );

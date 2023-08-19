@@ -6,14 +6,13 @@ namespace App\Livewire\Admin\Settings;
 
 use App\Models\Setting;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ApplicationSettings extends Component
 {
     public string $siteName = '';
+
     public bool $isForced2Fa = false;
 
     public function mount(): void

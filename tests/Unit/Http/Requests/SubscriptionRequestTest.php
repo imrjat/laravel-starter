@@ -8,11 +8,11 @@ beforeEach(function () {
 
 test('rules', function () {
     $this->assertEquals([
-            'type' => [
-                'required',
-                'string'
-            ]
+        'type' => [
+            'required',
+            'string',
         ],
+    ],
         $this->subscriptionData->rules()
     );
 });

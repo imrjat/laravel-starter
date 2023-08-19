@@ -2,7 +2,6 @@
 
 use App\Livewire\Admin\Users\Activity;
 use App\Models\AuditTrail;
-use App\Models\User;
 
 beforeEach(function () {
     $this->authenticate();
@@ -111,7 +110,7 @@ test('can filter', function () {
 });
 
 test('can reset', function () {
-    
+
     Livewire::test(Activity::class, ['user' => auth()->user()])
         ->set('title', 'jobs')
         ->set('section', 'jobs')

@@ -36,7 +36,7 @@ test('can set forced 2fa', function () {
 
 test('data does not exist by default', function () {
     $this->authenticate();
-  
+
     expect(Setting::where('key', 'is_forced_2fa')->value('value'))->toBeNull;
     expect(Setting::where('key', 'app.name')->value('value'))->toBeNull;
 });

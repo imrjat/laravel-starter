@@ -3,12 +3,12 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfNotOwner
 {
-    public function handle(Request $request, Closure $next): Response|Null
+    public function handle(Request $request, Closure $next): ?Response
     {
         if (auth()->check()) {
 

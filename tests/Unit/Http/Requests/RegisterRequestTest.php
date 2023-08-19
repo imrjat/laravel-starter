@@ -38,11 +38,11 @@ test('rules', function () {
 
 test('messages', function () {
     $this->assertEquals([
-            'password.required' => 'Password is required',
-            'password.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
-            'confirmPassword.required' => 'Confirm password is required',
-            'confirmPassword.same' => 'Confirm password and new password must match',
-        ],
+        'password.required' => 'Password is required',
+        'password.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',
+        'confirmPassword.required' => 'Confirm password is required',
+        'confirmPassword.same' => 'Confirm password and new password must match',
+    ],
         $this->registrationData->messages()
     );
 });

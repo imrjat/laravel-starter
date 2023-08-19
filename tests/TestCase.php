@@ -31,7 +31,7 @@ abstract class TestCase extends BaseTestCase
             'slug' => 'test-user',
             'email' => 'user@domain.com',
             'email_verified_at' => now(),
-            'is_active' => 1
+            'is_active' => 1,
         ]);
 
         return $this->actingAs($secondUser);

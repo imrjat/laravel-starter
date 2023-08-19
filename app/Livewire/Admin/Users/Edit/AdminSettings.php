@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Users\Edit;
 
-use function add_user_log;
 use App\Models\User;
-use function flash;
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+
+use function add_user_log;
+use function flash;
 use function view;
 
 class AdminSettings extends Component
@@ -17,7 +17,9 @@ class AdminSettings extends Component
     public User $user;
 
     public bool $isOfficeLoginOnly = false;
+
     public bool $isActive = false;
+
     public array $roleSelections = [];
 
     protected $listeners = ['refreshAdminSettings' => 'mount'];

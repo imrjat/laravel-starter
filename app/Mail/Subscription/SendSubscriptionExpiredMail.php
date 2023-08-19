@@ -20,7 +20,7 @@ class SendSubscriptionExpiredMail extends Mailable
 
     public function build(): SendSubscriptionExpiredMail
     {
-        return $this->subject("Your ".config('app.name') . " subscription has expired")
+        return $this->subject('Your '.config('app.name').' subscription has expired')
             ->markdown('mail.subscription.subscriptionExpired');
     }
 }

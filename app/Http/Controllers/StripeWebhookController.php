@@ -7,9 +7,9 @@ namespace App\Http\Controllers;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
 use Stripe\Webhook;
-use Stripe\Exception\SignatureVerificationException;
 use UnexpectedValueException;
 
 class StripeWebhookController extends Controller
@@ -17,8 +17,8 @@ class StripeWebhookController extends Controller
     public function __invoke(Request $request)
     {
         $secret = config('services.stripe.webhook');
-        $payload = file_get_contents("php://input");
-        $sig_header = $_SERVER["HTTP_STRIPE_SIGNATURE"];
+        $payload = file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
 
         Stripe::setApiKey(ENV('STRIPE_SECRET'));

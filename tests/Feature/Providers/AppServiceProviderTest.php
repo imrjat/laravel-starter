@@ -7,7 +7,7 @@ test('settings are applied', function () {
 
     Setting::create([
         'key' => 'app_name',
-        'value' => 'Demo'
+        'value' => 'Demo',
     ]);
 
     expect(Setting::first()->value)->toBe('Demo');

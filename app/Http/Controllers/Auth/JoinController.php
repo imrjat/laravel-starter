@@ -12,7 +12,6 @@ use App\Services\StripeService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -53,10 +52,10 @@ class JoinController extends Controller
         $user->save();
 
         //TODO: Remove this after 2fa is implemented
-//        $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
-//        if ($isForced2Fa) {
-//            session(['2fasetup' => true]);
-//        }
+        //        $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
+        //        if ($isForced2Fa) {
+        //            session(['2fasetup' => true]);
+        //        }
 
         AuditTrail::create([
             'tenant_id' => $user->tenant_id,

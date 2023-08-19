@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Users\Edit;
 
-use function add_user_log;
 use App\Models\User;
-use function flash;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,6 +12,9 @@ use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
+use function add_user_log;
+use function flash;
 use function view;
 
 class Profile extends Component
@@ -21,8 +22,11 @@ class Profile extends Component
     use WithFileUploads;
 
     public User $user;
+
     public string $name = '';
+
     public string $email = '';
+
     public $image;
 
     protected $listeners = ['refreshProfile' => 'mount'];

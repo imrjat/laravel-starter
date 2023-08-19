@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TenantUser extends Model
 {
     public $timestamps = false;
+
     protected $table = 'tenant_users';
 
     protected $fillable = [

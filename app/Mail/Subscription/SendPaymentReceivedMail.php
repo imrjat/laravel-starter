@@ -12,6 +12,7 @@ class SendPaymentReceivedMail extends Mailable
     use Queueable, SerializesModels;
 
     public Tenant $tenant;
+
     public string $file;
 
     public function __construct(Tenant $tenant, string $file)
@@ -22,7 +23,7 @@ class SendPaymentReceivedMail extends Mailable
 
     public function build(): SendPaymentReceivedMail
     {
-        return $this->subject(config('app.name') . " invoice")
+        return $this->subject(config('app.name').' invoice')
             ->markdown('mail.subscription.paymentReceived')
             ->attach($this->file);
     }

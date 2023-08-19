@@ -20,14 +20,23 @@ class AuditTrails extends Component
     use WithPagination;
 
     public string $paginate = '';
+
     public array $checked = [];
+
     public int $user_id = 0;
+
     public string $title = '';
+
     public string $section = '';
+
     public string $type = '';
+
     public string $created_at = '';
+
     public string $sortField = 'created_at';
+
     public bool $sortAsc = false;
+
     public bool $openFilter = false;
 
     public function render(): View

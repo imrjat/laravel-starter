@@ -12,6 +12,7 @@ use Livewire\Component;
 class NotificationsMenu extends Component
 {
     public Collection $notifications;
+
     public int $unseenCount = 0;
 
     public function mount(): void

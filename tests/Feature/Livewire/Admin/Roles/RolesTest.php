@@ -90,6 +90,6 @@ test('can delete role', function () {
         ->call('deleteRole', $role->id)
         ->assertOk()
         ->assertDontSee('Editor');
-    
+
     $this->assertDatabaseMissing('roles', ['id' => $role->id]);
 });

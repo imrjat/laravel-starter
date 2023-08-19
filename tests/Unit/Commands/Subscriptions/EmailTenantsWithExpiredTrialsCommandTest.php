@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->user = User::factory()->create();
 });
 
-test('does send expired emails for trial that ends today', function(){
+test('does send expired emails for trial that ends today', function () {
 
     $trialEndsToday = config('admintw.trail_days');
     $this->travel($trialEndsToday)->days();
@@ -25,9 +25,9 @@ test('does send expired emails for trial that ends today', function(){
     $this->travelBack();
 });
 
-test('does not send expired emails for trial that have not ended', function(){
+test('does not send expired emails for trial that have not ended', function () {
 
-    $trialEndsToday = config('admintw.trail_days')-1;
+    $trialEndsToday = config('admintw.trail_days') - 1;
     $this->travel($trialEndsToday)->days();
 
     $this->artisan('subscription:email-tenants-with-expired-trials')
@@ -39,7 +39,7 @@ test('does not send expired emails for trial that have not ended', function(){
     $this->travelBack();
 });
 
-test('does not send expired emails when sent already', function(){
+test('does not send expired emails when sent already', function () {
 
     $trialEndsToday = config('admintw.trail_days');
     $this->travel($trialEndsToday)->days();
@@ -55,12 +55,12 @@ test('does not send expired emails when sent already', function(){
     $this->travelBack();
 });
 
-test('is scheduled', function() {
+test('is scheduled', function () {
 
     $schedule = app()->make(Schedule::class);
 
     $events = collect($schedule->events())->filter(function (Event $event) {
-      return stripos($event->command, 'subscription:email-tenants-with-expired-trials');
+        return stripos($event->command, 'subscription:email-tenants-with-expired-trials');
     });
 
     if ($events->count() == 0) {
@@ -71,4 +71,3 @@ test('is scheduled', function() {
         $this->assertEquals('0 6 * * *', $event->expression);
     });
 });
-

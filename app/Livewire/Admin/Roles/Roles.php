@@ -6,7 +6,6 @@ namespace App\Livewire\Admin\Roles;
 
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -18,8 +17,11 @@ class Roles extends Component
     use WithPagination;
 
     public string $paginate = '';
+
     public string $name = '';
+
     public string $sortField = 'name';
+
     public bool $sortAsc = true;
 
     protected $listeners = ['refreshRoles' => '$refresh'];

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 test('login screen can be rendered', function () {
     $this

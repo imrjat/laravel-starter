@@ -55,4 +55,3 @@ test('when email is not verified redirect back', function () {
     $this->post(route('verification.send'))
         ->assertRedirect('/');
 });
-

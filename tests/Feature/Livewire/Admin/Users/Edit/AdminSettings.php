@@ -2,7 +2,6 @@
 
 use App\Livewire\Admin\Users\Edit\AdminSettings;
 use App\Models\AuditTrail;
-use App\Models\User;
 
 beforeEach(function () {
     $this->authenticate();

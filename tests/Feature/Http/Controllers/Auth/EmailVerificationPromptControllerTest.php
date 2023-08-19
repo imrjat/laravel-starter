@@ -13,9 +13,9 @@ test('email verification screen can be rendered', function () {
         ->assertStatus(200);
 });
 
-test('verify-email redirects', function() {
-   $this->authenticate();
+test('verify-email redirects', function () {
+    $this->authenticate();
 
-   $this->get(route('verification.notice'))
-       ->assertRedirect(route('dashboard'));
+    $this->get(route('verification.notice'))
+        ->assertRedirect(route('dashboard'));
 });

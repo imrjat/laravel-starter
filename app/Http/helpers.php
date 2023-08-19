@@ -103,7 +103,7 @@ if (! function_exists('in_array_r')) {
 }
 
 if (! function_exists('storage_exists')) {
-    function storage_exists(string|null $file, string $disk = 'public'): bool
+    function storage_exists(?string $file, string $disk = 'public'): bool
     {
         if ($file === null) {
             return false;
@@ -114,7 +114,7 @@ if (! function_exists('storage_exists')) {
 }
 
 if (! function_exists('storage_url')) {
-    function storage_url(string|null $file): string
+    function storage_url(?string $file): string
     {
         return Storage::url($file);
     }
