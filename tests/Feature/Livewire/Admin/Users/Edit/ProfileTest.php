@@ -1,15 +1,22 @@
 <?php
 
 use App\Livewire\Admin\Users\Edit\Profile;
+use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
     $this->authenticate();
 });
 
 test('can update profile', function () {
+
+    //fake image upload
+    Storage::fake('public');
+    $image = UploadedFile::fake()->image('avatar.jpg');
+
     Livewire::test(Profile::class, ['user' => auth()->user()])
         ->set('name', 'John Doe')
         ->set('email', 'john@doe.com')
+        ->set('image', $image)
         ->call('update')
         ->assertSet('name', 'John Doe')
         ->assertSet('email', 'john@doe.com')

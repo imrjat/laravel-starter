@@ -85,15 +85,7 @@ class StripeWebhookController extends Controller
         $tenant->canceled_at = $payload['canceled_at'] ? date('Y-m-d H:i:s', $payload['canceled_at']) : null;
         $tenant->save();
 
-        /*$invoiceEmails = InvoiceEmail::where('tenant_id', $tenant->id)->get();
-
-        if ($invoiceEmails === null) {
-            Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
-        } else {
-            foreach ($invoiceEmails as $invoiceEmail) {
-                Mail::to($invoiceEmail->email)->send(new SendSubscriptionExpiredMail($tenant));
-            }
-        }*/
+        //Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
     }
 
     public function handle_payment_intent_succeeded(array $payload): void
@@ -107,19 +99,12 @@ class StripeWebhookController extends Controller
     public function handle_invoice_payment_succeeded(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
-        /*$invoiceEmails = InvoiceEmail::where('tenant_id', $tenant->id)->get();
-
+        /*
         $invoice = file_get_contents($payload['invoice_pdf']);
         $filename = uniqid().'.pdf';
         file_put_contents($filename, $invoice);
 
-        if ($invoiceEmails === null) {
-            Mail::to($team->owner->email)->send(new SendPaymentReceivedMail($team, $filename));
-        } else {
-            foreach ($invoiceEmails as $invoiceEmail) {
-                Mail::to($invoiceEmail->email)->send(new SendPaymentReceivedMail($team, $filename));
-            }
-        }
+        Mail::to($team->owner->email)->send(new SendPaymentReceivedMail($team, $filename));
 
         unlink($filename);*/
     }
@@ -127,14 +112,7 @@ class StripeWebhookController extends Controller
     public function handle_invoice_payment_failed(array $payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
-        /*$invoiceEmails = InvoiceEmail::where('tenant_id', $tenant->id)->get();
 
-        if ($invoiceEmails === null) {
-            Mail::to($tenant->owner->email)->send(new SendPaymentFailedMail($tenant));
-        } else {
-            foreach($invoiceEmails as $invoiceEmail) {
-                Mail::to($invoiceEmail->email)->send(new SendPaymentFailedMail($tenant));
-            }
-        }*/
+        //Mail::to($tenant->owner->email)->send(new SendPaymentFailedMail($tenant));
     }
 }

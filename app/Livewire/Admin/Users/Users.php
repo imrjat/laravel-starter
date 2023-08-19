@@ -59,8 +59,6 @@ class Users extends Component
     {
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
-        } else {
-            $this->sortAsc = true;
         }
 
         $this->sortField = $field;
@@ -110,7 +108,7 @@ class Users extends Component
 
     public function resendInvite(string $id): void
     {
-        $user = $this->builder()->findOrFail($id);
+        $user = User::findOrFail($id);
         Mail::send(new SendInviteMail($user));
 
         $user->invited_at = now();
