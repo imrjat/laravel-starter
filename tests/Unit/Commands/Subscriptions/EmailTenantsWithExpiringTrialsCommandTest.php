@@ -20,7 +20,11 @@ test('does send expiring emails X days before trial ends at date', function ($da
         ->expectsOutputToContain("Mailing {$this->user->tenant->owner->email} (tenant {$this->user->tenant->id})")
         ->expectsOutput('Sent 1 trial expiring emails!');
 
-    Mail::assertSent(SendTrialExpiringSoonMail::class);
+    Mail::assertSent(SendTrialExpiringSoonMail::class, function (SendTrialExpiringSoonMail $mail) {
+        $mail->build();
+        return $mail->hasTo($this->user->tenant->owner->email) &&
+            $mail->hasSubject('Your '.config('app.name').' trial will expire soon');
+    });
 
     $this->travelBack();
 })->with([3, 2, 1]);

@@ -16,7 +16,7 @@ test('can invite user', function () {
     Role::create([
         'tenant_id' => auth()->user()->tenant_id,
         'name' => 'editor',
-        'label' => 'Editor'
+        'label' => 'Editor',
     ]);
 
     Livewire::test(Invite::class)
@@ -37,7 +37,7 @@ test('creates a new user on invite', function () {
     Role::create([
         'tenant_id' => auth()->user()->tenant_id,
         'name' => 'editor',
-        'label' => 'Editor'
+        'label' => 'Editor',
     ]);
 
     Livewire::test(Invite::class)
@@ -52,7 +52,7 @@ test('creates a new user on invite', function () {
         'email' => $email,
         'is_active' => 0,
         'is_office_login_only' => 0,
-        'invited_by' => auth()->id()
+        'invited_by' => auth()->id(),
     ]);
 
     $newUser = User::where('email', $email)->first();
@@ -71,7 +71,7 @@ test('send invite email on invite', function () {
     Role::create([
         'tenant_id' => auth()->user()->tenant_id,
         'name' => 'editor',
-        'label' => 'Editor'
+        'label' => 'Editor',
     ]);
 
     Livewire::test(Invite::class)

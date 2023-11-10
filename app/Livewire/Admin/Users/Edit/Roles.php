@@ -29,8 +29,9 @@ class Roles extends Component
 
     public function update(): bool
     {
-
-        $role = Role::where('tenant_id', auth()->user()->tenant_id)->where('name', 'admin')->firstOrFail();
+        $role = Role::where('tenant_id', auth()->user()->tenant_id)
+            ->where('name', 'admin')
+            ->firstOrFail();
 
         //if admin role is not in array
         if (! in_array(needle: $role->id, haystack: $this->roleSelections, strict: true)) {

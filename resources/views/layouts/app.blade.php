@@ -63,7 +63,6 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/>
                                 </svg>
                             </button>
-
                         </div>
 
                         <div class="flex">
@@ -75,9 +74,6 @@
                 @endauth
 
                 <div class="px-7 py-5">
-
-{{--                    @include('layouts.upgrade')--}}
-
                     {{ $slot ?? '' }}
                 </div>
             </div>

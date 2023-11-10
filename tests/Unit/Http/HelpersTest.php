@@ -61,6 +61,17 @@ test('can look inside multi-array', function () {
         ],
     ];
     expect(in_array_r(3, $items))->toBeTrue();
+});
+
+test('can look inside multi-array for none matches', function () {
+    $items = [
+        [
+            'first' => 1,
+            'two' => [
+                'third' => 3,
+            ],
+        ],
+    ];
     expect(in_array_r('hey', $items))->toBeFalse();
 });
 

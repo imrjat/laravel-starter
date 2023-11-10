@@ -116,7 +116,7 @@ test('can filter name', function () {
 
     User::factory()->create([
         'name' => 'Andy',
-        'email' => 'demo@demo.com'
+        'email' => 'demo@demo.com',
     ]);
 
     Livewire::test(Users::class)
@@ -131,7 +131,7 @@ test('can filter email', function () {
 
     User::factory()->create([
         'name' => 'Andy',
-        'email' => 'demo@demo.com'
+        'email' => 'demo@demo.com',
     ]);
 
     Livewire::test(Users::class)

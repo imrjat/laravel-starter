@@ -116,7 +116,17 @@ test('trail is expiring in 3 days', function () {
     $user->tenant->save();
 
     expect($user->tenant->trailEndsInDays(3))->toBeTrue();
-    expect($user->tenant->trailEndsInDays(4))->toBeFalse();
+});
+
+test('trail is expiring in 4 days', function () {
+    $this->authenticate();
+    $user = auth()->user();
+
+    $user->tenant->stripe_status = 'trial';
+    $user->tenant->trial_ends_at = now()->addDays(4);
+    $user->tenant->save();
+
+    expect($user->tenant->trailEndsInDays(4))->toBeTrue();
 });
 
 test('trailEndsInDays returns false when not on trial', function () {

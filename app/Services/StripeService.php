@@ -26,7 +26,7 @@ class StripeService
 
         $stripe_customer_id = auth()->user()->tenant->stripe_id;
 
-        if ($stripe_customer_id === null) {
+        if ($stripe_customer_id === '') {
             return $this->createStripeCustomer();
         }
 

@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditTrail;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\StripeService;
 use Illuminate\Contracts\View\View;

@@ -17,9 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(StripeClient::class, function () {
-            return new StripeClient(config('services.stripe.secret'));
-        });
+
     }
 
     /**

@@ -20,14 +20,22 @@ test('does validate fields', function () {
 test('can send email', function () {
     Mail::fake();
 
+    $name = fake()->name();
     $email = fake()->email();
+    $message = fake()->paragraph();
 
     Livewire::test(ContactForm::class)
-        ->set('name', fake()->name())
+        ->set('name', $name)
         ->set('email', $email)
-        ->set('message', fake()->paragraph())
+        ->set('message', $message)
         ->call('submitForm')
-        ->assertValid();
+        ->assertSet('successMessage', 'Email Sent')
+        ->assertOk();
 
-    Mail::assertSent(SendContactMail::class);
+    Mail::assertSent(SendContactMail::class, function (SendContactMail $mail) use ($email) {
+        $mail->build();
+        return $mail->hasTo(config('mail.from.address')) &&
+            $mail->hasReplyTo($email) &&
+            $mail->hasSubject('Contact from '.config('app.name'));
+    });
 });

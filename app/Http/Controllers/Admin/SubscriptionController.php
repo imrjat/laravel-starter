@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Tenant;
+use App\Services\LemonSqueezyService;
 use App\Services\StripeService;
 use Illuminate\Http\RedirectResponse;
 use Stripe\Checkout\Session;
@@ -18,8 +19,6 @@ class SubscriptionController extends Controller
     {
         $validated = $request->validated();
         $user = $request->user();
-
-        Stripe::setApiKey(config('services.stripe.secret'));
 
         $priceId = match ($validated['type']) {
             'monthly' => config('services.stripe.monthly'),

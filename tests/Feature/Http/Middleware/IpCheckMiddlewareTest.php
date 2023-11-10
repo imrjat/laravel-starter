@@ -17,8 +17,8 @@ test('when is_office_login_only, cannot access the dashboard from unlisted IP ad
 
     Setting::updateOrCreate(['key' => 'ips'], [
         'value' => json_encode([
-            ['ip' => '10.158.67.124', 'label' => 'fake ip']
-        ])
+            ['ip' => '10.158.67.124', 'label' => 'fake ip'],
+        ]),
     ]);
 
     $this->get(route('dashboard'))->assertRedirect(route('login'));
@@ -33,8 +33,8 @@ test('when is_office_login_only, can access the dashboard from listed IP address
 
     Setting::updateOrCreate(['key' => 'ips'], [
         'value' => json_encode([
-            ['ip' => '127.0.0.1', 'label' => 'local ip']
-        ])
+            ['ip' => '127.0.0.1', 'label' => 'local ip'],
+        ]),
     ]);
 
     $this->get(route('dashboard'))->assertOk();

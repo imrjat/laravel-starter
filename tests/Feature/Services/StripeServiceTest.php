@@ -20,7 +20,6 @@ test('getCustomer created a stripe customer when one does not exist', function (
     expect($customer['object'])->toBe('customer');
 });
 
-
 test('has monthly plan', function () {
 
     auth()->user()->tenant()->update([

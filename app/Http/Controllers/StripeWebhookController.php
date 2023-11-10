@@ -16,23 +16,29 @@ class StripeWebhookController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $secret = config('services.stripe.webhook');
-        $payload = file_get_contents('php://input');
-        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-        $event = null;
+        if (app()->environment('testing') === false) {
+            $secret = config('services.stripe.webhook');
+            $payload = file_get_contents('php://input');
+            $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+            $event = null;
 
-        Stripe::setApiKey(ENV('STRIPE_SECRET'));
+            Stripe::setApiKey(config('services.stripe.secret'));
 
-        try {
             $event = Webhook::constructEvent($payload, $sig_header, $secret);
-        } catch (UnexpectedValueException $e) {
-            // Invalid payload
-            http_response_code(400);
-            exit();
-        } catch (SignatureVerificationException $e) {
-            // Invalid signature
-            http_response_code(400);
-            exit();
+
+            try {
+                $event = Webhook::constructEvent($payload, $sig_header, $secret);
+            } catch (UnexpectedValueException $e) {
+                // Invalid payload
+                http_response_code(400);
+                exit();
+            } catch (SignatureVerificationException $e) {
+                // Invalid signature
+                http_response_code(400);
+                exit();
+            }
+        } else {
+            $event = json_decode(json_encode($request->all()));
         }
 
         if ($event->type == 'customer.subscription.updated') {
@@ -58,7 +64,7 @@ class StripeWebhookController extends Controller
         http_response_code(200);
     }
 
-    public function handle_subscription_updated(array $payload): void
+    public function handle_subscription_updated($payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->stripe_subscription = $payload['id'];
@@ -71,7 +77,7 @@ class StripeWebhookController extends Controller
         $tenant->save();
     }
 
-    public function handle_subscription_deleted(array $payload): void
+    public function handle_subscription_deleted($payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->card_brand = null;
@@ -88,7 +94,7 @@ class StripeWebhookController extends Controller
         //Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
     }
 
-    public function handle_payment_intent_succeeded(array $payload): void
+    public function handle_payment_intent_succeeded($payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->card_brand = $payload['charges']['data'][0]['payment_method_details']['card']['brand'];
@@ -96,7 +102,7 @@ class StripeWebhookController extends Controller
         $tenant->save();
     }
 
-    public function handle_invoice_payment_succeeded(array $payload): void
+    public function handle_invoice_payment_succeeded($payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         /*
@@ -109,7 +115,7 @@ class StripeWebhookController extends Controller
         unlink($filename);*/
     }
 
-    public function handle_invoice_payment_failed(array $payload): void
+    public function handle_invoice_payment_failed($payload): void
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
 

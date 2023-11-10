@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Mail\Subscription;
-
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;

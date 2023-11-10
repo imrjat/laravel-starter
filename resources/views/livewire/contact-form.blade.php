@@ -1,5 +1,4 @@
 <div>
-
     @if($successMessage)
         <div class="alert alert-green">
             {{ $successMessage }}
@@ -11,8 +10,7 @@
         <div class="sm:col-span-2 mt-5">
             <label for="name" class="block text-sm font-medium leading-5 text-gray-700 dark:text-gray-300">Name</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <input id="name" name="name" wire:model.live="name" type="text" value="{{ old('name') }}"
-                       class="border @error('name') border-red-500 @enderror text-gray-900 py-3 px-4 block w-full transition ease-in-out duration-150"/>
+                <input id="name" name="name" wire:model.live="name" type="text" value="{{ old('name') }}" class="border @error('name') border-red-500 @enderror text-gray-900 py-3 px-4 block w-full transition ease-in-out duration-150"/>
             </div>
             @error('name')
             <p class="text-red-500 mt-1">{{ $message }}</p>

@@ -15,7 +15,7 @@
                     <b>{{ __('Payment method') }}:</b> {{ __('Card') }} ({{ $tenant->card_brand }} ending {{ $tenant->card_last_four }})<br>
                 @endif
 
-                @if ($tenant->cancel_at_period_end === 'Yes' || $tenant->isOnGracePeriod()) {
+                @if ($tenant->cancel_at_period_end === 'Yes' || $tenant->isOnGracePeriod())
                     <p>{{ __('Cancel Scheduled for') }} {{ $tenant->ends_at->format('jS M Y H:i A') }}</p>
                 @endif
 
