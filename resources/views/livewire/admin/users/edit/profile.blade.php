@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <x-form wire:submit="" method="put">
+        <x-form wire:submit="update" method="put">
 
             <x-form.input wire:model.live="name" :label="__('Name')" name='name' required />
             <x-form.input wire:model.live="email" :label="__('Email')" name='email' required />
@@ -21,7 +21,7 @@
                 <img src="{{ storage_url($user->image) }}" width="100px" class="mb-5">
             @endif
 
-            <x-button wire:click="update">{{ __('Update Profile') }}</x-button>
+            <x-form.submit>{{ __('Update Profile') }}</x-form.submit>
 
             @include('errors.messages')
 

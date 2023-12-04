@@ -12,14 +12,14 @@
                     <b>{{ __('Your Plan') }}:</b> {{ $plan }}<br>
                     <b>{{ __('Account Status') }}:</b> {{ $tenant->stripe_status }}<br>
                     <b>{{ __('Next Payment') }}:</b> {{ $tenant->ends_at->format('jS F Y') }}<br>
-                    <b>{{ __('Payment method') }}:</b> {{ __('Card') }} ({{ $tenant->card_brand }} ending {{ $tenant->card_last_four }})<br>
+                    <b>{{ __('Payment method') }}:</b> {{ __('Card') }} ({{ $tenant->card_brand }} {{ __('ending') }} {{ $tenant->card_last_four }})<br>
                 @endif
 
                 @if ($tenant->cancel_at_period_end === 'Yes' || $tenant->isOnGracePeriod())
                     <p>{{ __('Cancel Scheduled for') }} {{ $tenant->ends_at->format('jS M Y H:i A') }}</p>
                 @endif
 
-                <p><a href="{{ route('billing-portal') }}" class="btn btn-primary">Manage Subscription</a></p>
+                <p><a href="{{ route('billing-portal') }}" class="btn btn-primary">{{ __('Manage Subscription') }}</a></p>
 
             </div>
 
