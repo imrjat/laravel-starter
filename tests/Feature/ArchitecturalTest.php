@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 
 test('globals')
-    ->expect(['dd', 'dump'])
+    ->expect(['dd', 'dump', 'ray', 'env'])
     ->not->toBeUsed();
 
 test('traits')

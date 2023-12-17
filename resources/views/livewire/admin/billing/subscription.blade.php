@@ -56,8 +56,7 @@
                                 <!-- Heroicon name: check -->
                                 <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 13l4 4L19 7"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <p class="ml-3 text-base text-gray-700">
@@ -70,8 +69,7 @@
                                 <!-- Heroicon name: check -->
                                 <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 13l4 4L19 7"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <p class="ml-3 text-base text-gray-700">
@@ -84,8 +82,7 @@
                                 <!-- Heroicon name: check -->
                                 <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 13l4 4L19 7"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <p class="ml-3 text-base text-gray-700">
@@ -98,8 +95,7 @@
                                 <!-- Heroicon name: check -->
                                 <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 13l4 4L19 7"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <p class="ml-3 text-base text-gray-700">
@@ -112,8 +108,7 @@
                                 <!-- Heroicon name: check -->
                                 <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5 13l4 4L19 7"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
                             <p class="ml-3 text-base text-gray-700">
@@ -121,16 +116,14 @@
                             </p>
                         </li>
                     </ul>
-                    <div class="rounded-md shadow">
 
-                        <x-form method="post" action="{{ route('admin.billing.subscribe') }}">
-                            <input type="hidden" name="type" value="monthly">
-                            <x-button class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" aria-describedby="tier-standard">
-                                Subscribe
-                            </x-button>
-                        </x-form>
+                    <x-form method="post" action="{{ route('admin.billing.subscribe') }}">
+                        <input type="hidden" name="type" value="monthly">
+                        <x-button class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" aria-describedby="tier-standard">
+                            Subscribe
+                        </x-button>
+                    </x-form>
 
-                    </div>
                 </div>
             </div>
 
@@ -221,14 +214,14 @@
                             </p>
                         </li>
                     </ul>
-                    <div class="rounded-md shadow">
-                        <x-form method="post" action="{{ route('admin.billing.subscribe') }}">
-                            <input type="hidden" name="type" value="annually">
-                            <x-button class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" aria-describedby="tier-standard">
-                                Subscribe
-                            </x-button>
-                        </x-form>
-                    </div>
+
+                    <x-form method="post" action="{{ route('admin.billing.subscribe') }}">
+                        <input type="hidden" name="type" value="annually">
+                        <x-button class="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" aria-describedby="tier-standard">
+                            Subscribe
+                        </x-button>
+                    </x-form>
+
                 </div>
             </div>
         </div>
