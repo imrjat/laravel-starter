@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tenant_users', function (Blueprint $table) {
-            $table->uuid('tenant_id')->constrained();
-            $table->uuid('user_id')->constrained();
+            $table->foreignUuid('tenant_id')->constrained();
+            $table->foreignUuid('user_id')->constrained();
         });
     }
 
