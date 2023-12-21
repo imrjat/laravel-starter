@@ -17,10 +17,10 @@ class EmailTenantsWithExpiringTrialsCommand extends Command
 
     public function handle(): void
     {
-        $days = $this->argument('days');
+        $days = (int) $this->argument('days');
 
         Tenant::onTrial()->get()
-            ->filter->trailEndsInDays(days: $days)
+            ->filter->trailEndsInDays($days)
             ->each(function (Tenant $tenant) {
                 $this->sendTrialEndingSoonMail($tenant);
             });

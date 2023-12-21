@@ -92,7 +92,7 @@ test('can update', function () {
 
     $user = User::find(auth()->user()->id);
 
-    expect($user->two_fa_active)->toBe('Yes')
+    expect($user->two_fa_active)->toBe(true)
         ->and($user->two_fa_secret_key)->not->toBeNull();
 
     $this->assertDatabaseHas('audit_trails', [
@@ -113,7 +113,7 @@ test('cannot update', function () {
 
     $user = User::find(auth()->user()->id);
 
-    expect($user->two_fa_active)->toBe(0)
+    expect($user->two_fa_active)->toBe(false)
         ->and($user->two_fa_secret_key)->toBeNull();
 
     $this->assertDatabaseHas('audit_trails', [

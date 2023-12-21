@@ -43,7 +43,7 @@ class JoinController extends Controller
 
         $user->name = $request->input('name');
         $user->password = Hash::make($request->input('newPassword'));
-        $user->is_active = 1;
+        $user->is_active = true;
         $user->invite_token = null;
         $user->last_logged_in_at = now();
         $user->joined_at = now();

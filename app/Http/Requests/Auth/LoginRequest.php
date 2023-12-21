@@ -56,13 +56,13 @@ class LoginRequest extends FormRequest
         $isForced2Fa = Setting::where('key', 'is_forced_2fa')->value('value');
 
         if ($isForced2Fa) {
-            if ($this->user()->two_fa_active === 'Yes' && $this->user()->two_fa_secret_key !== '') {
+            if ($this->user()->two_fa_active === true && $this->user()->two_fa_secret_key !== '') {
                 session(['2fa-login' => true]);
             } else {
                 session(['2fa-setup' => true]);
             }
         } else {
-            if ($this->user()->two_fa_active === 'Yes' && $this->user()->two_fa_secret_key !== '') {
+            if ($this->user()->two_fa_active === true && $this->user()->two_fa_secret_key !== '') {
                 session(['2fa-login' => true]);
             }
         }

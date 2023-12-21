@@ -3,7 +3,7 @@
         <x-slot name="left">
             <h3>{{ __('Two Factor Authentication') }}</h3>
 
-            @if (auth()->user()->two_fa_active == 'No')
+            @if (auth()->user()->two_fa_active === false)
                 <p>{{ __('Add additional security to your account using two-factor authentication.') }}</p>
 
                 <p><b>{{ __('Why do I need this?') }}</b></p>
@@ -22,7 +22,7 @@
 
                 <div class="card">
 
-                    @if (auth()->user()->two_fa_active == 'Yes' && auth()->user()->two_fa_secret_key !='')
+                    @if (auth()->user()->two_fa_active === true && auth()->user()->two_fa_secret_key !='')
                         <p>{{ __('Your 2-Factor Authentication is in place, to remove this click the button below.') }}</p>
                         <x-button wire:click="remove">{{ __('Turn off 2FA') }}</x-button>
                     @else

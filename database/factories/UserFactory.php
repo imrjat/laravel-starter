@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
             'image' => null,
-            'two_fa_active' => 0,
+            'two_fa_active' => false,
             'two_fa_secret_key' => null,
             'is_office_login_only' => 0,
         ];

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
@@ -69,11 +70,11 @@ class StripeWebhookController extends Controller
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
         $tenant->stripe_subscription = $payload['id'];
         $tenant->default_payment_method = $payload['default_payment_method'];
-        $tenant->ends_at = date('Y-m-d H:i:s', $payload['current_period_end']);
+        $tenant->ends_at = Carbon::createFromTimestamp($payload['current_period_end']);
         $tenant->stripe_status = $payload['status'];
         $tenant->trial_ends_at = null;
         $tenant->cancel_at_period_end = $payload['cancel_at_period_end'] ? 'Yes' : 'No';
-        $tenant->canceled_at = $payload['canceled_at'] ? date('Y-m-d H:i:s', $payload['canceled_at']) : null;
+        $tenant->canceled_at = Carbon::createFromTimestamp($payload['canceled_at']);
         $tenant->save();
     }
 
@@ -84,11 +85,11 @@ class StripeWebhookController extends Controller
         $tenant->card_last_four = null;
         $tenant->stripe_subscription = null;
         $tenant->default_payment_method = null;
-        $tenant->ends_at = date('Y-m-d H:i:s', $payload['current_period_end']);
+        $tenant->ends_at = Carbon::createFromTimestamp($payload['current_period_end']);
         $tenant->stripe_status = $payload['status'];
         $tenant->trial_ends_at = null;
         $tenant->cancel_at_period_end = $payload['cancel_at_period_end'] ? 'Yes' : 'No';
-        $tenant->canceled_at = $payload['canceled_at'] ? date('Y-m-d H:i:s', $payload['canceled_at']) : null;
+        $tenant->canceled_at = Carbon::createFromTimestamp($payload['canceled_at']);
         $tenant->save();
 
         //Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
