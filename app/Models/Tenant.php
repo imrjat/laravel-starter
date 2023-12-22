@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasUuid;
 use Database\Factories\TenantFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -55,19 +56,27 @@ class Tenant extends Model
         return $this->trial_ends_at && ($this->trial_ends_at->isFuture() || $this->trial_ends_at->isToday());
     }
 
-    public function scopeOnTrial(object $query): mixed
+    public function scopeOnTrial(Builder $query): Builder
     {
         return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>=', now());
     }
 
-    public function scopeTrialExpiredToday(object $query): mixed
+    public function scopeTrialExpiredToday(Builder $query): Builder
     {
         return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', now());
     }
 
     public function isOnGracePeriod(): bool
     {
-        return $this->stripe_status === 'cancelled' && $this->ends_at->isFuture();
+        if ($this->stripe_status !== 'cancelled') {
+            return false;
+        }
+
+        if ($this->ends_at === null) {
+            return false;
+        }
+
+        return $this->ends_at->isFuture();
     }
 
     public function isOnLifetime(): bool

@@ -16,7 +16,7 @@ class Role extends SpatieRole
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string> $casts
      */
     protected $casts = [
         'id' => 'string',

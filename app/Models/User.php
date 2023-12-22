@@ -6,6 +6,7 @@ use App\Models\Traits\HasTenant;
 use App\Models\Traits\HasUuid;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -54,6 +55,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public string $section = 'Users';
 
+    /**
+     * @var array<string> $searchable
+     */
     public array $searchable = [
         'name',
         'email',
@@ -79,7 +83,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return route('admin.users.show', ['user' => $id]);
     }
 
-    public function scopeIsActive(object $query): mixed
+    public function scopeIsActive(Builder $query): Builder
     {
         return $query->where('is_active', 1);
     }

@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use Stripe\BillingPortal\Session as BillingSession;
 use Stripe\Customer;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 
@@ -14,7 +15,8 @@ class StripeService
 
     public function setKey(): void
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $key = config('services.stripe.secret');
+        Stripe::setApiKey($key);
     }
 
     /**
@@ -32,17 +34,18 @@ class StripeService
 
         try {
             $customer = Customer::retrieve($stripe_customer_id);
+
+            if ($customer->deleted === true) {
+                auth()->user()->tenant->removeStripeId();
+
+                return null;
+            }
+
+            return $customer;
+
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-
-        if ($customer->deleted === true) {
-            auth()->user()->tenant->removeStripeId();
-
-            return null;
-        }
-
-        return $customer;
     }
 
     public function getPlan(): string
@@ -58,10 +61,16 @@ class StripeService
         return '';
     }
 
+    /**
+     * @throws ApiErrorException
+     * @throws Exception
+     */
     public function getBillingPortalUrl(): string
     {
+        $id = $this->getCustomer();
+
         $session = BillingSession::create([
-            'customer' => $this->getCustomer()->id,
+            'customer' => $id,
             'return_url' => url(route('admin.billing')),
         ]);
 

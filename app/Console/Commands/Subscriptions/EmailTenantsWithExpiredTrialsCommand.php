@@ -4,6 +4,7 @@ namespace App\Console\Commands\Subscriptions;
 
 use App\Mail\Subscription\SendTrialExpiredMail;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 

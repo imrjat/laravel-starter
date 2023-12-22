@@ -1,18 +1,20 @@
 includes:
     - vendor/larastan/larastan/extension.neon
 
+
 parameters:
 
     paths:
         - app/
 
     # Level 9 is the highest level
-    level: 5
+    level: 9
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
-#
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
-#
-#    checkMissingIterableValueType: false
+    ignoreErrors:
+    - '#Cannot access property \$[a-zA-Z0-9\\_]+ on App\\Models\\User\|null#'
+    - '#Cannot access property \$[a-zA-Z0-9\\_]+ on App\\Models\\Tenant\|null#'
+    - '#Cannot call method [a-zA-Z0-9\\_]+\(\) on App\\Models\\User\|null#'
+    - '#Cannot call method [a-zA-Z0-9\\_]+\(\) on App\\Models\\Tenant\|null#'
+    - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$tenant_id#'
+
+    checkGenericClassInNonGenericObjectType: false
