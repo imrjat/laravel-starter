@@ -15,8 +15,7 @@ class StripeService
 
     public function setKey(): void
     {
-        $key = config('services.stripe.secret');
-        Stripe::setApiKey($key);
+        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**
