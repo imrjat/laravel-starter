@@ -12,7 +12,7 @@ class ClearLog extends Command
 
     public function handle(): void
     {
-        $f = fopen(storage_path('logs/laravel.log'), 'r+');
+        $f = fopen(storage_path('logs/laravel.log'), 'w+');
         if ($f !== false) {
             ftruncate($f, 0);
             fclose($f);
