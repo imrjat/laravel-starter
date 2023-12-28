@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('owner_id')->constrained('users');
+            $table->uuid('owner_id');
             $table->string('stripe_id')->nullable();
             $table->string('stripe_plan')->nullable();
             $table->string('stripe_subscription')->nullable();

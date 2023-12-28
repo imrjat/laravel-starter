@@ -34,6 +34,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('tenants', function (Blueprint $table) {
+            $table->foreign('owner_id')->references('id')->on('users');
+        });
     }
 
     /**
