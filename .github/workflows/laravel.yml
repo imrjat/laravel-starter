@@ -46,9 +46,6 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Run Vite
-        run: npm run build
-
       - name: Migrate DB
         run: php artisan migrate --seed
 
