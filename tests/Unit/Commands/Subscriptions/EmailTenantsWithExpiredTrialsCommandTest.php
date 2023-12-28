@@ -20,9 +20,9 @@ test('does send expired emails for trial that ends today', function () {
         ->expectsOutputToContain("Mailing {$this->user->tenant->owner->email} (tenant {$this->user->tenant->id})")
         ->expectsOutput('Sent 1 trial expired emails!');
 
-
     Mail::assertSent(SendTrialExpiredMail::class, function (SendTrialExpiredMail $mail) {
         $mail->build();
+
         return $mail->hasTo($this->user->tenant->owner->email) &&
             $mail->hasSubject('Your '.config('app.name').' trial has ended');
     });

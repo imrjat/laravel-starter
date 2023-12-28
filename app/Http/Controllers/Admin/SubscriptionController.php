@@ -8,11 +8,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscriptionRequest;
 use App\Models\Tenant;
 use App\Services\StripeService;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Stripe\Checkout\Session;
+use Stripe\Exception\ApiErrorException;
 
 class SubscriptionController extends Controller
 {
+    /**
+     * @throws ApiErrorException
+     * @throws Exception
+     */
     public function subscribe(SubscriptionRequest $request, StripeService $stripeService): RedirectResponse
     {
         $validated = $request->validated();
@@ -31,10 +37,12 @@ class SubscriptionController extends Controller
         $totalUsers = $user->tenant->users()->count();
         $tenantId = $user->tenant_id;
 
-        $tenant = Tenant::find($tenantId);
-        $tenant->quantity = $totalUsers;
-        $tenant->stripe_plan = $priceId;
-        $tenant->save();
+        $tenant = Tenant::findOrFail($tenantId);
+        // @phpstan-ignore-next-line
+        $tenant->update([
+            'quantity' => $totalUsers,
+            'stripe_plan' => $priceId,
+        ]);
 
         $customerId = $stripeService->getCustomer()->id;
 
@@ -53,6 +61,7 @@ class SubscriptionController extends Controller
             'cancel_url' => url(route('admin.billing')),
         ]);
 
+        //@phpstan-ignore-next-line
         return redirect()->away($session->url);
     }
 

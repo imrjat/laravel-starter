@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Users\Edit;
 
 use App\Models\User;
+use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -41,11 +42,16 @@ class TwoFactorAuthentication extends Component
         return view('livewire.admin.users.edit.two-factor-authentication');
     }
 
+    /**
+     * @return array<string, array<int, (Closure)|string>>
+     */
     protected function rules(): array
     {
         return [
             'code' => [
-                'required', 'min:6', function (string $attribute, string $value, callable $fail) {
+                'required',
+                'min:6',
+                function (string $attribute, string $value, callable $fail) {
                     $tfa = new TwoFactorAuth();
                     $valid = $tfa->verifyCode($this->secretKey, $this->code);
 
@@ -57,6 +63,9 @@ class TwoFactorAuthentication extends Component
         ];
     }
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'code.required' => 'Please enter the code from your authenticator app',
     ];

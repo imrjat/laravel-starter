@@ -16,7 +16,7 @@ class Roles extends Component
 {
     use WithPagination;
 
-    public string $paginate = '';
+    public int $paginate = 25;
 
     public string $name = '';
 
@@ -24,6 +24,9 @@ class Roles extends Component
 
     public bool $sortAsc = true;
 
+    /**
+     * @var array<string>
+     */
     protected $listeners = ['refreshRoles' => '$refresh'];
 
     public function render(): View
@@ -43,6 +46,7 @@ class Roles extends Component
         $this->sortAsc = true;
 
         if ($this->sortField === $field) {
+            // @phpstan-ignore-next-line
             $this->sortAsc = ! $this->sortAsc;
         }
 

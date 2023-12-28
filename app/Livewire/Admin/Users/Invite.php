@@ -23,14 +23,34 @@ class Invite extends Component
 
     public string $email = '';
 
+    /**
+     * @var array<int>
+     */
     public array $rolesSelected = [];
 
+    /**
+     * @var array<string, array<int, string>>
+     */
     protected array $rules = [
-        'name' => 'required|string',
-        'email' => 'required|string|email|unique:users,email',
-        'rolesSelected' => 'required|min:1',
+        'name' => [
+            'required',
+            'string',
+        ],
+        'email' => [
+            'required',
+            'string',
+            'email',
+            'unique:users,email',
+        ],
+        'rolesSelected' => [
+            'required',
+            'min:1',
+        ],
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'name.required' => 'Name is required',
         'email.required' => 'Email is required',

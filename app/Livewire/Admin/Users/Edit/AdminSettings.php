@@ -20,8 +20,14 @@ class AdminSettings extends Component
 
     public bool $isActive = false;
 
+    /**
+     * @var array<string>
+     */
     public array $roleSelections = [];
 
+    /**
+     * @var array<string>
+     */
     protected $listeners = ['refreshAdminSettings' => 'mount'];
 
     public function mount(): void
@@ -39,8 +45,8 @@ class AdminSettings extends Component
 
     public function update(): void
     {
-        $this->user->is_office_login_only = $this->isOfficeLoginOnly ? 1 : 0;
-        $this->user->is_active = $this->isActive ? 1 : 0;
+        $this->user->is_office_login_only = $this->isOfficeLoginOnly;
+        $this->user->is_active = $this->isActive;
         $this->user->save();
 
         add_user_log([

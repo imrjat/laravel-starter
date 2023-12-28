@@ -20,11 +20,11 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
-    use SoftDeletes;
-    use HasUuid;
     use HasTenant;
+    use HasUuid;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $fillable = [
         'tenant_id',
@@ -56,7 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public string $section = 'Users';
 
     /**
-     * @var array<string> $searchable
+     * @var array<string>
      */
     public array $searchable = [
         'name',

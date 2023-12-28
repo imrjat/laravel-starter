@@ -18,10 +18,23 @@ class ContactForm extends Component
 
     public string $successMessage = '';
 
+    /**
+     * @var array<string, array<int, string>>
+     */
     protected array $rules = [
-        'name' => 'required|string',
-        'email' => 'required|string|email',
-        'message' => 'required|string',
+        'name' => [
+            'required',
+            'string',
+        ],
+        'email' => [
+            'required',
+            'string',
+            'email',
+        ],
+        'message' => [
+            'required',
+            'string',
+        ],
     ];
 
     public function render(): View

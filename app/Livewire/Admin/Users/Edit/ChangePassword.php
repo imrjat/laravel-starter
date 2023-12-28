@@ -28,6 +28,9 @@ class ChangePassword extends Component
         return view('livewire.admin.users.edit.change-password');
     }
 
+    /**
+     * @return array<string, array<int, Password|string>>
+     */
     protected function rules(): array
     {
         return [
@@ -39,10 +42,16 @@ class ChangePassword extends Component
                     ->numbers()
                     ->uncompromised(),
             ],
-            'confirmPassword' => 'required|same:newPassword',
+            'confirmPassword' => [
+                'required',
+                'same:newPassword',
+            ],
         ];
     }
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'newPassword.required' => 'New password is required',
         'newPassword.uncompromised' => 'The given new password has appeared in a data leak by https://haveibeenpwned.com please choose a different new password. ',

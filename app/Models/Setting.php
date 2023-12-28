@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    use HasUuid;
     use HasTenant;
+    use HasUuid;
 
     protected $fillable = [
         'tenant_id',

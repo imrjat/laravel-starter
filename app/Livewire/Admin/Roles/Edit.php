@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -21,8 +22,14 @@ class Edit extends Component
 
     public string $label = '';
 
+    /**
+     * @var array<string>
+     */
     public array $permissions = [];
 
+    /**
+     * @return array<string, array<int, Unique|string>>
+     */
     protected function rules(): array
     {
         return [
@@ -30,12 +37,16 @@ class Edit extends Component
                 'required',
                 'string',
                 Rule::unique('roles')
-                    ->where('tenant_id', $this->role->tenant_id) // Consider the current tenant
-                    ->ignore($this->role->id), // Ignore the current role when updating
+                    // @phpstan-ignore-next-line
+                    ->where('tenant_id', $this->role->tenant_id)
+                    ->ignore($this->role->id),
             ],
         ];
     }
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'label.required' => 'Role is required',
     ];
@@ -48,6 +59,7 @@ class Edit extends Component
 
         if (isset($this->role->permissions)) {
             foreach ($this->role->permissions as $perm) {
+                //@phpstan-ignore-next-line
                 $this->permissions[] = $perm->name;
             }
         }
@@ -74,6 +86,7 @@ class Edit extends Component
     {
         $this->validate();
 
+        //@phpstan-ignore-next-line
         $this->role->label = $this->label;
         $this->role->name = strtolower(str_replace(' ', '_', $this->label));
 

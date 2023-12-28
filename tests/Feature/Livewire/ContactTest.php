@@ -34,6 +34,7 @@ test('can send email', function () {
 
     Mail::assertSent(SendContactMail::class, function (SendContactMail $mail) use ($email) {
         $mail->build();
+
         return $mail->hasTo(config('mail.from.address')) &&
             $mail->hasReplyTo($email) &&
             $mail->hasSubject('Contact from '.config('app.name'));

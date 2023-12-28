@@ -21,6 +21,9 @@ class AuditTrails extends Component
 
     public string $paginate = '';
 
+    /**
+     * @var array<string>
+     */
     public array $checked = [];
 
     public int $user_id = 0;
@@ -96,7 +99,7 @@ class AuditTrails extends Component
             }
         }
 
-        return $query->paginate($this->paginate);
+        return $query->paginate((int) $this->paginate);
     }
 
     public function resetFilters(): void

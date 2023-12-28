@@ -20,11 +20,14 @@ use Livewire\WithPagination;
 #[Title('Users')]
 class Users extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
-    public string $paginate = '';
+    public int $paginate = 25;
 
+    /**
+     * @var array<string>
+     */
     public array $checked = [];
 
     public string $name = '';
@@ -41,6 +44,9 @@ class Users extends Component
 
     public bool $sentEmail = false;
 
+    /**
+     * @var array<string>
+     */
     protected $listeners = ['refreshUsers' => '$refresh'];
 
     public function render(): View

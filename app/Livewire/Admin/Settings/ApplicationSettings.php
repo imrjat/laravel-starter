@@ -15,27 +15,36 @@ class ApplicationSettings extends Component
 
     public bool $isForced2Fa = false;
 
+    /**
+     * @return array<string, array<int, string>>
+     */
+    protected function rules(): array
+    {
+        return [
+            'siteName' => [
+                'required',
+                'string',
+            ],
+        ];
+    }
+
+    /**
+     * @var array<string, string>
+     */
+    protected array $messages = [
+        'siteName.required' => 'Site name is required',
+    ];
+
     public function mount(): void
     {
         $this->siteName = Setting::where('key', 'app.name')->value('value') ?? '';
-        $this->isForced2Fa = (bool) Setting::where('key', 'is_forced_2fa')->value('value') ?? false;
+        $this->isForced2Fa = (bool) Setting::where('key', 'is_forced_2fa')->value('value');
     }
 
     public function render(): View
     {
         return view('livewire.admin.settings.application-settings');
     }
-
-    protected function rules(): array
-    {
-        return [
-            'siteName' => 'required|string',
-        ];
-    }
-
-    protected array $messages = [
-        'siteName.required' => 'Site name is required',
-    ];
 
     /**
      * @throws ValidationException

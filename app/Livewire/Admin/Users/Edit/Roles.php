@@ -13,6 +13,9 @@ class Roles extends Component
 {
     public User $user;
 
+    /**
+     * @var array<int>
+     */
     public array $roleSelections = [];
 
     public function mount(): void
@@ -44,18 +47,19 @@ class Roles extends Component
                 return false;
             }
 
-            $this->syncRoles($role);
+            $this->syncRoles();
 
             return false;
         }
 
-        $this->syncRoles($role);
+        $this->syncRoles();
 
         return true;
     }
 
     protected function syncRoles(): void
     {
+        //@phpstan-ignore-next-line
         $rolesWithTenant = collect($this->roleSelections)->map(function (string $roleId) {
             return [
                 'role_id' => $roleId,

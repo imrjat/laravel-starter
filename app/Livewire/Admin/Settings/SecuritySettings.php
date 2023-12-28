@@ -12,12 +12,24 @@ use Livewire\Component;
 
 class SecuritySettings extends Component
 {
+    /**
+     * @var array<int, array<string, string>>
+     */
     public array $ips = [];
 
+    /**
+     * @var array<string, array<int, string>>
+     */
     protected array $rules = [
-        'ips.*.ip' => 'required|ip',
+        'ips.*.ip' => [
+            'required',
+            'ip',
+        ],
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'ips.*.ip.required' => 'IP is required',
         'ips.*.ip.ip' => 'Please enter a valid IP address',

@@ -16,6 +16,11 @@ class SendContactMail extends Mailable
 
     public string $message;
 
+    /**
+     * Create a new message instance.
+     *
+     * @param  array<string, string>  $contact
+     */
     public function __construct(array $contact)
     {
         $this->name = $contact['name'];

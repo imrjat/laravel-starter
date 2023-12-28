@@ -17,6 +17,7 @@ class Subscription extends Component
 
     public function mount(StripeService $stripeService): void
     {
+        //@phpstan-ignore-next-line
         $this->tenant = auth()->user()->tenant;
         $this->plan = $stripeService->getPlan();
     }

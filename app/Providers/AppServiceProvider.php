@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use Stripe\StripeClient;
 
 class AppServiceProvider extends ServiceProvider
 {

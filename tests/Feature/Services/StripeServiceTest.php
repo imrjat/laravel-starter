@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Tenant;
-use App\Models\TenantUser;
-use App\Models\User;
 use App\Services\StripeService;
 use Stripe\Stripe;
 
@@ -89,5 +86,3 @@ test('setSubscriptionQty returns null', function () {
     $result = (new StripeService)->setSubscriptionQty();
     expect($result)->toBeNull();
 });
-
-

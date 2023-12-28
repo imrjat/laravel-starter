@@ -33,6 +33,9 @@ if (! function_exists('abort_if_cannot')) {
 }
 
 if (! function_exists('add_user_log')) {
+    /**
+     * @param  array<string, mixed>  $data
+     */
     function add_user_log(array $data): void
     {
         AuditTrail::create([
@@ -90,6 +93,9 @@ if (! function_exists('size_readable')) {
 }
 
 if (! function_exists('in_array_r')) {
+    /**
+     * @param  array<string, mixed>  $haystack
+     */
     function in_array_r(string $needle, array $haystack, bool $strict = false): bool
     {
         foreach ($haystack as $item) {
@@ -114,7 +120,7 @@ if (! function_exists('storage_exists')) {
 }
 
 if (! function_exists('storage_url')) {
-    function storage_url(?string $file): string
+    function storage_url(string $file): string
     {
         return Storage::url($file);
     }

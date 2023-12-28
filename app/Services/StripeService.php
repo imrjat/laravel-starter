@@ -34,6 +34,7 @@ class StripeService
         try {
             $customer = Customer::retrieve($stripe_customer_id);
 
+            //@phpstan-ignore-next-line
             if ($customer->deleted === true) {
                 auth()->user()->tenant->removeStripeId();
 

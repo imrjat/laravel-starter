@@ -11,10 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
+/**
+ * @property int $quantity
+ */
 class Tenant extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
 
     protected $fillable = [
         'name',
@@ -26,6 +29,8 @@ class Tenant extends Model
         'trial_expiring_mail_sent_at',
         'trial_expired_mail_sent_at',
         'extra_billing_information',
+        'quantity',
+        'stripe_plan',
     ];
 
     protected $casts = [

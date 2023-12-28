@@ -18,13 +18,32 @@ class ApplicationLogo extends Component
 {
     use WithFileUploads;
 
-    public $applicationLogo = '';
+    public mixed $applicationLogo = '';
 
-    public $existingApplicationLogo = '';
+    public mixed $existingApplicationLogo = '';
 
-    public $applicationLogoDark = '';
+    public mixed $applicationLogoDark = '';
 
-    public $existingApplicationLogoDark = '';
+    public mixed $existingApplicationLogoDark = '';
+
+    /**
+     * @return array<string, array<int, string>>
+     */
+    protected function rules(): array
+    {
+        return [
+            'applicationLogo' => [
+                'image',
+                'mimes:png,jpg,gif',
+                'max:5120',
+            ],
+            'applicationLogoDark' => [
+                'image',
+                'mimes:png,jpg,gif',
+                'max:5120',
+            ],
+        ];
+    }
 
     public function mount(): void
     {
@@ -35,14 +54,6 @@ class ApplicationLogo extends Component
     public function render(): View
     {
         return view('livewire.admin.settings.application-logo');
-    }
-
-    protected function rules(): array
-    {
-        return [
-            'applicationLogo' => 'image|mimes:png,jpg,gif|max:5120',
-            'applicationLogoDark' => 'image|mimes:png,jpg,gif|max:5120',
-        ];
     }
 
     /**
@@ -71,10 +82,12 @@ class ApplicationLogo extends Component
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
             $img = Image::make($this->applicationLogo)->encode('png')->resize(200, null, function (object $constraint) {
+                //@phpstan-ignore-next-line
                 $constraint->aspectRatio();
             });
             $img->stream();
 
+            //@phpstan-ignore-next-line
             Storage::disk('public')->put('logo/'.$name, $img);
             Setting::updateOrCreate(['key' => 'applicationLogo'], ['value' => 'logo/'.$name]);
         }
@@ -88,10 +101,12 @@ class ApplicationLogo extends Component
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.png';
             $img = Image::make($this->applicationLogoDark)->encode('png')->resize(200, null, function (object $constraint) {
+                //@phpstan-ignore-next-line
                 $constraint->aspectRatio();
             });
             $img->stream();
 
+            //@phpstan-ignore-next-line
             Storage::disk('public')->put('logo/'.$name, $img);
             Setting::updateOrCreate(['key' => 'applicationLogoDark'], ['value' => 'logo/'.$name]);
         }

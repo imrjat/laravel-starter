@@ -22,6 +22,7 @@ test('does send expiring emails X days before trial ends at date', function ($da
 
     Mail::assertSent(SendTrialExpiringSoonMail::class, function (SendTrialExpiringSoonMail $mail) {
         $mail->build();
+
         return $mail->hasTo($this->user->tenant->owner->email) &&
             $mail->hasSubject('Your '.config('app.name').' trial will expire soon');
     });

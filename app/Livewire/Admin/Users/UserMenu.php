@@ -9,6 +9,9 @@ use Livewire\Component;
 
 class UserMenu extends Component
 {
+    /**
+     * @var array<string>
+     */
     protected $listeners = ['refreshUserMenu' => '$refresh'];
 
     public function render(): View

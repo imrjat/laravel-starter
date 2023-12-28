@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AuditTrail extends Model
 {
-    use SoftDeletes;
     use HasFactory;
-    use HasUuid;
     use HasTenant;
+    use HasUuid;
+    use SoftDeletes;
 
     protected $fillable = [
         'tenant_id',

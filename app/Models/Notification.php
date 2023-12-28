@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Notification extends Model
 {
     use HasFactory;
-    use HasUuid;
     use HasTenant;
+    use HasUuid;
 
     protected $fillable = [
         'tenant_id',

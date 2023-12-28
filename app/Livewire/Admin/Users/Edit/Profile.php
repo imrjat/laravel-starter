@@ -27,8 +27,11 @@ class Profile extends Component
 
     public string $email = '';
 
-    public $image;
+    public mixed $image = null;
 
+    /**
+     * @var array<string>
+     */
     protected $listeners = ['refreshProfile' => 'mount'];
 
     public function mount(): void
@@ -42,15 +45,32 @@ class Profile extends Component
         return view('livewire.admin.users.edit.profile');
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'image' => 'nullable|image|mimes:png,jpg,gif|max:5120',
-            'email' => 'required|email',
+            'name' => [
+                'required',
+                'string',
+            ],
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:png,jpg,gif',
+                'max:5120',
+            ],
+            'email' => [
+                'required',
+                'email',
+            ],
         ];
     }
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'name.required' => 'Name is required',
     ];
@@ -75,10 +95,12 @@ class Profile extends Component
             $token = md5(random_int(1, 10).microtime());
             $name = $token.'.jpg';
             $img = Image::make($this->image)->encode('jpg')->resize(100, null, function (object $constraint) {
+                // @phpstan-ignore-next-line
                 $constraint->aspectRatio();
             });
             $img->stream();
 
+            //@phpstan-ignore-next-line
             Storage::disk('public')->put('users/'.$name, $img);
 
             $this->user->image = 'users/'.$name;

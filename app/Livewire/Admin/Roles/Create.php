@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Roles;
 use App\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +18,9 @@ class Create extends Component
 
     public string $role = '';
 
+    /**
+     * @return array<string, array<int, Unique|string>>
+     */
     protected function rules(): array
     {
         return [
@@ -24,12 +28,16 @@ class Create extends Component
                 'required',
                 'string',
                 Rule::unique('roles', 'label')->where(function (object $query) {
+                    //@phpstan-ignore-next-line
                     return $query->where('tenant_id', auth()->user()->tenant_id);
                 }),
             ],
         ];
     }
 
+    /**
+     * @var array<string, string>
+     */
     protected array $messages = [
         'role.required' => 'Role is required',
     ];
