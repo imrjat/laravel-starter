@@ -36,9 +36,7 @@ Route::get('/', WelcomeController::class);
 Route::post('stripe/webhooks', StripeWebhookController::class);
 
 if (config('admintw.is_live')) {
-    Route::prefix(config('admintw.prefix'))->middleware([
-        'auth', 'verified', 'activeUser', 'IpCheckMiddleware',
-    ])->group(function () {
+    Route::prefix(config('admintw.prefix'))->middleware(['auth', 'verified', 'activeUser', 'IpCheckMiddleware'])->group(function () {
         Route::get('/', Dashboard::class)->name('dashboard');
 
         Route::get('2fa', [TwoFaController::class, 'index'])->name('admin.2fa');
