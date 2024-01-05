@@ -37,7 +37,6 @@ class Edit extends Component
                 'required',
                 'string',
                 Rule::unique('roles')
-                    // @phpstan-ignore-next-line
                     ->where('tenant_id', $this->role->tenant_id)
                     ->ignore($this->role->id),
             ],

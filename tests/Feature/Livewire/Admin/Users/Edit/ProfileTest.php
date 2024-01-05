@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Users\Edit\Profile;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
@@ -65,4 +66,21 @@ test('image can be null', function () {
         ->set('image', '')
         ->call('update')
         ->assertHasNoErrors();
+});
+
+test('image is deleted when a new image is uploaded', function () {
+
+    //fake image upload
+    Storage::fake('public');
+
+    $user = auth()->user();
+    $user->image = UploadedFile::fake()->image('oldImage.jpg');
+    $user->save();
+
+    Livewire::test(Profile::class, ['user' => auth()->user()])
+        ->set('image', UploadedFile::fake()->image('avatar.jpg'))
+        ->call('update')
+        ->assertHasNoErrors();
+
+    Storage::disk('public')->assertMissing($user->image);
 });

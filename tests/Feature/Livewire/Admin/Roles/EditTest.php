@@ -19,6 +19,7 @@ test('cannot update role without label', function () {
     Livewire::test(Edit::class, ['role' => $role])
         ->set('label', '')
         ->call('update')
+        ->assertSee('Role is required')
         ->assertHasErrors('label');
 });
 

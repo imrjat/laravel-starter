@@ -34,6 +34,17 @@ test('is on grace period', function () {
     expect($user->tenant->isOnGracePeriod())->toBeTrue();
 });
 
+test('grace period has finished', function () {
+    $this->authenticate();
+    $user = auth()->user();
+
+    $user->tenant->stripe_status = 'cancelled';
+    $user->tenant->ends_at = null;
+    $user->tenant->save();
+
+    expect($user->tenant->isOnGracePeriod())->toBeFalse();
+});
+
 test('is not on grace period', function () {
     $this->authenticate();
     $user = auth()->user();
