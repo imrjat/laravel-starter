@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Users\Edit;
 
 use App\Models\User;
+use App\Rules\TwoFactorCodeRule;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
@@ -27,14 +28,20 @@ class TwoFactorAuthentication extends Component
 
     public string $code = '';
 
+    protected TwoFactorAuth $twoFactorAuth;
+
+    public function boot(TwoFactorAuth $twoFactorAuth): void
+    {
+        $this->twoFactorAuth = $twoFactorAuth;
+    }
+
     /**
      * @throws TwoFactorAuthException
      */
     public function mount(): void
     {
-        $tfa = new TwoFactorAuth();
-        $this->secretKey = $tfa->createSecret();
-        $this->inlineUrl = $tfa->getQRCodeImageAsDataUri(config('app.name'), $this->secretKey);
+        $this->secretKey = $this->twoFactorAuth->createSecret();
+        $this->inlineUrl = $this->twoFactorAuth->getQRCodeImageAsDataUri(config('app.name'), $this->secretKey);
     }
 
     public function render(): View
@@ -43,7 +50,7 @@ class TwoFactorAuthentication extends Component
     }
 
     /**
-     * @return array<string, array<int, (Closure)|string>>
+     * @return array<string, array<int, string|TwoFactorCodeRule>>
      */
     protected function rules(): array
     {
@@ -51,14 +58,7 @@ class TwoFactorAuthentication extends Component
             'code' => [
                 'required',
                 'min:6',
-                function (string $attribute, string $value, callable $fail) {
-                    $tfa = new TwoFactorAuth();
-                    $valid = $tfa->verifyCode($this->secretKey, $this->code);
-
-                    if ($valid === false) {
-                        $fail('Code is invalid please scan the barcode again and enter the code.');
-                    }
-                },
+                new TwoFactorCodeRule($this->twoFactorAuth),
             ],
         ];
     }

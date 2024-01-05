@@ -1,4 +1,4 @@
-<div wire:poll>
+<div>
     <x-2col>
         <x-slot name="left">
             <h3>{{ __('Two Factor Authentication') }}</h3>

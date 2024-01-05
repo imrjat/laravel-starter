@@ -36,9 +36,7 @@ class Edit extends Component
             'label' => [
                 'required',
                 'string',
-                Rule::unique('roles')
-                    ->where('tenant_id', $this->role->tenant_id)
-                    ->ignore($this->role->id),
+                Rule::unique('roles')->where('tenant_id', $this->role->tenant_id)->ignore($this->role->id),
             ],
         ];
     }
