@@ -6,7 +6,6 @@ namespace App\Livewire\Admin\Users\Edit;
 
 use App\Models\User;
 use App\Rules\TwoFactorCodeRule;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;

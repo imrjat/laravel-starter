@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Admin\Users\Edit\Profile;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
