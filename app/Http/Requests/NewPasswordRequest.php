@@ -7,6 +7,14 @@ use Illuminate\Validation\Rules\Password;
 
 class NewPasswordRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * @return array<string, array<int, Password|string|null>>
+     */
     public function rules(): array
     {
         return [
