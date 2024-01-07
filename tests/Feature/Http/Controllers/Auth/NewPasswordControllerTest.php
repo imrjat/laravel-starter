@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 
 test('can view forgotten password page', function () {
     $this->assertGuest();
@@ -33,6 +34,8 @@ test('can reset password and redirects', function () {
 
     $user = User::factory()->create();
 
+    Event::fake();
+
     $this->post(route('password.email'), [
         'email' => $user->email,
     ]);
@@ -45,7 +48,9 @@ test('can reset password and redirects', function () {
         'email' => $user->email,
         'password' => $password,
         'password_confirmation' => $password,
-    ])->assertRedirect('/');
+    ])->assertRedirect('login');
+
+    Event::assertDispatched(PasswordReset::class);
 });
 
 test('can reset password and updated user table', function () {
