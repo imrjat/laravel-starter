@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class NewPasswordController extends Controller
@@ -36,6 +35,7 @@ class NewPasswordController extends Controller
         event(new PasswordReset($user));
 
         $status = Password::PASSWORD_RESET;
+
         return redirect()->route('login')->with('status', __($status));
     }
 }

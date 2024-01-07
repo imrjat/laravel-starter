@@ -38,7 +38,7 @@ test('roles', function () {
     $role = Role::create([
         'tenant_id' => auth()->user()->tenant_id,
         'label' => 'Editor',
-        'name' => 'editor'
+        'name' => 'editor',
     ]);
 
     Livewire::test(Roles::class, ['user' => auth()->user()])
@@ -51,7 +51,7 @@ test('must have at least one admin role', function () {
     $role = Role::create([
         'tenant_id' => auth()->user()->tenant_id,
         'label' => 'Editor',
-        'name' => 'editor'
+        'name' => 'editor',
     ]);
 
     $roles = [];
@@ -67,11 +67,11 @@ test('must have at least one admin role', function () {
     //$this->assertTrue($returnType);
 
     $this->assertDatabaseMissing('model_has_roles', [
-        'role_id' => $role->id
+        'role_id' => $role->id,
     ]);
 
     $this->assertDatabaseMissing('audit_trails', [
-        'title' => 'updated '.auth()->user()->name."'s roles"
+        'title' => 'updated '.auth()->user()->name."'s roles",
     ]);
 
     $this->assertTrue(auth()->user()->fresh()->hasRole('admin'));
