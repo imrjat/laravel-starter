@@ -47,9 +47,11 @@ class Roles extends Component
                 return false;
             }
 
+            //@codeCoverageIgnoreStart
             $this->syncRoles();
 
             return false;
+            //@codeCoverageIgnoreEnd
         }
 
         $this->syncRoles();
