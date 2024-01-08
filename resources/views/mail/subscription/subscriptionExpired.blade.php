@@ -2,7 +2,7 @@
 
 {{ __('Your subscription to') }} {{ config('app.name') }} {{ __('has expired! You can renew your subscription by click the button below') }}.
 
-@component('mail::button', ['url' => url(route('admin.billing'))])
+@component('mail::button', ['url' => route('billing-portal')])
     {{ __('Renew my subscription') }}
 @endcomponent
 

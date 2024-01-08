@@ -55,6 +55,7 @@ test('has monthly plan', function () {
     ]);
 
     $plan = (new StripeService)->getPlan();
+
     $this->assertEquals('Monthly', $plan);
 });
 
@@ -65,6 +66,7 @@ test('has annually plan', function () {
     ]);
 
     $plan = (new StripeService)->getPlan();
+
     $this->assertEquals('Annually', $plan);
 });
 
@@ -74,15 +76,18 @@ test('has no plan', function () {
     ]);
 
     $plan = (new StripeService)->getPlan();
+
     $this->assertEquals('', $plan);
 });
 
 test('get billing portal', function () {
     $url = (new StripeService)->getBillingPortalUrl();
+
     $this->assertNotNull($url);
 });
 
 test('setSubscriptionQty returns null', function () {
     $result = (new StripeService)->setSubscriptionQty();
+
     expect($result)->toBeNull();
 });

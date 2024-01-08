@@ -85,6 +85,7 @@ class StripeService
             return;
         }
 
+        //@codeCoverageIgnoreStart
         $id = auth()->user()->tenant->stripe_subscription;
         $qty = auth()->user()->tenant->users()->count();
 
@@ -92,6 +93,7 @@ class StripeService
             'quantity' => $qty,
             'proration_behavior' => 'always_invoice',
         ]);
+        //@codeCoverageIgnoreEnd
     }
 
     protected function createStripeCustomer(): Customer

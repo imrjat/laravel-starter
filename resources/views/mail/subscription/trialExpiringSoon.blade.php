@@ -2,7 +2,7 @@
 
 {{ __('Your trial to') }} {{ config('app.name') }} {{ __('ends in 3 days') }}.
 
-@component('mail::button', ['url' => url("app/subscription")])
+@component('mail::button', ['url' => route('billing-portal')])
     {{ __('Subscribe') }}
 @endcomponent
 

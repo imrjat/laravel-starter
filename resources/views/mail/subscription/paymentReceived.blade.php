@@ -4,7 +4,7 @@
 
 {{ __('Attached is a copy of the invoice.') }}
 
-{{ __('You can see all invoices in your') }} <a href='{{ url(route('admin.billing.invoices')) }}'>{{ __('account') }}</a>.
+{{ __('You can see all invoices in your') }} <a href='{{ route('billing-portal') }}'>{{ __('account') }}</a>.
 
 {{ __('Please do get it touch if you have any questions.') }}
 

@@ -4,7 +4,7 @@
 
 {{ __('If you would like to continue, you can subscribe by clicking the button below') }}.
 
-@component('mail::button', ['url' => url(route('admin.billing'))])
+@component('mail::button', ['url' => route('billing-portal')])
     {{ __('Subscribe') }}
 @endcomponent
 

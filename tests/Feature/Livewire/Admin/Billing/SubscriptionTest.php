@@ -34,9 +34,3 @@ test('only tenant owner can attempt subscription', function () {
     $this->post(route('admin.billing.subscribe'), ['type' => 'monthly'])
         ->assertRedirect(route('dashboard'));
 });
-
-test('can access billing portal', function () {
-    $this->authenticate();
-    $this->get(route('billing-portal'))
-        ->assertRedirectContains('billing.stripe.com');
-})->skip('Need to mock the Stripe API');

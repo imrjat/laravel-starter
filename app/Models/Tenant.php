@@ -30,6 +30,7 @@ class Tenant extends Model
         'trial_expired_mail_sent_at',
         'extra_billing_information',
         'quantity',
+        'stripe_id',
         'stripe_plan',
     ];
 
