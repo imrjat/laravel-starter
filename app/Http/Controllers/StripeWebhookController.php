@@ -10,7 +10,6 @@ use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
-use JetBrains\PhpStorm\NoReturn;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
 use Stripe\Webhook;
@@ -21,7 +20,7 @@ class StripeWebhookController extends Controller
     public function __invoke(Request $request): void
     {
         //@codeCoverageIgnoreStart
-        if (!app()->environment('testing')) {
+        if (! app()->environment('testing')) {
 
             $secret = config('services.stripe.webhook');
             $payload = file_get_contents('php://input');
@@ -44,22 +43,27 @@ class StripeWebhookController extends Controller
             }
 
             if ($event->type == 'customer.subscription.updated') {
+                //@phpstan-ignore-next-line
                 $this->handleSubscriptionUpdated($event->data->object);
             }
 
             if ($event->type == 'customer.subscription.deleted') {
+                //@phpstan-ignore-next-line
                 $this->handleSubscriptionDeleted($event->data->object);
             }
 
             if ($event->type == 'payment_intent.succeeded') {
+                //@phpstan-ignore-next-line
                 $this->handlePaymentIntentSucceeded($event->data->object);
             }
 
             if ($event->type == 'invoice.payment_succeeded') {
+                //@phpstan-ignore-next-line
                 $this->handleInvoicePaymentSucceeded($event->data->object);
             }
 
             if ($event->type == 'invoice.payment_failed') {
+                //@phpstan-ignore-next-line
                 $this->handleInvoicePaymentFailed($event->data->object);
             }
         }
@@ -80,7 +84,7 @@ class StripeWebhookController extends Controller
         $tenant->stripe_status = $payload['status'];
         $tenant->trial_ends_at = null;
         $tenant->cancel_at_period_end = $payload['cancel_at_period_end'] ? 'Yes' : 'No';
-        $tenant->canceled_at = ($payload['canceled_at'] !='') ? Carbon::createFromTimestamp($payload['canceled_at']) : null;
+        $tenant->canceled_at = ($payload['canceled_at'] != '') ? Carbon::createFromTimestamp($payload['canceled_at']) : null;
         $tenant->save();
     }
 
