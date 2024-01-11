@@ -18,5 +18,6 @@ parameters:
     - '#Cannot call method [a-zA-Z0-9\\_]+\(\) on App\\Models\\Tenant\|null#'
     - '#Cannot call method [a-zA-Z0-9\\_]+\(\) on App\\Models\\Role\|null#'
     - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::\$tenant_id#'
+    - '#Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
 
     checkGenericClassInNonGenericObjectType: false

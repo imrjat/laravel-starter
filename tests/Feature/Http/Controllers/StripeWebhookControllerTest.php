@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\StripeWebhookController;
 use App\Mail\Subscription\SendPaymentFailedMail;
+use App\Mail\Subscription\SendPaymentReceivedMail;
+use App\Mail\Subscription\SendSubscriptionExpiredMail;
 use App\Models\User;
 
 use function Pest\Laravel\assertDatabaseHas;
@@ -43,6 +45,8 @@ test('can update subscription', function () {
 
 test('can delete subscription', function () {
 
+    Mail::fake();
+
     $user = User::factory()->create();
 
     $user->tenant->update([
@@ -74,6 +78,10 @@ test('can delete subscription', function () {
         'cancel_at_period_end' => 'Yes',
         'canceled_at' => '2022-10-14 13:33:37',
     ]);
+
+    Mail::assertSent(SendSubscriptionExpiredMail::class, function ($mail) use ($user) {
+        return $mail->hasTo($user->tenant->owner->email);
+    });
 
 });
 
@@ -128,7 +136,9 @@ test('handle invoice payment failed', function () {
     $controller = new StripeWebhookController();
     $controller->handleInvoicePaymentFailed($payload);
 
-    Mail::assertSent(SendPaymentFailedMail::class);
+    Mail::assertSent(SendPaymentFailedMail::class, function ($mail) use ($user) {
+        return $mail->hasTo($user->tenant->owner->email);
+    });
 });
 
 test('does not send email when no invoice exists', function () {
@@ -147,4 +157,31 @@ test('does not send email when no invoice exists', function () {
     $controller->handleInvoicePaymentSucceeded($payload);
 
     Mail::assertNotSent(SendPaymentReceivedMail::class);
+});
+
+test('does send email when no invoice exists', function () {
+
+    Mail::fake();
+    Storage::fake();
+    Http::fake([
+        'example.com/sample_invoice.pdf' => Http::response('file contents', 200),
+    ]);
+
+    $user = User::factory()->create();
+
+    $user->tenant->update([
+        'stripe_id' => 'stripe-customer-id',
+    ]);
+
+    $payload = [
+        'customer' => 'stripe-customer-id',
+        'invoice_pdf' => 'http://example.com/sample_invoice.pdf',
+    ];
+
+    $controller = new StripeWebhookController();
+    $controller->handleInvoicePaymentSucceeded($payload);
+
+    Mail::assertSent(SendPaymentReceivedMail::class, function ($mail) use ($user) {
+        return $mail->hasTo($user->tenant->owner->email);
+    });
 });

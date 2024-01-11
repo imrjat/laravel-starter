@@ -6,10 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Mail\Subscription\SendPaymentFailedMail;
 use App\Mail\Subscription\SendPaymentReceivedMail;
+use App\Mail\Subscription\SendSubscriptionExpiredMail;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
 use Stripe\Webhook;
@@ -43,27 +46,22 @@ class StripeWebhookController extends Controller
             }
 
             if ($event->type == 'customer.subscription.updated') {
-                //@phpstan-ignore-next-line
                 $this->handleSubscriptionUpdated($event->data->object);
             }
 
             if ($event->type == 'customer.subscription.deleted') {
-                //@phpstan-ignore-next-line
                 $this->handleSubscriptionDeleted($event->data->object);
             }
 
             if ($event->type == 'payment_intent.succeeded') {
-                //@phpstan-ignore-next-line
                 $this->handlePaymentIntentSucceeded($event->data->object);
             }
 
             if ($event->type == 'invoice.payment_succeeded') {
-                //@phpstan-ignore-next-line
                 $this->handleInvoicePaymentSucceeded($event->data->object);
             }
 
             if ($event->type == 'invoice.payment_failed') {
-                //@phpstan-ignore-next-line
                 $this->handleInvoicePaymentFailed($event->data->object);
             }
         }
@@ -105,7 +103,7 @@ class StripeWebhookController extends Controller
         $tenant->canceled_at = Carbon::createFromTimestamp($payload['canceled_at']);
         $tenant->save();
 
-        //Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
+        Mail::to($tenant->owner->email)->send(new SendSubscriptionExpiredMail($tenant));
     }
 
     /**
@@ -126,16 +124,18 @@ class StripeWebhookController extends Controller
     {
         $tenant = Tenant::where('stripe_id', $payload['customer'])->firstOrFail();
 
-        //@codeCoverageIgnoreStart
         if (isset($payload['invoice_pdf'])) {
-            $invoice = file_get_contents($payload['invoice_pdf']);
-            $filename = uniqid().'.pdf';
-            file_put_contents($filename, $invoice);
+            $pdfContent = Http::get($payload['invoice_pdf'])->body();
 
-            Mail::to($tenant->owner->email)->send(new SendPaymentReceivedMail($tenant, $filename));
+            if ($pdfContent) {
+                $filename = uniqid().'.pdf';
 
-            unlink($filename);
-            //@codeCoverageIgnoreEnd
+                Storage::put($filename, $pdfContent);
+
+                Mail::to($tenant->owner->email)->send(new SendPaymentReceivedMail($tenant, $filename));
+
+                Storage::delete($filename);
+            }
         }
     }
 
