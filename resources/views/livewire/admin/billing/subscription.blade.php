@@ -44,7 +44,7 @@
                     </div>
                     <div class="mt-4 flex items-baseline text-6xl text-blue-600 font-extrabold">
                         $9
-                        <span class="ml-1 text-2xl font-medium text-blue-600 text-gray-500">
+                        <span class="ml-1 text-2xl font-medium text-blue-600">
                       /month
                     </span>
                     </div>
@@ -137,7 +137,7 @@
                     </div>
                     <div class="mt-4 flex items-baseline text-6xl text-blue-600 font-extrabold">
                         $99
-                        <span class="ml-1 text-2xl font-medium text-blue-600 text-gray-500">
+                        <span class="ml-1 text-2xl font-medium text-blue-600">
                       /year (1 Month Free)
                     </span>
                     </div>
