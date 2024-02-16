@@ -2,12 +2,15 @@
 
 use App\Models\Setting;
 
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\get;
+
 test('when not is_office_login_only, can access the dashboard from any IP address', function () {
     $this->authenticate();
 
     auth()->user()->update(['is_office_login_only' => false]);
 
-    $this->get(route('dashboard'))->assertOk();
+    get(route('dashboard'))->assertOk();
 });
 
 test('when is_office_login_only, cannot access the dashboard from unlisted IP address', function () {
@@ -21,9 +24,9 @@ test('when is_office_login_only, cannot access the dashboard from unlisted IP ad
         ]),
     ]);
 
-    $this->get(route('dashboard'))->assertRedirect(route('login'));
+    get(route('dashboard'))->assertRedirect(route('login'));
 
-    $this->assertGuest();
+    assertGuest();
 });
 
 test('when is_office_login_only, can access the dashboard from listed IP address', function () {
@@ -37,5 +40,5 @@ test('when is_office_login_only, can access the dashboard from listed IP address
         ]),
     ]);
 
-    $this->get(route('dashboard'))->assertOk();
+    get(route('dashboard'))->assertOk();
 });

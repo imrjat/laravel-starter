@@ -2,13 +2,20 @@
 
 use App\Models\User;
 
+use function Pest\Laravel\assertAuthenticatedAs;
+use function Pest\Laravel\assertDatabaseCount;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\get;
+use function Pest\Laravel\put;
+
 beforeEach(function () {
     $this->token = Str::random(32);
     $this->ownerUser = User::factory()->create();
 });
 
 test('can see join page', function () {
-    $this->assertGuest();
+    assertGuest();
 
     User::factory()->create([
         'tenant_id' => $this->ownerUser->tenant_id,
@@ -17,16 +24,18 @@ test('can see join page', function () {
         'invited_at' => now(),
     ]);
 
-    $this->get(route('join', $this->token))->assertOk();
+    get(route('join', $this->token))->assertOk();
 });
 
 test('cannot see join page with invalid token', function () {
-    $this->get(route('join', $this->token))->assertNotFound();
+    get(route('join', $this->token))->assertNotFound();
 });
 
 test('cannot see join page when logged in', function () {
     $this->authenticate();
-    $this->get(route('join', $this->token))->assertRedirect(route('dashboard'));
+
+    get(route('join', $this->token))
+        ->assertRedirect(route('dashboard'));
 });
 
 test('can join with password', function () {
@@ -40,7 +49,7 @@ test('can join with password', function () {
 
     $password = 'ght73A3!$^DS';
 
-    $this->put(route('join.update', $user->id), [
+    put(route('join.update', $user->id), [
         'newPassword' => $password,
         'confirmPassword' => $password,
         'name' => $user->name,
@@ -53,9 +62,9 @@ test('can join with password', function () {
         ->and($user->joined_at)->not->toBeNull()
         ->and($user->email_verified_at)->not->toBeNull();
 
-    $this->assertAuthenticatedAs($user);
+    assertAuthenticatedAs($user);
 
-    $this->assertDatabaseHas('audit_trails', [
+    assertDatabaseHas('audit_trails', [
         'tenant_id' => $user->tenant_id,
         'user_id' => $user->id,
         'reference_id' => $user->id,
@@ -81,7 +90,7 @@ test('can join and change name', function () {
 
     $password = 'ght73A3!$^DS';
 
-    $this->put(route('join.update', $user->id), [
+    put(route('join.update', $user->id), [
         'newPassword' => $password,
         'confirmPassword' => $password,
         'name' => 'Dave',
@@ -95,9 +104,9 @@ test('can join and change name', function () {
         ->and($user->email_verified_at)->not->toBeNull()
         ->and($user->name)->toBe('Dave');
 
-    $this->assertAuthenticatedAs($user);
+    assertAuthenticatedAs($user);
 
-    $this->assertDatabaseHas('audit_trails', [
+    assertDatabaseHas('audit_trails', [
         'tenant_id' => $user->tenant_id,
         'user_id' => $user->id,
         'reference_id' => $user->id,
@@ -117,7 +126,7 @@ test('cannot join with no password', function () {
         'invited_at' => now(),
     ]);
 
-    $this->put(route('join.update', $user->id), [
+    put(route('join.update', $user->id), [
         'newPassword' => null,
         'confirmPassword' => null,
         'name' => $user->name,
@@ -129,8 +138,8 @@ test('cannot join with no password', function () {
         ->and($user->last_logged_in_at)->toBeNull()
         ->and($user->joined_at)->toBeNull();
 
-    $this->assertGuest();
-    $this->assertDatabaseCount('audit_trails', 0);
+    assertGuest();
+    assertDatabaseCount('audit_trails', 0);
 });
 
 test('passwords must match', function () {
@@ -142,7 +151,7 @@ test('passwords must match', function () {
         'invited_at' => now(),
     ]);
 
-    $this->put(route('join.update', $user->id), [
+    put(route('join.update', $user->id), [
         'newPassword' => '123',
         'confirmPassword' => '456',
         'name' => $user->name,
@@ -151,7 +160,6 @@ test('passwords must match', function () {
 });
 
 test('passwords should be strong', function () {
-
     $user = User::factory()->create([
         'tenant_id' => $this->ownerUser->tenant_id,
         'invite_token' => $this->token,
@@ -159,7 +167,7 @@ test('passwords should be strong', function () {
         'invited_at' => now(),
     ]);
 
-    $this->put(route('join.update', $user->id), [
+    put(route('join.update', $user->id), [
         'newPassword' => '12345678',
         'confirmPassword' => '12345678',
         'name' => $user->name,

@@ -3,6 +3,8 @@
 use App\Models\Notification;
 use App\Models\User;
 
+use function PHPUnit\Framework\assertInstanceOf;
+
 beforeEach(function () {
     $this->authenticate();
 });
@@ -24,7 +26,7 @@ test('a notification is a assertInstanceOf assignedTo', function () {
         'assigned_to_user_id' => $user->id,
     ]);
 
-    $this->assertInstanceOf(User::class, $notification->assignedTo);
+    assertInstanceOf(User::class, $notification->assignedTo);
 });
 
 test('a notification belongs to a user with assigned from', function () {
@@ -44,5 +46,5 @@ test('a notification is a assertInstanceOf assignedFrom', function () {
         'assigned_to_user_id' => $user->id,
     ]);
 
-    $this->assertInstanceOf(User::class, $notification->assignedFrom);
+    assertInstanceOf(User::class, $notification->assignedFrom);
 });

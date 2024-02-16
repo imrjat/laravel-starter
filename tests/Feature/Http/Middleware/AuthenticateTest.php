@@ -1,6 +1,8 @@
 <?php
 
+use function Pest\Laravel\get;
+
 test('returns 401 when not authenticated', function () {
-    $this->get(route('dashboard'), ['Accept' => 'application/json'])
-        ->assertStatus(401);
+    get(route('dashboard'), ['Accept' => 'application/json'])
+        ->assertUnauthorized();
 });

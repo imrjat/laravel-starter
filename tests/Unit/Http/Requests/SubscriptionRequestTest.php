@@ -2,12 +2,14 @@
 
 use App\Http\Requests\SubscriptionRequest;
 
+use function PHPUnit\Framework\assertEquals;
+
 beforeEach(function () {
     $this->subscriptionData = new SubscriptionRequest();
 });
 
 test('rules', function () {
-    $this->assertEquals([
+    assertEquals([
         'type' => [
             'required',
             'string',

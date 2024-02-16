@@ -7,17 +7,17 @@ beforeEach(function () {
 });
 
 test('rules', function () {
-    $this->assertEquals([
+    $rules = [
         'code' => [
             'required',
             'string',
             'min:6',
         ],
-    ],
-        $this->requestData->rules()
-    );
+    ];
+
+    $this->assertEquals($rules, test()->requestData->rules());
 });
 
 test('authenticate', function () {
-    $this->assertTrue($this->requestData->authorize());
+    $this->assertTrue(test()->requestData->authorize());
 });

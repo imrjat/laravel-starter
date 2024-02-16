@@ -2,6 +2,8 @@
 
 use App\Models\User;
 
+use function Pest\Laravel\get;
+
 test('email verification screen can be rendered', function () {
     $user = User::factory()->create([
         'email_verified_at' => null,
@@ -10,12 +12,12 @@ test('email verification screen can be rendered', function () {
     $this
         ->actingAs($user)
         ->get(route('verification.notice'))
-        ->assertStatus(200);
+        ->assertOk();
 });
 
 test('verify-email redirects', function () {
     $this->authenticate();
 
-    $this->get(route('verification.notice'))
+    get(route('verification.notice'))
         ->assertRedirect(route('dashboard'));
 });

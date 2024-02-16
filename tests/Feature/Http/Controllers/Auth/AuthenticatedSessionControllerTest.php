@@ -4,46 +4,46 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 
+use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\assertGuest;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+
 test('login screen can be rendered', function () {
-    $this
-        ->get(route('login'))
-        ->assertOk();
+    get(route('login'))->assertOk();
 });
 
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ])
         ->assertRedirect(route('dashboard'));
 
-    $this->assertAuthenticated();
+    assertAuthenticated();
 });
 
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this->assertGuest();
+    assertGuest();
 });
 
 test('can logout', function () {
     $this->authenticate();
 
-    $this
-        ->post(route('logout'))
+    post(route('logout'))
         ->assertRedirect('/');
 
-    $this->assertGuest();
+    assertGuest();
 });
 
 test('creates a session called 2fa-login on login when 2fa is forced', function () {
@@ -59,15 +59,14 @@ test('creates a session called 2fa-login on login when 2fa is forced', function 
         'value' => true,
     ]);
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ])
         ->assertRedirect(route('dashboard'))
         ->assertSessionHas('2fa-login');
 
-    $this->assertAuthenticated();
+    assertAuthenticated();
 });
 
 test('creates a session called 2fa-setup on login when 2fa is forced and 2fa not setup for user', function () {
@@ -83,15 +82,14 @@ test('creates a session called 2fa-setup on login when 2fa is forced and 2fa not
         'value' => true,
     ]);
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ])
         ->assertRedirect(route('dashboard'))
         ->assertSessionHas('2fa-setup');
 
-    $this->assertAuthenticated();
+    assertAuthenticated();
 });
 
 test('creates a session called 2fa-login on login when 2fa is setup on user', function () {
@@ -101,15 +99,14 @@ test('creates a session called 2fa-login on login when 2fa is setup on user', fu
         'two_fa_secret_key' => '123456',
     ]);
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ])
         ->assertRedirect(route('dashboard'))
         ->assertSessionHas('2fa-login');
 
-    $this->assertAuthenticated();
+    assertAuthenticated();
 });
 
 test('too many login attempts', function () {
@@ -118,46 +115,40 @@ test('too many login attempts', function () {
 
     Event::fake();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid();
 
-    $this
-        ->post(route('login'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ])
+    post(route('login'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ])
         ->assertInvalid()
         ->assertSessionHasErrors('email', 'auth.throttle');
 

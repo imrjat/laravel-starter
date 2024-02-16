@@ -2,6 +2,8 @@
 
 use App\Models\Setting;
 
+use function Pest\Laravel\get;
+
 test('settings are applied', function () {
     $this->authenticate();
 
@@ -12,6 +14,5 @@ test('settings are applied', function () {
 
     expect(Setting::first()->value)->toBe('Demo');
 
-    $this->get(route('dashboard'))
-        ->assertOk();
+    get(route('dashboard'))->assertOk();
 });

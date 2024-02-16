@@ -1,6 +1,8 @@
 <?php
 
+use function Pest\Laravel\artisan;
+
 test('can clear log', function () {
-    $this->artisan('log:clear')
+    artisan('log:clear')
         ->expectsOutput('Logged cleared');
 });

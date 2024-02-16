@@ -3,6 +3,9 @@
 use App\Services\StripeService;
 use Stripe\Stripe;
 
+use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotNull;
+
 beforeEach(function () {
     $this->authenticate();
 });
@@ -56,7 +59,7 @@ test('has monthly plan', function () {
 
     $plan = (new StripeService)->getPlan();
 
-    $this->assertEquals('Monthly', $plan);
+    assertEquals('Monthly', $plan);
 });
 
 test('has annually plan', function () {
@@ -67,7 +70,7 @@ test('has annually plan', function () {
 
     $plan = (new StripeService)->getPlan();
 
-    $this->assertEquals('Annually', $plan);
+    assertEquals('Annually', $plan);
 });
 
 test('has no plan', function () {
@@ -77,13 +80,13 @@ test('has no plan', function () {
 
     $plan = (new StripeService)->getPlan();
 
-    $this->assertEquals('', $plan);
+    assertEquals('', $plan);
 });
 
 test('get billing portal', function () {
     $url = (new StripeService)->getBillingPortalUrl();
 
-    $this->assertNotNull($url);
+    assertNotNull($url);
 });
 
 test('setSubscriptionQty returns null', function () {

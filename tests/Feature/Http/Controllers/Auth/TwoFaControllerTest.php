@@ -4,32 +4,35 @@ use App\Models\User;
 use Mockery\MockInterface;
 use RobThree\Auth\TwoFactorAuth;
 
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+
 beforeEach(function () {
     $this->user = $this->authenticate();
 });
 
 test('redirects when 2fa has already been verified', function () {
-    $this->get(route('admin.2fa'))->assertRedirect(route('dashboard'));
+    get(route('admin.2fa'))->assertRedirect(route('dashboard'));
 });
 
 test('renders when 2fa has not been verified', function () {
     session(['2fa-login' => true]);
-    $this->get(route('admin.2fa'))->assertOk();
+    get(route('admin.2fa'))->assertOk();
 });
 
 test('validates code is required on update', function () {
     session(['2fa-login' => true]);
-    $this->post(route('admin.2fa'), [])->assertSessionHasErrors('code');
+    post(route('admin.2fa'), [])->assertSessionHasErrors('code');
 });
 
 test('validates code validates code is too short', function () {
     session(['2fa-login' => true]);
-    $this->post(route('admin.2fa'), ['code' => 12345])->assertSessionHasErrors('code');
+    post(route('admin.2fa'), ['code' => 12345])->assertSessionHasErrors('code');
 });
 
 test('validates code validates code is a string', function () {
     session(['2fa-login' => true]);
-    $this->post(route('admin.2fa'), ['code' => 123456])->assertSessionHasErrors('code');
+    post(route('admin.2fa'), ['code' => 123456])->assertSessionHasErrors('code');
 });
 
 test('can use 2fa code and redirects', function () {
@@ -43,35 +46,35 @@ test('can use 2fa code and redirects', function () {
 
     auth()->user()->update(['two_fa_secret_key' => 'VMR466AB62ZBOKHE']);
 
-    $this->post(route('admin.2fa'), ['code' => '123456'])
+    post(route('admin.2fa'), ['code' => '123456'])
         ->assertRedirect(route('dashboard'));
 });
 
 test('cannot use invalid 2fa code that is too short', function () {
     session(['2fa-login' => true]);
 
-    $this->post(route('admin.2fa'), ['code' => '12345'])
+    post(route('admin.2fa'), ['code' => '12345'])
         ->assertSessionHasErrors('code');
 });
 
 test('cannot use invalid 2fa code', function () {
     session(['2fa-login' => true]);
 
-    $this->post(route('admin.2fa'), ['code' => '123456'])
+    post(route('admin.2fa'), ['code' => '123456'])
         ->assertInvalid();
 });
 
 test('can see 2fa setup page', function () {
-    $this->get(route('admin.2fa-setup'))->assertOk();
+    get(route('admin.2fa-setup'))->assertOk();
 });
 
 test('code is required for update', function () {
-    $this->post(route('admin.2fa-setup.update'), [])
+    post(route('admin.2fa-setup.update'), [])
         ->assertSessionHasErrors('code');
 });
 
 test('code has to be at least 6 chars for update', function () {
-    $this->post(route('admin.2fa-setup.update'), ['code' => '12345'])
+    post(route('admin.2fa-setup.update'), ['code' => '12345'])
         ->assertSessionHasErrors('code');
 });
 

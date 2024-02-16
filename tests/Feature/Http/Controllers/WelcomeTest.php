@@ -1,9 +1,9 @@
 <?php
 
+use function Pest\Laravel\get;
+
 test('can see welcome page', function () {
-    $this
-        ->get('/')
-        ->assertOk();
+    get('/')->assertOk();
 });
 
 test('can see dashboard text on welcome page when logged in', function () {
@@ -25,8 +25,7 @@ test('cannot see dashboard text on welcome page when logged in but not in live m
 test('can see login text on welcome page when in live mode', function () {
     $this->app['config']->set(['admintw.is_live' => true]);
 
-    $this
-        ->get('/')
+    get('/')
         ->assertSeeText('Login')
         ->assertSeeText('Start free trial');
 });
@@ -34,8 +33,7 @@ test('can see login text on welcome page when in live mode', function () {
 test('cannot see login text on welcome page when not in live mode', function () {
     $this->app['config']->set(['admintw.is_live' => false]);
 
-    $this
-        ->get('/')
+    get('/')
         ->assertDontSeeText('Login')
         ->assertDontSeeText('Start free trial');
 });
@@ -43,8 +41,7 @@ test('cannot see login text on welcome page when not in live mode', function () 
 test('can see free trail text on welcome page when in live mode', function () {
     $this->app['config']->set(['admintw.is_live' => true]);
 
-    $this
-        ->get('/')
+    get('/')
         ->assertSeeText('free '.config('admintw.trail_days').' days trial')
         ->assertSeeText('Start your free '.config('admintw.trail_days').' days trial');
 });
@@ -52,8 +49,7 @@ test('can see free trail text on welcome page when in live mode', function () {
 test('cannot see free trail text on welcome page when not in live mode', function () {
     $this->app['config']->set(['admintw.is_live' => false]);
 
-    $this
-        ->get('/')
+    get('/')
         ->assertDontSeeText('Start free '.config('admintw.trail_days').' days trial')
         ->assertDontSeeText('Start your free '.config('admintw.trail_days').' days trial');
 });

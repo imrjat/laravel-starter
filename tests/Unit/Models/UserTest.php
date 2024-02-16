@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use function PHPUnit\Framework\assertInstanceOf;
+
 test('can get route', function () {
     $user = User::factory()->create();
 
@@ -13,7 +15,7 @@ test('can get route', function () {
 });
 
 test('has isActive scope', function () {
-    $this->assertInstanceOf(Builder::class, User::isActive());
+    assertInstanceOf(Builder::class, User::isActive());
 });
 
 test('isOwner returns true for tenant owner', function () {
@@ -25,13 +27,13 @@ test('isOwner returns true for tenant owner', function () {
 test('has tenant', function () {
     $user = User::factory()->create();
 
-    $this->assertInstanceOf(BelongsTo::class, $user->tenant());
+    assertInstanceOf(BelongsTo::class, $user->tenant());
 });
 
 test('has invite', function () {
     $user = User::factory()->create();
 
-    $this->assertInstanceOf(HasOne::class, $user->invite());
+    assertInstanceOf(HasOne::class, $user->invite());
 });
 
 test('isOwner returns false for tenant owner', function () {
