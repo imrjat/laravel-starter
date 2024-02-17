@@ -10,9 +10,12 @@ test('traits')
     ->expect('App\Models\Traits')
     ->toBeTraits();
 
+test('strict types')
+    ->expect('App')
+    ->toUseStrictTypes();
+
 test('controllers')
     ->expect('App\Http\Controllers')
-    ->toUseStrictTypes()
     ->toHaveSuffix('Controller')
     ->toBeClasses()
     ->classes->not->toBeFinal()

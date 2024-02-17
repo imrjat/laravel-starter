@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Settings;
 
 use Illuminate\Contracts\View\View;

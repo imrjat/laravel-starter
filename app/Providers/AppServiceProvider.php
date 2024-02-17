@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -46,5 +49,11 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+
+        Http::globalOptions([
+            'headers' => [
+                'User-Agent' => config('app.user_agent')
+            ]
+        ]);
     }
 }
