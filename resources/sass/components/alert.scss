@@ -1,5 +1,5 @@
 .alert {
-    @apply rounded-md shadow-md text-sm font-medium p-4 mb-5;
+    @apply rounded-md shadow-md text-sm font-medium p-4 my-5;
 
     &.alert-gray {
         @apply bg-gray-500 text-gray-200;

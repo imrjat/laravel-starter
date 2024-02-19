@@ -1,6 +1,8 @@
 <div>
     <h1>{{ __('Audit Trails') }}</h1>
 
+    <div class="card">
+
         <div class="mt-5 grid sm:grid-cols-1 md:grid-cols-3 gap-4">
 
             <div class="col-span-2">
@@ -107,5 +109,7 @@
         </div>
 
         {{ $this->userlogs()->links() }}
+
+    </div>
 
 </div>

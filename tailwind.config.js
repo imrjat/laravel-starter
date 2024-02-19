@@ -17,6 +17,9 @@ module.exports = {
             },
         },
     },
+    plugins: [
+        require("@tailwindcss/typography")
+    ],
     extend: {
         fontFamily: {
             sans: ['Figtree', ...defaultTheme.fontFamily.sans],

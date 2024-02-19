@@ -1,7 +1,7 @@
 <div>
     <x-modal>
         <x-slot name="trigger">
-            <button class="btn btn-primary" @click="on = true">{{ __('Add Role') }}</button>
+            <button class="btn btn-primary rounded-md" @click="on = true">{{ __('Add Role') }}</button>
         </x-slot>
 
         <x-slot name="modalTitle">{{ __('Add Role') }}</x-slot>

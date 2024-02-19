@@ -34,7 +34,7 @@
     }
 
     &.btn-primary {
-        @apply bg-primary text-gray-200;
+        @apply bg-sky-600 hover:bg-sky-500 dark:bg-sky-700 dark:hover:bg-sky-600 dark:border-sky-800 text-gray-200;
     }
 }
 

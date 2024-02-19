@@ -9,7 +9,7 @@ $openState = Route::is($route.'*') ? '{ isOpen: true }' : '{ isOpen: false }';
 @endphp
 
 <div class="block" x-data="{{ $openState }}">
-    <div @click="isOpen = !isOpen" class="flex items-center justify-between px-2 py-2 text-gray-100 hover:bg-gray-100 hover:text-gray-900 cursor-pointer rounded-md">
+    <div @click="isOpen = !isOpen" class="flex items-center justify-between px-2 py-2 text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:text-gray-900 cursor-pointer rounded-md">
         <div>
             @if ($icon)
                 <i class="{{ $icon }} pr-1"></i>

@@ -52,8 +52,8 @@ class AppServiceProvider extends ServiceProvider
 
         Http::globalOptions([
             'headers' => [
-                'User-Agent' => config('app.user_agent')
-            ]
+                'User-Agent' => config('app.user_agent'),
+            ],
         ]);
     }
 }

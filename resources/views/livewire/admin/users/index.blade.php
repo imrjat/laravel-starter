@@ -11,6 +11,8 @@
 
     </div>
 
+    <div class="card">
+
     <div class="mt-5 mb-5 grid sm:grid-cols-1 md:grid-cols-3 gap-4">
 
         <div class="col-span-2">
@@ -53,11 +55,11 @@
 
     </div>
 
-    <div class="overflow-x-scroll shadow-md">
+    <div class="overflow-x-scroll">
         <table>
         <thead>
         <tr>
-            <th><a href="#" wire:click="sortBy('first_name')">{{ __('Name') }}</a></th>
+            <th><a href="#" wire:click="sortBy('name')">{{ __('Name') }}</a></th>
             <th><a href="#" wire:click="sortBy('email')">{{ __('Email') }}</a></th>
             <th>{{ __('Joined') }}</th>
             <th>{{ __('Roles') }}</th>
@@ -153,5 +155,7 @@
     </div>
 
     {{ $this->users()->links() }}
+
+    </div>
 
 </div>

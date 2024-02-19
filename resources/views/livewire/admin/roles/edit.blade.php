@@ -1,12 +1,13 @@
-@section('title', __('Edit Role'))
+@use(App\Models\Permission)
 <div>
     <p class="mb-5">
-        <a href="{{ route('admin.settings.roles.index') }}">{{ __('Roles') }}</a>
+        <a class="link" href="{{ route('admin.settings.roles.index') }}">{{ __('Roles') }}</a>
         <span class="dark:text-gray-200">- {{ __('Edit Role') }}</span>
     </p>
 
-
-    <div class="float-right"><span class="error">*</span> <span class="dark:text-gray-200"> = {{ __('required') }}</span>
+    <div class="float-right">
+        <span class="error">*</span>
+        <span class="dark:text-gray-200"> = {{ __('required') }}</span>
     </div>
 
     <div class="clearfix"></div>
@@ -27,32 +28,32 @@
 
         @if ($role->name !== 'admin')
 
-            <div class="mx-auto max-w-screen-md">
-                    @foreach($modules as $module)
-                        <h3 class="mt-4">{{ $module }}</h3>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th class="dark:text-gray-300">{{ __('Permission') }}</th>
-                                <th class="dark:text-gray-300">{{ __('Action') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (\App\Models\Permission::where('module', $module)->orderby('name')->get() as $perm)
-                                <tr>
-                                    <td>{{ $perm->label }}</td>
-                                    <td><input type="checkbox" wire:model.live="permissions" value="{{ $perm->name }}"></td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @foreach($modules as $module)
+                <div class="card relative">
+                    <h3>{{ $module }}</h3>
+                    @foreach (Permission::where('module', $module)->orderby('name')->get() as $perm)
+                        <label class="block cursor-pointer">
+                            <div class="flex gap-2">
+                            <input
+                                type="checkbox"
+                                class="module-checkbox"
+                                wire:model="permissions"
+                                value="{{ $perm->name }}"
+                            >
+                                {{ $perm->label }}
+                            </div>
+                        </label>
                     @endforeach
                 </div>
+            @endforeach
+            </div>
 
         @endif
 
-        <x-form.submit>{{ __('Update Role') }}</x-form.submit>
+        <x-form.submit class="mt-5">{{ __('Update Role') }}</x-form.submit>
 
     </x-form>
 
 </div>
+

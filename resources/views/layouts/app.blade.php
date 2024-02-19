@@ -14,7 +14,7 @@
 
             @auth
                 <!-- regular sidebar -->
-                <div class="sidebar hidden flex-none w-full md:block md:w-60 px-4 bg-primary dark:bg-gray-700">
+                <div class="sidebar hidden flex-none w-full md:block md:w-60 px-4 bg-white dark:bg-gray-700 border-r dark:border-gray-500">
 
                     @if(auth()->user()->tenant->isOnTrial())
                         @php
@@ -47,7 +47,7 @@
                 </div>
 
                 <!--sidebar on mobile-->
-                <div x-show="sidebarOpen" class="sidebar min-w-full px-4 bg-primary dark:bg-gray-700 md:hidden">
+                <div x-show="sidebarOpen" class="sidebar min-w-full px-4 bg-white dark:bg-gray-700 md:hidden">
                     @include('layouts.navigation')
                 </div>
             @endauth
@@ -55,7 +55,7 @@
             <div id="main" class="w-full bg-gray-100 dark:bg-gray-600">
 
                 @auth
-                    <div class="flex justify-between mb-5 bg-white dark:bg-gray-700 border-b-4 border-primary px-2 py-2">
+                    <div class="bg-white dark:bg-gray-700 border-b dark:border-gray-500 flex justify-between px-2 py-2">
 
                         <div class="flex">
                             <button @click.stop="sidebarOpen = !sidebarOpen" class="md:hidden focus:outline-none pl-1 pr-2">
@@ -76,14 +76,16 @@
                 <div class="px-7 py-5">
                     {{ $slot ?? '' }}
                 </div>
+
             </div>
 
         </div>
 
-        <div class="bg-white dark:bg-gray-900 dark:text-gray-300 p-5 flex justify-between text-xs">
-            <div>{{ __('Copyright') }} &copy; {{ date('Y') }} {{ config('app.name') }}</div>
-        </div>
+    </div>
 
+    <div class="flex justify-between text-sm px-4 py-2 bg-white dark:bg-gray-700 border-t dark:border-gray-500">
+        <p>{{ __('Copyright') }} &copy; {{ date('Y') }} {{ config('app.name') }}</p>
+        <p>{{ __('Built by') }} <a href="https://dcblog.dev">David Carr</a></p>
     </div>
 
     </body>

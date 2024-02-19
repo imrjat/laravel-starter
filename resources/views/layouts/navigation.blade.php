@@ -1,25 +1,13 @@
 <button @click.stop="sidebarOpen = !sidebarOpen" class="md:hidden focus:outline-none pl-1 pt-4 pr-2">
-    <svg class="w-6 transition ease-in-out duration-150 text-white" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+    <svg class="h-6 w-6 transition ease-in-out duration-150 text-gray-900 dark:text-white" xmlns="http://www.w3.org/2000/svg"
          fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
     </svg>
 </button>
 
 <div class="py-4">
-    <a href="{{ route('dashboard') }}" class="text-gray-100 font-bold">
-        @php
-            $applicationLogo = \App\Models\Setting::where('key', 'applicationLogo')->value('value');
-            $applicationLogoDark = \App\Models\Setting::where('key', 'applicationLogoDark')->value('value');
-        @endphp
-
-        @if (storage_exists($applicationLogo))
-            <picture>
-                <source srcset="{{ storage_url($applicationLogoDark) }}" media="(prefers-color-scheme: dark)">
-                <img src="{{ storage_url($applicationLogo) }}" alt="{{ config('app.name') }}">
-            </picture>
-        @else
-            {{ config('app.name') }}
-        @endif
+    <a href="{{ route('dashboard') }}" class="text-gray-900 dark:text-white font-bold">
+        {{ config('app.name') }}
     </a>
 </div>
 
