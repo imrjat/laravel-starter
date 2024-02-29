@@ -1,5 +1,5 @@
 .card {
-    @apply bg-white dark:bg-gray-800 dark:text-white shadow rounded-md p-5 my-5;
+    @apply bg-white dark:bg-gray-800 dark:text-white border-t-4 border-sky-500 shadow rounded-md p-5 my-5;
 
     &.card-green {
         @apply bg-green-400 text-green-100;

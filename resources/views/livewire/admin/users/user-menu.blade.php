@@ -1,7 +1,7 @@
 @auth
-<div x-data="{ isOpen: false }">
+<div x-data="{ isOpenUserMenu: false }">
 
-    <button @click="isOpen = !isOpen" class="pt-3">
+    <button @click="isOpenUserMenu = !isOpenUserMenu">
         @if (storage_exists(auth()->user()->image))
             <img src="{{ storage_url(auth()->user()->image) }}" width="30" class="h-6 w-6 rounded-full">
         @else
@@ -10,7 +10,7 @@
     </button>
 
     <div
-        x-show.transition="isOpen"
+        x-show.transition="isOpenUserMenu"
         class="fixed z-50 overflow-hidden"
         aria-labelledby="slide-over-title" role="dialog"
         aria-modal="true"
@@ -26,7 +26,7 @@
                             <div class="flex items-start justify-end">
 
                                 <div class="flex items-center">
-                                    <button @click="isOpen = !isOpen" class="pr-2 text-gray-400 hover:text-gray-500">
+                                    <button @click="isOpenUserMenu = !isOpenUserMenu" class="pr-2 text-gray-400 hover:text-gray-500">
                                         <span class="sr-only">{{ __('Close panel') }}</span>
                                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -39,11 +39,11 @@
                         <ul class="menu overflow-y-auto px-5">
 
                             @can('view_users_profiles')
-                                <x-dropdown-link :href="route('admin.users.show', auth()->user())" wire:navigate>{{ __('View Profile') }}</x-dropdown-link>
+                                <x-dropdown-link :href="route('admin.users.show', auth()->user())">{{ __('View Profile') }}</x-dropdown-link>
                             @endcan
 
                             @can('edit_own_account')
-                                <x-dropdown-link :href="route('admin.users.edit', auth()->user())" wire:navigate>{{ __('Edit Account') }}</x-dropdown-link>
+                                <x-dropdown-link :href="route('admin.users.edit', auth()->user())">{{ __('Edit Account') }}</x-dropdown-link>
                             @endcan
 
                             <a href="{{ route('logout') }}"

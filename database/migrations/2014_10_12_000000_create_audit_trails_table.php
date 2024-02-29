@@ -11,7 +11,7 @@ class CreateAuditTrailsTable extends Migration
         Schema::create('audit_trails', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->nullable()->constrained();
-            $table->foreignUuid('user_id')->nullable();
+            $table->foreignUuid('user_id')->nullable()->constrained();
             $table->string('title');
             $table->text('link')->nullable();
             $table->foreignUuid('reference_id');

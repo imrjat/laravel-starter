@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\Users\Activity;
 use App\Models\AuditTrail;
+use App\Models\User;
 
 beforeEach(function () {
     $this->authenticate();
@@ -90,7 +91,7 @@ test('can filter', function () {
     ]);
 
     AuditTrail::factory()->create([
-        'user_id' => 2,
+        'user_id' => User::factory()->create(),
         'section' => 'tickets',
         'type' => 'view',
         'title' => 'viewed job',

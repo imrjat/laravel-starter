@@ -122,6 +122,5 @@ class Profile extends Component
         flash('Profile Updated!')->success();
 
         $this->dispatch('refreshAdminSettings');
-        $this->dispatch('refreshUserMenu');
     }
 }

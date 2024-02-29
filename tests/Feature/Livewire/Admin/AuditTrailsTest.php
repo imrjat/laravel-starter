@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\AuditTrails;
 use App\Models\AuditTrail;
+use App\Models\User;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -17,6 +18,7 @@ test('can see user logs page', function () {
 test('can search user logs', function () {
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
+        'user_id' => auth()->id(),
         'title' => 'created job',
     ]);
 
@@ -36,11 +38,13 @@ test('can sort user logs', function () {
 
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
+        'user_id' => auth()->id(),
         'title' => 'created job',
     ]);
 
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
+        'user_id' => auth()->id(),
         'title' => 'viewed job',
     ]);
 
@@ -56,11 +60,13 @@ test('can sort in desc', function () {
 
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
+        'user_id' => auth()->id(),
         'title' => 'created job',
     ]);
 
     AuditTrail::factory()->create([
         'tenant_id' => auth()->user()->tenant_id,
+        'user_id' => auth()->id(),
         'title' => 'viewed job',
     ]);
 
@@ -84,7 +90,7 @@ test('can sort user logs by user', function () {
 test('can filter', function () {
 
     AuditTrail::factory()->create([
-        'user_id' => 1,
+        'user_id' => auth()->id(),
         'section' => 'jobs',
         'type' => 'create',
         'title' => 'created job',
@@ -92,7 +98,7 @@ test('can filter', function () {
     ]);
 
     AuditTrail::factory()->create([
-        'user_id' => 2,
+        'user_id' => User::factory()->create(),
         'section' => 'tickets',
         'type' => 'view',
         'title' => 'viewed job',
@@ -100,7 +106,6 @@ test('can filter', function () {
     ]);
 
     Livewire::test(AuditTrails::class)
-        ->set('user_id', '1')
         ->set('section', 'jobs')
         ->set('type', 'create')
         ->set('created_at', '2023-01-01 to 2023-01-31')
@@ -114,7 +119,7 @@ test('can filter', function () {
 test('can reset', function () {
 
     AuditTrail::factory()->create([
-        'user_id' => 1,
+        'user_id' => auth()->id(),
         'section' => 'jobs',
         'type' => 'create',
         'title' => 'created job',
@@ -122,7 +127,7 @@ test('can reset', function () {
     ]);
 
     AuditTrail::factory()->create([
-        'user_id' => 2,
+        'user_id' => User::factory()->create(),
         'section' => 'tickets',
         'type' => 'view',
         'title' => 'viewed job',

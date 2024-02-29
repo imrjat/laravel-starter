@@ -21,8 +21,7 @@ test('can update profile', function () {
         ->assertSet('name', 'John Doe')
         ->assertSet('email', 'john@doe.com')
         ->assertHasNoErrors()
-        ->assertDispatched('refreshAdminSettings')
-        ->assertDispatched('refreshUserMenu');
+        ->assertDispatched('refreshAdminSettings');
 
     $user = auth()->user()->refresh();
 

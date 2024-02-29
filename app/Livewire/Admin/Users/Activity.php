@@ -30,7 +30,7 @@ class Activity extends Component
 
     public string $created_at = '';
 
-    public string $sortField = 'id';
+    public string $sortField = 'created_at';
 
     public bool $sortAsc = false;
 
