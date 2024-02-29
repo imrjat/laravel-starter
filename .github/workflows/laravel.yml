@@ -4,75 +4,75 @@ name: CI
 on: [ push, pull_request ]
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+    tests:
+        runs-on: ubuntu-latest
 
-    strategy:
-      max-parallel: 2
-      matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        strategy:
+            max-parallel: 2
+            matrix:
+                php-versions: ['8.2', '8.3' ]
 
-    name: PHP ${{ matrix.php-versions }}
+        name: PHP ${{ matrix.php-versions }}
 
-    services:
-      mysql:
-        image: mysql:8.0
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_DATABASE: testing
+                ports:
+                    - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+        # Environment variables during project setup and test run.
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: testing
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+            DB_CONNECTION: mysql
+            DB_HOST: 127.0.0.1
+            DB_PORT: 3306
+            DB_DATABASE: testing
+            DB_USERNAME: root
+            DB_PASSWORD: ""
+            ADMIN_PREFIX: app
+            IS_LIVE: true
+            TRIAL_DAYS: 14
+            STRIPE_KEY: pk_test_1OAismyoTlSyyWFiqgQ3vPgv00KnCaqv19
+            STRIPE_SECRET: sk_test_O3qRBFQ4coAB7Hzl2bFYzGM700BGbW7RpY
+            STRIPE_WEBHOOK_SECRET: whsec_2ec36b8f68905c71d2f14a3dc8ee5497932f57cf8a6fb75341a7166ffffb21ff
+            STRIPE_MONTHLY: price_1NbOhULiL14otffRI9TPcHo4
+            STRIPE_ANNUALLY: price_1NbOhULiL14otffRvPO2pt3b
 
-    # Environment variables during project setup and test run.
-    env:
-      DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
-      DB_PORT: 3306
-      DB_DATABASE: testing
-      DB_USERNAME: root
-      DB_PASSWORD: ""
-      ADMIN_PREFIX: app
-      IS_LIVE: true
-      TRIAL_DAYS: 14
-      STRIPE_KEY: pk_test_1OAismyoTlSyyWFiqgQ3vPgv00KnCaqv19
-      STRIPE_SECRET: sk_test_O3qRBFQ4coAB7Hzl2bFYzGM700BGbW7RpY
-      STRIPE_WEBHOOK_SECRET: whsec_2ec36b8f68905c71d2f14a3dc8ee5497932f57cf8a6fb75341a7166ffffb21ff
-      STRIPE_MONTHLY: price_1NbOhULiL14otffRI9TPcHo4
-      STRIPE_ANNUALLY: price_1NbOhULiL14otffRvPO2pt3b
+        steps:
+            -   uses: actions/checkout@v4
 
-    steps:
-    - uses: actions/checkout@v4
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@master
+                with:
+                    php-version: ${{ matrix.php-versions }}
+                    coverage: xdebug
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@master
-      with:
-        php-version: ${{ matrix.php-versions }}
-        coverage: xdebug
+            -   name: Validate composer.json and composer.lock
+                run: composer validate
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+            -   name: Copy .env
+                run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+            -   name: Install Dependencies
+                run: composer update --no-interaction
 
-    - name: Install Dependencies
-      run: composer update --no-interaction
+            -   name: Migrate DB
+                run: php artisan migrate --seed
 
-    - name: Migrate DB
-      run: php artisan migrate --seed
+            -   name: Generate key
+                run: php artisan key:generate
 
-    - name: Generate key
-      run: php artisan key:generate
+            -   name: Set storage link
+                run: php artisan storage:link
 
-    - name: Set storage link
-      run: php artisan storage:link
+            -   name: Directory Permissions
+                run: chmod -R 777 storage bootstrap/cache
 
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+            -   name: PINT
+                run: ./vendor/bin/pint --test
 
-    - name: PINT
-      run: ./vendor/bin/pint --test
-
-    - name: Run test suite
-      run: ./vendor/bin/pest --parallel
+            -   name: Run test suite
+                run: ./vendor/bin/pest --parallel
