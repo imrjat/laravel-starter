@@ -65,15 +65,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'last_logged_in_at' => 'datetime',
-        'invited_at' => 'datetime',
-        'joined_at' => 'datetime',
-        'last_activity' => 'datetime',
-        'two_fa_active' => 'boolean',
-        'is_active' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'last_logged_in_at' => 'datetime',
+            'invited_at' => 'datetime',
+            'joined_at' => 'datetime',
+            'last_activity' => 'datetime',
+            'two_fa_active' => 'boolean',
+            'is_active' => 'boolean',
+        ];
+    }
 
     protected static function newFactory(): UserFactory
     {

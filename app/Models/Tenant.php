@@ -36,13 +36,16 @@ class Tenant extends Model
         'stripe_plan',
     ];
 
-    protected $casts = [
-        'trial_ends_at' => 'datetime',
-        'ends_at' => 'datetime',
-        'canceled_at' => 'datetime',
-        'trial_expiring_mail_sent_at' => 'datetime',
-        'trial_expired_mail_sent_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'trial_ends_at' => 'datetime',
+            'ends_at' => 'datetime',
+            'canceled_at' => 'datetime',
+            'trial_expiring_mail_sent_at' => 'datetime',
+            'trial_expired_mail_sent_at' => 'datetime',
+        ];
+    }
 
     protected static function newFactory(): TenantFactory
     {
