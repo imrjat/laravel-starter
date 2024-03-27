@@ -66,7 +66,7 @@ class Roles extends Component
             return [
                 'role_id' => $roleId,
                 'tenant_id' => auth()->user()->tenant_id,
-                'model_type' => 'App\Models\User',
+                'model_type' => \App\Models\User::class,
                 'model_id' => $this->user->id,
             ];
         })->toArray();
