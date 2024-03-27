@@ -14,7 +14,6 @@ use Spatie\Permission\Models\Permission;
 #[AllowDynamicProperties]
 abstract class TestCase extends BaseTestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
