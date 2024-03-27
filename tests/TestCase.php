@@ -14,7 +14,6 @@ use Spatie\Permission\Models\Permission;
 #[AllowDynamicProperties]
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
 
     protected function setUp(): void
     {
