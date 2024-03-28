@@ -21,8 +21,8 @@ This is WIP currently supports Laravel 10.x
 ## Tests
 
 - Test Framework: PestPHP
-- Type coverage is 100% and feature tests are 100% passing.
-- Code coverage is 92.6
+- Type coverage is 100%
+- Code coverage is 92.6%
 - Total Tests: 287 (556 assertions)
 
 ## Installation
