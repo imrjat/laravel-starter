@@ -70,8 +70,8 @@ class Create extends Component
 
         add_user_log([
             'title' => 'created role '.$this->role,
-            'link' => route('admin.settings.roles.edit', ['role' => $role->id]),
-            'reference_id' => $role->id,
+            'link' => route('admin.settings.roles.edit', ['role' => $role->id ?? 0]),
+            'reference_id' => $role->id ?? 0,
             'section' => 'Roles',
             'type' => 'created',
         ]);

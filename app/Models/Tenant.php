@@ -36,13 +36,19 @@ class Tenant extends Model
         'stripe_plan',
     ];
 
-    protected $casts = [
-        'trial_ends_at' => 'datetime',
-        'ends_at' => 'datetime',
-        'canceled_at' => 'datetime',
-        'trial_expiring_mail_sent_at' => 'datetime',
-        'trial_expired_mail_sent_at' => 'datetime',
-    ];
+    /**
+     * @return array<string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'trial_ends_at' => 'datetime',
+            'ends_at' => 'datetime',
+            'canceled_at' => 'datetime',
+            'trial_expiring_mail_sent_at' => 'datetime',
+            'trial_expired_mail_sent_at' => 'datetime',
+        ];
+    }
 
     protected static function newFactory(): TenantFactory
     {
@@ -61,17 +67,23 @@ class Tenant extends Model
 
     public function isOnTrial(): bool
     {
-        return $this->trial_ends_at && ($this->trial_ends_at->isFuture() || $this->trial_ends_at->isToday());
+        if (! $this->trial_ends_at) {
+            return false;
+        }
+
+        $trialEndsAt = Carbon::parse($this->trial_ends_at);
+
+        return $trialEndsAt->isFuture() || $trialEndsAt->isToday();
     }
 
     public function scopeOnTrial(Builder $query): Builder
     {
-        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>=', now());
+        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', '>=', now()->toDateTimeString());
     }
 
     public function scopeTrialExpiredToday(Builder $query): Builder
     {
-        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', now());
+        return $query->whereNotNull('trial_ends_at')->where('trial_ends_at', now()->toDateTimeString());
     }
 
     public function isOnGracePeriod(): bool
@@ -84,7 +96,9 @@ class Tenant extends Model
             return false;
         }
 
-        return $this->ends_at->isFuture();
+        $endsAt = Carbon::parse($this->ends_at);
+
+        return $endsAt->isFuture();
     }
 
     public function isOnLifetime(): bool
@@ -99,7 +113,11 @@ class Tenant extends Model
 
     public function isActive(): bool
     {
-        return $this->stripe_status === 'active' || $this->isOnGracePeriod() || $this->isOnLifetime();
+        return match ($this->stripe_status) {
+            'active', 'lifetime' => true,
+            'cancelled' => $this->isOnGracePeriod(),
+            default => false,
+        };
     }
 
     public function trailEndsInDays(int $days = 3): bool
@@ -126,14 +144,14 @@ class Tenant extends Model
 
     public function rememberHasBeenSentTrialEndingSoonMail(): void
     {
-        $this->trial_ending_mail_sent_at = now();
+        $this->trial_ending_mail_sent_at = now()->toDateTimeString();
         $this->save();
     }
 
     public function rememberHasBeenSentTrialEndedMail(): void
     {
         $this->stripe_status = 'Trial Ended';
-        $this->trial_ended_mail_sent_at = now();
+        $this->trial_ended_mail_sent_at = now()->toDateTimeString();
         $this->save();
     }
 

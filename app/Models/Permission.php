@@ -22,7 +22,13 @@ class Permission extends SpatiePermission
 
     public $incrementing = false;
 
-    protected $casts = [
-        'id' => 'string',
-    ];
+    /**
+     * @return array<string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'id' => 'string',
+        ];
+    }
 }

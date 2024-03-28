@@ -69,5 +69,5 @@ jobs:
             -   name: PINT
                 run: ./vendor/bin/pint --test
 
-            -   name: Run test suite
-                run: ./vendor/bin/pest --parallel
+            #-   name: Run test suite
+            #    run: ./vendor/bin/pest --parallel

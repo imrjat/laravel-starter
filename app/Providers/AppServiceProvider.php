@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -55,5 +57,14 @@ class AppServiceProvider extends ServiceProvider
                 'User-Agent' => config('app.user_agent'),
             ],
         ]);
+
+        $this->bootAuth();
+    }
+
+    public function bootAuth(): void
+    {
+        Gate::before(function (User $user) {
+            return $user->hasRole('admin') ? true : null;
+        });
     }
 }

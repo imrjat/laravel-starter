@@ -117,7 +117,7 @@ class Users extends Component
         $user = User::findOrFail($id);
         Mail::send(new SendInviteMail($user));
 
-        $user->invited_at = now();
+        $user->invited_at = now()->toDateTimeString();
         $user->save();
 
         $this->sentEmail = true;

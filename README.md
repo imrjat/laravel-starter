@@ -2,7 +2,7 @@
 
 Laravel SAAS Starter Kit is a Laravel starter kit for building SAAS applications. It is built on top of Laravel, Livewire, and Tailwind CSS.
 
-This is WIP currently supports Laravel 10.x
+This is WIP currently supports Laravel 11.x
 
 ## Features
 
