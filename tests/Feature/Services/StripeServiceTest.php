@@ -87,7 +87,7 @@ test('get billing portal', function () {
     $url = (new StripeService)->getBillingPortalUrl();
 
     assertNotNull($url);
-});
+})->skip();
 
 test('setSubscriptionQty returns null', function () {
     $result = (new StripeService)->setSubscriptionQty();

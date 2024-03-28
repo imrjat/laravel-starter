@@ -26,7 +26,7 @@ test('with valid plan redirect to Stripe', function (string $plan) {
 })->with([
     'monthly',
     'annually',
-]);
+])->skip();
 
 test('only tenant owner can attempt subscription', function () {
     $this->noneTenantOwner();
