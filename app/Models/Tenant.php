@@ -67,7 +67,7 @@ class Tenant extends Model
 
     public function isOnTrial(): bool
     {
-        if (!$this->trial_ends_at) {
+        if (! $this->trial_ends_at) {
             return false;
         }
 
