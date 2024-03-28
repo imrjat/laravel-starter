@@ -22,6 +22,9 @@ class Permission extends SpatiePermission
 
     public $incrementing = false;
 
+    /**
+     * @return array<string>
+     */
     protected function casts(): array
     {
         return [

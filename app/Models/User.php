@@ -65,6 +65,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
     ];
 
+    /**
+     * @return array<string>
+     */
     protected function casts(): array
     {
         return [

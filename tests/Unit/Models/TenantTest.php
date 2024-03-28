@@ -50,7 +50,7 @@ test('is not on grace period', function () {
     $user = auth()->user();
 
     $user->tenant->stripe_status = 'cancelled';
-    $user->tenant->ends_at = now()->subDay();
+    $user->tenant->ends_at = now()->subDay()->toDateTimeString();
     $user->tenant->save();
 
     expect($user->tenant->isOnGracePeriod())->toBeFalse();
@@ -112,7 +112,7 @@ test('is not active when cancelled', function () {
     $user = auth()->user();
 
     $user->tenant->stripe_status = 'cancelled';
-    $user->tenant->ends_at = now()->subDay();
+    $user->tenant->ends_at = now()->subDay()->format('Y-m-d H:i:s');
     $user->tenant->save();
 
     expect($user->tenant->isActive())->toBeFalse();

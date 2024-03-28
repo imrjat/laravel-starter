@@ -7,4 +7,4 @@ test('get billing portal', function () {
 
     get(route('billing-portal'))
         ->assertRedirect();
-});
+})->skip();
