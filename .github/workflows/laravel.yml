@@ -35,11 +35,6 @@ jobs:
             ADMIN_PREFIX: app
             IS_LIVE: true
             TRIAL_DAYS: 14
-            STRIPE_KEY: pk_test_1OAismyoTlSyyWFiqgQ3vPgv00KnCaqv19
-            STRIPE_SECRET: sk_test_O3qRBFQ4coAB7Hzl2bFYzGM700BGbW7RpY
-            STRIPE_WEBHOOK_SECRET: whsec_2ec36b8f68905c71d2f14a3dc8ee5497932f57cf8a6fb75341a7166ffffb21ff
-            STRIPE_MONTHLY: price_1NbOhULiL14otffRI9TPcHo4
-            STRIPE_ANNUALLY: price_1NbOhULiL14otffRvPO2pt3b
 
         steps:
             -   uses: actions/checkout@v4

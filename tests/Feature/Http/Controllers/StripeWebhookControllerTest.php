@@ -5,6 +5,7 @@ use App\Mail\Subscription\SendPaymentFailedMail;
 use App\Mail\Subscription\SendPaymentReceivedMail;
 use App\Mail\Subscription\SendSubscriptionExpiredMail;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 use function Pest\Laravel\assertDatabaseHas;
 
